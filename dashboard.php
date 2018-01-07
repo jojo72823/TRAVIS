@@ -24,17 +24,19 @@
 
         <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.css'>
-        <link rel="stylesheet" href="css/style.css">
-        <!--<link rel='stylesheet prefetch' href='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css'>-->
+        <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
         <link rel='stylesheet prefetch' href='css/dashboard.css'>
+
+        <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/custom_material.indigo-blue.min.css" />
         <link rel="stylesheet" href="css/dashboard.css">
         <link rel="stylesheet" href="css/material_design_perso.css">
-        <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
+
 
         <script src="./mdl/material.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="js/main.js"></script>
+
         <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -62,51 +64,31 @@
                 </div>
             </div>
 
-
+            <!MAIN PART-------------------------------------------------------->
             <main class="mdl-layout__content background_content" >
+                <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-                    <div id="grid_graph" class="mdl-grid background_content" style="background-color: #99ff99">
 
-                    </div>
                     <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
                         <i class="material-icons-fab">add</i>
                     </button>
                 </div>
+                <!RIGHT MENU--------------------------------------------------->
+                <div id="right_panel" class="rightSide">
+                    <div id="demo-menu-lower-right"
+                         class="layout_btn_right_bar mdl-js-button" >
 
-                <div class="rightSide">
-
-                    <div>
-<!--                        <img id="demo-menu-lower-right" class="icon_right_bar mdl-button mdl-js-button mdl-button--icon"src="images/icon_add.png"/>
-                        <div class="trash" ></div>
-                        <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                            for="demo-menu-lower-left">
-                            <li class="mdl-menu__item">Some Action</li>
-                            <li class="mdl-menu__item mdl-menu__item--full-bleed-divider">Another Action</li>
-                            <li disabled class="mdl-menu__item">Disabled Action</li>
-                            <li class="mdl-menu__item">Yet Another Action</li>
-                        </ul>-->
-
-                        <div id="demo-menu-lower-right"
-                                 class="layout_btn_right_bar mdl-js-button" >
-
-                            <img id="demo-menu-lower-right" class="img_btn_right_bar mdl-button mdl-js-button mdl-button--icon"  src="images/icon_add.png"/>
-                        </div>
-
-
-
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                            for="demo-menu-lower-right">
-                            <li class="mdl-menu__item">Some Action</li>
-                            <li class="mdl-menu__item">Another Action</li>
-                            <li disabled class="mdl-menu__item">Disabled Action</li>
-                            <li class="mdl-menu__item">Yet Another Action</li>
-                        </ul>
+                        <img id="demo-menu-lower-right" class="img_btn_right_bar mdl-button mdl-js-button mdl-button--icon"  src="images/icon_add.png"/>
                     </div>
 
 
+                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                        for="demo-menu-lower-right">
+                        <li id="panel" class="mdl-menu__item">Add panel</li>
+                        <li disabled class="mdl-menu__item">Add indicator</li>
+                        <li disabled class="mdl-menu__item">Add chart</li>
+                    </ul>
 
-                    <script src="js/drag_and_drop/example.dart.js"></script>
-                    <script src="js/drag_and_drop/dart.js"></script>
                 </div>
             </main>
         </div>
@@ -203,7 +185,10 @@
         <button type="button" class="mdl-button close">Fermer</button>
     </div>
 </dialog>
+
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.js'></script>
 <script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
 <script src="js/add_chart.js"></script>
+<script src="js/right_panel.js"></script>
 

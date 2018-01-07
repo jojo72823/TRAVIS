@@ -138,18 +138,43 @@ and open the template in the editor.
 }
 
 .layout_btn_right_bar {
-    /*background-color: #66bb6a;*/
     height: auto;
+    width: 90%;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.layout_btn_right_bar img{
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .img_btn_right_bar {
     display: block;
-    width: 90%;
+    width: 100%;
     height: auto;
     background-color: #3575bb;
     margin-left: auto;
     margin-right: auto;
+    text-align:center;
+    cursor: pointer;
+    position:relative;
 }
+
+.text_btn_right_bar {
+    color: white;
+    z-index: 1;
+    position: absolute;
+    top: 35%;
+    font-size: 30px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+}
+
+.img_btn_right_bar:hover {
+    /*//rgb(63,127,197)*/
+    background-color: rgb(63,127,197);
+}
+

@@ -82,17 +82,12 @@ function add_indicator(name_indicator) {
 function add_section() {
 
     nb_graph = nb_graph + 1;
-    var element = document.getElementById('grid_graph');
+    var element = document.getElementById('panel'+panel_select);
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + nb_graph);
     card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12');
-    card.setAttribute("style", 'background-color : #123456; height: auto;margin-bottom : 10px;');
-
-//background-color: rgba(0, 0, 0, 0);
-
-//    card.appendChild(inner_card);
-
+    card.setAttribute("style", 'background-color : #123456; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
     
@@ -115,25 +110,10 @@ function add_section() {
     close.appendChild(input);
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + nb_graph);
-    container.setAttribute("style", 'style="height=500px"');
+    container.setAttribute("style", 'style="height=500px;width=100%"');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
-
     content_card.appendChild(in_content_card);
-
-
-//    document.getElementById('grid_graph').innerHTML += '\<div id=\'container' + nb_graph + '\'></div>\n\
-// </div>\n<script src=\"http://marcojakob.github.io/dart-dnd/simple-sortable/web/example.dart.js\"></script>';
-
-
-//    document.getElementById('grid_graph').innerHTML += '\
-//<div id="card' + nb_graph + '" class="mdc-layout-grid__cell--span-6 mdc-layout-grid__cell--span-12-tablet mdc-layout-grid__cell--span-12-phone" style=\"background-color: #121212\">\n\
-// <div class=\'wrapper\'>\n\
-// <input id="delete_button" onclick="delete_graph(\'' + nb_graph + '\')"  
-// type="image" src="images/icon_close.png" style="width: 30px;float: right;padding:5px"></input>\n\
-//<div id=\'container' + nb_graph + '\'></div>\n\
-// </div>\n\
-// </div>\n<script src=\"http://marcojakob.github.io/dart-dnd/simple-sortable/web/example.dart.js\"></script><script src=\"js/drag_and_drop/dart.js\"></script>';
 
 }
 

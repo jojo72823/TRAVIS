@@ -2446,6 +2446,7 @@ input.mdl-button[type="submit"] {
     color: inherit;
     line-height: normal
 }
+
 .mdl-button--icon .material-icons {
     position: absolute;
     top: 50%;
@@ -3710,7 +3711,7 @@ fieldset[disabled] .mdl-checkbox .mdl-checkbox__ripple-container .mdl-ripple,
     right: 0
 }
 
-@supports(-webkit-appearance: none) {
+@supports(-webkit-appearance:none){
     .mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate)>.auxbar,
         .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate)>.auxbar {
         background-image: linear-gradient(to right, rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)), linear-gradient(to right, rgb(63, 81, 181), rgb(63, 81, 181));
@@ -4235,7 +4236,7 @@ fieldset[disabled] .mdl-checkbox .mdl-checkbox__ripple-container .mdl-ripple,
 }
 @media screen and (min-width: 1025px) {
     .mdl-layout__content{
-        margin-top: 0px;
+        margin-top: 10px;
     }
 }
 

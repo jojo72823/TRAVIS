@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once '../inc/accessBd.inc';
+require '../inc/save_interface.inc';
+require '../inc/connection_user.inc';
+
 $login = $_POST['login']; 
 $mdp = $_POST['password'];
 if ($login == null && $mdp == null) {

@@ -100,3 +100,7 @@ div.well{
 
     }
 }
+
+.circleBase {
+    border-radius: 50%;
+}
