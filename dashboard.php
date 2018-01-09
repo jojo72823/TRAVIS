@@ -44,7 +44,7 @@
 
 
     </head>
-    <body style="background-color: #ff0000">
+    <body style="background-color: #ff0000"onload="load_interface();">
         <div class=" mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer" >
                 <div class="mdl-layout__drawer" style="background: #404041;color: white">
@@ -94,6 +94,7 @@
         </div>
     </body>
 </html>
+
 
 
 <!--Dialog to add graph-->
@@ -191,4 +192,3 @@
 <script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
 <script src="js/add_chart.js"></script>
 <script src="js/right_panel.js"></script>
-
