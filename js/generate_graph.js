@@ -21,6 +21,7 @@ var id_select_nb_messages_read_users;
 var data_indicator = new Array();
 var nb_graph = 0;
 var nb_filter = 0;
+var id_indicators = new Array();
 
 
 function readSearchInput(el, e) {
@@ -61,7 +62,7 @@ function add_indicator(name_indicator) {
 
     var indicator_span = document.createElement("span");
     indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
-     indicator_span.setAttribute("style", 'margin : 5px');
+    indicator_span.setAttribute("style", 'margin : 5px');
     var indicator_in_span = document.createElement("span");
     indicator_in_span.setAttribute("class", 'mdl-chip__text');
     indicator_in_span.textContent = name_indicator;
@@ -82,7 +83,7 @@ function add_indicator(name_indicator) {
 function add_section() {
 
     nb_graph = nb_graph + 1;
-    var element = document.getElementById('panel'+panel_select);
+    var element = document.getElementById('panel' + panel_select);
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + nb_graph);
@@ -90,9 +91,9 @@ function add_section() {
     card.setAttribute("style", 'background-color : #123456; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
-    
+
     var content_card = document.getElementById('card' + nb_graph);
-    
+
     var in_content_card = document.createElement("div");
     in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
@@ -293,6 +294,44 @@ function pre_print_graph() {
             add_indicator(select_indicators[cpt]);
         }
     }
+
+
+
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_id_indicators', data_print: legende_print},
+        type: 'POST',
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                id_indicators = objetJson;
+            } else {
+                alert("erreur get_id_indicators! ");
+            }
+        },
+        cache: false
+    });
+    alert("toto");
+
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'save_type_polar', id_type_graph: "1",id_indicators: id_indicators},
+        type: 'POST',
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+              
+            } else {
+                alert("erreur save_type_polar! ");
+            }
+        },
+        cache: false
+    });
+
+
+
+
+
     print_graph();
 }
 

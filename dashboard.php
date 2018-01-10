@@ -35,7 +35,7 @@
 
         <script src="./mdl/material.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
-        <script src="js/main.js"></script>
+        <script src="js/generate_graph.js"></script>
 
         <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>

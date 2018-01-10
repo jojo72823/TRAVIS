@@ -62,34 +62,58 @@ function save_element($args) {
     }
 }
 
-function save_type_polar($id_type_graph, $tab_indicators) {
+function save_type_polar($args) {
+
+    //get paramaters
+    $id_type_graph = $args['id_type_graph'];
+    $id_indicators = $args['id_indicators'];
 
     //connect to database
     $bdd = connexionBdTravis();
 
-    for ($cpt = 1; $cpt <= sizeof($tab_indicators); $cpt++) {
+    for ($cpt = 0; $cpt <= count($id_indicators); $cpt++) {
         //prepare request
         $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ID_INDICATOR`) VALUES (:id_polar,:id_indicator)");
-        $requete->bindParam(":id_polar", $id_polar);
-        $requete->bindParam(":id_indicator", $id_indicator);
+        $requete->bindParam(":id_polar", $id_type_graph);
+        $requete->bindParam(":id_indicator", $id_indicators[$cpt]);
         //execute request
-        $requete->execute() or die("erreur requête save_type_graph");
+        $requete->execute() or die(mysql_error());
     }
     //close connection
     $requete->closeCursor();
 }
 
-function save_type_number($id_type_graph, $tab_indicators) {
+function save_type_number($args) {
 
+   
     //connect to database
     $bdd = connexionBdTravis();
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_number`(`ID_POLAR`, `ID_INDICATOR`) VALUES (:id_polar,:id_indicator)");
-    $requete->bindParam(":id_polar", $id_polar);
-    $requete->bindParam(":id_indicator", $id_indicator);
+   
+}
 
-    //execute request
-    $requete->execute() or die("erreur requête save_type_number");
+function get_id_indicators($args) {
+
+    $retour = array();
+
+    //get paramaters
+    $data_print = $args['data_print'];
+
+    //connect to database
+    $bdd = connexionBdTravis();
+
+    for ($cpt = 0; $cpt < count($data_print); $cpt++) {
+        //request
+        $requete = $bdd->prepare("SELECT ID_INDICATOR FROM `TAB_INDICATORS` WHERE `INDICATOR`= :INDICATOR");
+        $requete->bindParam(":INDICATOR", $data_print[$cpt]);
+        $requete->execute() or die("erreur requete get_id_indicators");
+        $data = $requete->fetch();
+        array_push($retour, $data[0]);
+    }
+
+    echo json_encode($retour);
+
     //close connection
     $requete->closeCursor();
 }
