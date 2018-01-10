@@ -70,23 +70,23 @@ function load_panels_saved() {
     nb_panel = Object.keys(data_panel).length;    
     for (var cpt = 0; cpt < nb_panel; cpt++) {
 
-        var id_panel = data_panel[cpt][0][0];
+        var num_panel = data_panel[cpt][0][0];
         var id_user = data_panel[cpt][0][1];
         var name = data_panel[cpt][0][2];
         var letter = data_panel[cpt][0][3];
         var color = data_panel[cpt][0][4];
-        add_panel_saved(id_panel, id_user, name, letter, color);
-        add_button_right_panel_saved(id_panel, id_user, name, letter, color);
+        add_panel_saved(num_panel, id_user, name, letter, color);
+        add_button_right_panel_saved(num_panel, id_user, name, letter, color);
     }
     view_panel(nb_panel);
 
 }
 
 //TODO LIMITE DE PANEL (10 max)
-function add_panel_saved(id_panel, id_user, name, letter, color) {
+function add_panel_saved(num_panel, id_user, name, letter, color) {
     var page_content = document.getElementById('page_content');
     var div = document.createElement("div");
-    div.setAttribute("id", 'panel' + id_panel);
+    div.setAttribute("id", 'panel' + num_panel);
     div.setAttribute("class", 'mdl-grid background_content');
     div.setAttribute("style", 'background-color: #99ff99');
     page_content.appendChild(div);
@@ -102,7 +102,7 @@ function add_panel() {
     //TODO save in BDD
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'savePanel', id_panel: nb_panel, id_user: "jojo", name: "test", letter: "J", color: "#123456"},
+        data: {fonction: 'savePanel', num_panel: nb_panel, id_user: "jojo", name: "test", letter: "J", color: "#123456"},
         type: 'POST',
         dataType: 'json',
         success: function (objetJson) {
@@ -115,24 +115,24 @@ function add_panel() {
         cache: false
     });
 }
-function add_button_right_panel_saved(id_panel, id_user, name, letter, color) {
+function add_button_right_panel_saved(num_panel, id_user, name, letter, color) {
     var right_panel = document.getElementById('right_panel');
 
     var div = document.createElement("div");
-    div.setAttribute("id", 'btn_panel' + id_panel);
+    div.setAttribute("id", 'btn_panel' + num_panel);
     div.setAttribute("class", 'layout_btn_right_bar mdl-js-button');
 
     var img = document.createElement("img");
-    img.setAttribute("id", 'img_btn_panel' + id_panel);
+    img.setAttribute("id", 'img_btn_panel' + num_panel);
     img.setAttribute("class", 'img_btn_right_bar mdl-button mdl-js-button mdl-button--icon');
     img.setAttribute("src", 'images/circle.png');
-    img.setAttribute("onclick", 'view_panel(\'' + id_panel + '\')');
+    img.setAttribute("onclick", 'view_panel(\'' + num_panel + '\')');
     img.setAttribute("style", 'background-color: rgba(0, 0, 255, 0);');
     var text = document.createElement("div");
-    text.setAttribute("id", 'text_btn_panel' + id_panel);
+    text.setAttribute("id", 'text_btn_panel' + num_panel);
     text.setAttribute("class", 'text_btn_right_bar ');
-    text.setAttribute("onclick", 'view_panel(\'' + id_panel + '\')');
-    text.textContent = "" + id_panel;
+    text.setAttribute("onclick", 'view_panel(\'' + num_panel + '\')');
+    text.textContent = "" + num_panel;
 
     div.appendChild(text);
     div.appendChild(img);

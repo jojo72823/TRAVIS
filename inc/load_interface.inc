@@ -18,12 +18,6 @@ function getPanel($args) {
     $requete->execute() or die("erreur requete getPanel");
 
     while ($data = $requete->fetch()) {
-//        $panel = array();
-//        array_push($panel, $data['ID_PANEL']);
-//        array_push($panel, $data['ID_USER']);
-//        array_push($panel, $data['NAME']);
-//        array_push($panel, $data['LETTER']);
-//        array_push($panel, $data['COLOR']);
         array_push($retour, array($data));
     }
     echo json_encode($retour);

@@ -2,7 +2,7 @@
 
 function connexionBd() {
     $user = 'root';
-    $pass = 'toto';
+    $pass = '';
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=tp_cmc', $user, $pass);
     } catch (Exception $ex) {
@@ -13,7 +13,7 @@ function connexionBd() {
 
 function connexionBdTravis() {
     $user = 'root';
-    $pass = 'toto';
+    $pass = '';
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=travis', $user, $pass);
     } catch (Exception $ex) {
