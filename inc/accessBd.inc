@@ -58,12 +58,12 @@ function nb_messages_sent_users($args) {
     if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }
-     $bdd = connexionBd();
-    
+    $bdd = connexionBd();
+
     $requete = $bdd->query("SELECT idUser FROM `user` WHERE name = '" . $name_user . "'");
     $count = $requete->fetch();
     $count['idUser'];
-   
+
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Poster un nouveau message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
@@ -71,15 +71,15 @@ function nb_messages_sent_users($args) {
 }
 
 function nb_connection_users($args) {
-   if (isset($args['p_name_user'])) {
+    if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }
-     $bdd = connexionBd();
-    
+    $bdd = connexionBd();
+
     $requete = $bdd->query("SELECT idUser FROM `user` WHERE name = '" . $name_user . "'");
     $count = $requete->fetch();
     $count['idUser'];
-    
+
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Connexion' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
@@ -90,27 +90,39 @@ function nb_messages_read_users($args) {
     if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }
-     $bdd = connexionBd();
-    
+    $bdd = connexionBd();
+
     $requete = $bdd->query("SELECT idUser FROM `user` WHERE name = '" . $name_user . "'");
     $count = $requete->fetch();
     $count['idUser'];
-    
+
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Afficher le contenu d\'un message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
     $requete->closeCursor();
 }
 
-
-
 function list_user() {
-    
+
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT * FROM user');
     while ($donnees = $requete->fetch()) {
         echo ' <option id=' . $donnees['idUser'] . ' selected=\'selected\'>' . $donnees['name'] . '</option>';
     }
+}
+
+function get_indicators() {
+
+    $indicators = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->query("SELECT * FROM `TAB_INDICATORS`");
+    while ($data = $requete->fetch()) {
+        array_push($indicators, $data['INDICATOR']);
+    }
+
+    echo json_encode($indicators);
 }
 ?>
 

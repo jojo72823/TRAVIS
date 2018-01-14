@@ -52,9 +52,9 @@ function save_element($args) {
     //call an other function
     switch ($type_content) {
         case 'TAB_POLAR':
-            save_type_graph($id_type_graph, $tab_indicators);
+            save_type_polar($id_type_graph, $tab_indicators);
             break;
-        case 'TAB_POLAR':
+        case 'TAB_NUMBER':
             save_type_number($id_type_graph, $tab_indicators);
             break;
         default:
@@ -62,20 +62,17 @@ function save_element($args) {
     }
 }
 
-function save_type_polar($args) {
+function save_type_polar($id_type_graph, $tab_indicators) {
 
-    //get paramaters
-    $id_type_graph = $args['id_type_graph'];
-    $id_indicators = $args['id_indicators'];
 
     //connect to database
     $bdd = connexionBdTravis();
 
-    for ($cpt = 0; $cpt <= count($id_indicators); $cpt++) {
+    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
         //prepare request
         $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ID_INDICATOR`) VALUES (:id_polar,:id_indicator)");
         $requete->bindParam(":id_polar", $id_type_graph);
-        $requete->bindParam(":id_indicator", $id_indicators[$cpt]);
+        $requete->bindParam(":id_indicator", $tab_indicators[$cpt]);
         //execute request
         $requete->execute() or die(mysql_error());
     }

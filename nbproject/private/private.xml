@@ -3,11 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/TRAVIS/php/login.php</file>
+            <file>file:/C:/wamp/www/TRAVIS/inc/accessBd.inc</file>
+            <file>file:/C:/wamp/www/TRAVIS/inc/load_interface.inc</file>
+            <file>file:/C:/wamp/www/TRAVIS/index.php</file>
             <file>file:/C:/wamp/www/TRAVIS/inc/save_interface.inc</file>
             <file>file:/C:/wamp/www/TRAVIS/js/right_panel.js</file>
+            <file>file:/C:/wamp/www/TRAVIS/js/load_interface.js</file>
             <file>file:/C:/wamp/www/TRAVIS/js/generate_graph.js</file>
-            <file>file:/C:/wamp/www/TRAVIS/php/accessFonctions.php</file>
+            <file>file:/C:/wamp/www/TRAVIS/dashboard.php</file>
+            <file>file:/C:/wamp/www/TRAVIS/js/save_interface.js</file>
+            <file>file:/C:/wamp/www/TRAVIS/js/data_bridge.js</file>
         </group>
     </open-files>
 </project-private>

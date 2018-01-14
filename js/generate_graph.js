@@ -128,6 +128,12 @@ function generate_graph() {
     select_nb_messages_read_users = $('select[name=nb_messages_read_users]').val();
     //GET SELECT_INDICATORS
     select_indicators_new.length = 0;
+    
+    //TODO automatic get checked
+//    for (var cpt = 0; cpt < indicators.length; cpt++) {
+//        select_indicators_new.push(document.getElementById(indicators[cpt]).checked);  
+//    }
+    
     var tr_nb_messages_read = document.getElementById('tr_nb_messages_read').checked;
     var tr_nb_messages_send = document.getElementById('tr_nb_messages_send').checked;
     var tr_nb_files_upload = document.getElementById('tr_nb_files_upload').checked;
@@ -144,135 +150,7 @@ function generate_graph() {
     select_indicators_new.push(tr_nb_messages_read_users);
     moteur_calcul_indicateur();
 }
-function moteur_calcul_indicateur() {
 
-    var dfrd1 = $.Deferred();
-    setTimeout(function () {
-
-
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_read'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    nb_messages_read = objetJson;
-                    //alert("ok nb_messages_read! " + objetJson);
-                } else {
-                    alert("erreur nb_messages_read! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_sent'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_messages_sent! " + objetJson);
-                    nb_messages_send = objetJson;
-                } else {
-                    alert("erreur nb_messages_sent! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_files_upload'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_files_upload! " + objetJson);
-                    nb_files_upload = objetJson;
-                } else {
-                    alert("erreur nb_files_upload! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_files_download'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_files_download! " + objetJson);
-                    nb_files_download = objetJson;
-                } else {
-                    alert("erreur nb_files_download! ");
-                }
-            },
-            cache: false
-        });
-        //get indicator for user
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_connection_users', p_name_user: select_nb_connection_users},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    nb_connection_users = objetJson;
-                } else {
-                    alert("erreur nb_connection_users! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_sent_users', p_name_user: select_nb_messages_sent_users},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    nb_messages_sent_users = objetJson;
-                } else {
-                    alert("erreur nb_messages_sent_users! ");
-                }
-            },
-            cache: false
-
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_read_users', p_name_user: select_nb_messages_read_users},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    nb_messages_read_users = objetJson;
-                } else {
-                    alert("erreur nb_messages_read_users! ");
-                }
-            },
-            cache: false
-        });
-        if (nb_messages_read == null ||
-                nb_messages_send == null ||
-                nb_files_upload == null ||
-                nb_files_download == null ||
-                nb_connection_users == null ||
-                nb_messages_sent_users == null ||
-                nb_messages_read_users == null) {
-            moteur_calcul_indicateur();
-        } else {
-            dfrd1.resolve();
-        }
-
-
-    }, 100);
-    return $.when(dfrd1).done(function () {
-
-        pre_print_graph();
-    }).promise();
-}
 function pre_print_graph() {
 
     legende_print.length = 0;
@@ -297,36 +175,9 @@ function pre_print_graph() {
 
 
 
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_id_indicators', data_print: legende_print},
-        type: 'POST',
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
-                id_indicators = objetJson;
-            } else {
-                alert("erreur get_id_indicators! ");
-            }
-        },
-        cache: false
-    });
-    alert("toto");
+//    save_element();
 
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'save_type_polar', id_type_graph: "1",id_indicators: id_indicators},
-        type: 'POST',
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
-              
-            } else {
-                alert("erreur save_type_polar! ");
-            }
-        },
-        cache: false
-    });
+
 
 
 
@@ -334,6 +185,8 @@ function pre_print_graph() {
 
     print_graph();
 }
+
+
 
 function print_graph() {
     var myChart = Highcharts.chart('container' + nb_graph, {
@@ -380,12 +233,6 @@ function print_graph() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
-}
-
-function sleep(seconds) {
-    var waitUntil = new Date().getTime() + seconds * 1000;
-    while (new Date().getTime() < waitUntil)
-        true;
 }
 
 function graphique_comparaison_note() {

@@ -36,6 +36,9 @@
         <script src="./mdl/material.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="js/generate_graph.js"></script>
+        <script src="js/load_interface.js"></script>
+        <script src="js/save_interface.js"></script>
+        <script src="js/data_bridge.js"></script>
 
         <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -101,10 +104,12 @@
 <dialog id="my_dialog" class="mdl-dialog" style="width: 50%">
     <h4 class="mdl-dialog__title">Paramètres du graphique</h4>
     <div class="mdl-dialog__content">
-        <table id='table_param'>  
-            <tr>
+        <table id='tab_indicators'>  
+<!--            <tr>
                 <td>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_read"> <input id="tr_nb_messages_read" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de messages lus</span>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_read"> 
+                        <input id="tr_nb_messages_read" type="checkbox" class="mdl-checkbox__input">
+                        <span class="mdl-checkbox__label">Nombre de messages lus</span>
                     </label>
                 </td>
             </tr>
@@ -133,8 +138,8 @@
                 <td> 
                     <select name="nb_connection_users" style=width:100px>
                         <?php
-                        require_once 'inc/accessBd.inc';
-                        list_user();
+//                        require_once 'inc/accessBd.inc';
+//                        list_user();
                         ?>
                     </select> 
                 </td>
@@ -145,8 +150,8 @@
                 <td> 
                     <select name="nb_messages_sent_users" style=width:100px>
                         <?php
-                        require_once 'inc/accessBd.inc';
-                        list_user();
+//                        require_once 'inc/accessBd.inc';
+//                        list_user();
                         ?>
                     </select> 
                 </td>
@@ -158,12 +163,12 @@
                 <td> 
                     <select name="nb_messages_read_users" style=width:100px>
                         <?php
-                        require_once 'inc/accessBd.inc';
-                        list_user();
+//                        require_once 'inc/accessBd.inc';
+//                        list_user();
                         ?>
                     </select> 
                 </td>
-            </tr>
+            </tr>-->
         </table>
         <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton">
             Générer le graphique avec les paramètres

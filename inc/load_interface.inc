@@ -34,3 +34,59 @@ function tab_data() {
     $requete->closeCursor();
     echo json_encode($retour);
 }
+
+function load_element($args) {
+    //get paramaters
+    $id_panel = $args['id_panel'];
+    //connect to database
+    $bdd = connexionBdTravis();
+    //prepare request
+    $requete = $bdd->prepare("SELECT * FROM `tab_element` WHERE `ID_PANEL`= :id_panel");
+    $requete->bindParam(":id_panel", $id_panel);
+    //execute request
+    $requete->execute() or die("erreur requete load_element");
+
+    while ($data = $requete->fetch()) {//GET each element
+        //call an other function
+        switch ($data['TYPE_CONTENT']) {
+            case 'TAB_POLAR':
+                echo json_encode(load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
+                break;
+            case 'TAB_NUMBER':
+                //TODO
+                break;
+            default:
+                break;
+        }
+    }
+
+    $requete->closeCursor();
+    
+}
+
+//  load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']);
+function load_type_polar($id_polar, $class_size_element) {
+
+    $retour = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->prepare("SELECT * FROM `tab_polar` WHERE `ID_POLAR`= :id_polar");
+    $requete->bindParam(":id_polar", $id_polar);
+    $requete->execute() or die("erreur requete load_type_polar");
+
+    while ($data = $requete->fetch()) {
+        
+        $requete_indicator = $bdd->prepare("SELECT INDICATOR FROM `TAB_INDICATORS` WHERE `ID_INDICATOR`= :ID_INDICATOR");
+        $requete_indicator->bindParam(":ID_INDICATOR", $data['ID_INDICATOR']);
+        $requete_indicator->execute() or die("erreur requete requete_indicator");
+        $data_indicator = $requete_indicator->fetch();
+        array_push($retour, $data_indicator[0]);
+        
+    }
+    return $retour;
+
+    //close connection
+    $requete->closeCursor();
+}
+
