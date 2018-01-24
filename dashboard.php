@@ -163,6 +163,45 @@
                     </select> 
                 </td>
             </tr>
+            <tr>
+                            <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_files_upload_users"> <input id="tr_nb_files_upload_users" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de fichiers uploadés par l'utilisateur</span>
+                                </label></td>
+                            <td> 
+                                <select name="nb_files_upload_users" style=width:100px>
+                                    <?php
+                                    require_once 'inc/accessBd.inc';
+                                    list_user();
+                                    ?>
+                                </select> 
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_files_download_users"> <input id="tr_nb_files_download_users" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de fichiers downloadés par l'utilisateur</span>
+                                </label></td>
+                            <td> 
+                                <select name="nb_files_download_users" style=width:100px>
+                                    <?php
+                                    require_once 'inc/accessBd.inc';
+                                    list_user();
+                                    ?>
+                                </select> 
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_display_forum"> <input id="tr_nb_display_forum" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre d'affichage du forum</span>
+                                </label></td>
+                            <td> 
+                                <select name="nb_display_forum" style=width:100px>
+                                    <?php
+                                    require_once 'inc/accessBd.inc';
+                                    list_forum();
+                                    ?>
+                                </select> 
+                            </td>
+
+                        </tr>
         </table>
         <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton">
             Générer le graphique avec les paramètres
