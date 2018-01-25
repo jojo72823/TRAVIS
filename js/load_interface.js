@@ -81,20 +81,27 @@ function load_panels_saved() {
             },
             cache: false
         });
+        
+    }
 
 
         view_panel(nb_panel);
 
         //GET SELECT_INDICATORS
+        get_indicators();
 
         //  alert("length = " + tab_indicators.length);
-        for (cpt = 0; cpt < tab_indicators.length; cpt++) {
-
-
-
-
-
+        select_indicators_new.length = 0;
+        for (cpt = 0; cpt < indicators.length; cpt++) {
+                //TODO GET SAVE INDICATOR
+                //IF/ELSE CASE INDDICATOR IF IT'S PRESENT IN DATABASE
+              
         }
+
+
+
+
+        
         select_indicators_new.length = 0;
         select_indicators_new.push(true);
         select_indicators_new.push(true);
@@ -112,12 +119,6 @@ function load_panels_saved() {
             add_section();
             moteur_calcul_indicateur();
         }
-
-
-
-
-    }
-
 
 }
 
@@ -150,10 +151,6 @@ function load_indicators() {
         tr.appendChild(td);
         element.appendChild(tr);
     }
-
-
-
-
 }
 
 

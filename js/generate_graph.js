@@ -1,6 +1,6 @@
-var select_indicators = ["nb_messages_read", "nb_messages_sent", "nb_files_upload", "nb_files_download", "nb_connection_user", "nb_mess_sent_user", "nb_mess_read_user"];
 var select_indicators_new = new Array();
 var count = 0;
+var select_indicators = ["nb_messages_read", "nb_messages_sent", "nb_files_upload", "nb_files_download", "nb_connection_user", "nb_mess_sent_user", "nb_mess_read_user"];
 var data_print = new Array();
 var legende_print = new Array();
 var data = new Array();
@@ -22,6 +22,7 @@ var data_indicator = new Array();
 var nb_graph = 0;
 var nb_filter = 0;
 var id_indicators = new Array();
+var state_save = false;
 
 
 function readSearchInput(el, e) {
@@ -122,32 +123,15 @@ function add_section() {
 
 function generate_graph() {
     add_section();
-    //GET USERS_INDICATORS 
-    select_nb_connection_users = $('select[name=nb_connection_users]').val();
-    select_nb_messages_sent_users = $('select[name=nb_messages_sent_users]').val();
-    select_nb_messages_read_users = $('select[name=nb_messages_read_users]').val();
+    state_save = true;
     //GET SELECT_INDICATORS
     select_indicators_new.length = 0;
-    
+
     //TODO automatic get checked
-//    for (var cpt = 0; cpt < indicators.length; cpt++) {
-//        select_indicators_new.push(document.getElementById(indicators[cpt]).checked);  
-//    }
-    
-    var tr_nb_messages_read = document.getElementById('tr_nb_messages_read').checked;
-    var tr_nb_messages_send = document.getElementById('tr_nb_messages_send').checked;
-    var tr_nb_files_upload = document.getElementById('tr_nb_files_upload').checked;
-    var tr_nb_files_download = document.getElementById('tr_nb_files_download').checked;
-    var tr_nb_connection_users = document.getElementById('tr_nb_connection_users').checked;
-    var tr_nb_messages_sent_users = document.getElementById('tr_nb_messages_sent_users').checked;
-    var tr_nb_messages_read_users = document.getElementById('tr_nb_messages_read_users').checked;
-    select_indicators_new.push(tr_nb_messages_read);
-    select_indicators_new.push(tr_nb_messages_send);
-    select_indicators_new.push(tr_nb_files_upload);
-    select_indicators_new.push(tr_nb_files_download);
-    select_indicators_new.push(tr_nb_connection_users);
-    select_indicators_new.push(tr_nb_messages_sent_users);
-    select_indicators_new.push(tr_nb_messages_read_users);
+    for (var cpt = 0; cpt < indicators.length; cpt++) {
+        select_indicators_new.push(document.getElementById(indicators[cpt]).checked);
+    }
+
     moteur_calcul_indicateur();
 }
 
@@ -173,15 +157,10 @@ function pre_print_graph() {
         }
     }
 
-
-
-//    save_element();
-
-
-
-
-
-
+    if(state_save == true){
+       save_element(); 
+    }
+    
 
     print_graph();
 }
