@@ -1,6 +1,8 @@
 var select_indicators_new = new Array();
 var count = 0;
-var select_indicators = ["nb_messages_read", "nb_messages_sent", "nb_files_upload", "nb_files_download", "nb_connection_user", "nb_mess_sent_user", "nb_mess_read_user"];
+var name_indicators = new Array();
+//var select_indicators = ["nb_messages_read", "nb_messages_sent", "nb_files_upload", "nb_files_download", "nb_connection_user", "nb_mess_sent_user", "nb_mess_read_user"];
+var indicators;
 var data_print = new Array();
 var legende_print = new Array();
 var data = new Array();
@@ -58,8 +60,6 @@ function delete_graph(number) {
 
 function add_indicator(name_indicator) {
     var close = document.getElementById('close' + nb_graph);
-
-
 
     var indicator_span = document.createElement("span");
     indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
@@ -123,13 +123,18 @@ function add_section() {
 
 function generate_graph() {
     add_section();
+    get_indicators();
+
     state_save = true;
     //GET SELECT_INDICATORS
     select_indicators_new.length = 0;
 
     //TODO automatic get checked
     for (var cpt = 0; cpt < indicators.length; cpt++) {
-        select_indicators_new.push(document.getElementById(indicators[cpt]).checked);
+        //select_indicators_new.push(document.getElementById(indicators[cpt]).checked);
+        if (document.getElementById(indicators[cpt]).checked) {
+            name_indicators.push(indicators[cpt]);//get name of indicator
+        }
     }
 
     moteur_calcul_indicateur();
@@ -141,27 +146,54 @@ function pre_print_graph() {
     data_print.length = 0;
     data_indicator.length = 0;
     count = 0;
-    data_indicator.push(nb_messages_read);
-    data_indicator.push(nb_messages_send);
-    data_indicator.push(nb_files_upload);
-    data_indicator.push(nb_files_download);
-    data_indicator.push(nb_connection_users);
-    data_indicator.push(nb_messages_sent_users);
-    data_indicator.push(nb_messages_read_users);
-    for (var cpt = 0; cpt < select_indicators.length; cpt++) {
 
-        if (select_indicators_new[cpt]) {
-            legende_print.push(select_indicators[cpt]);
-            data_print.push(data_indicator[cpt]);
-            add_indicator(select_indicators[cpt]);
+    //TODO get function for a each indicator
+
+    for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
+        //call function of this indicator
+        for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
+            //call function of this indicator
+          //  moteur_calcul_indicateur();//temp
+            if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators]) {
+                
+                legende_print.push(name_indicators[cpt_name_indicators]);
+                
+                add_indicator(name_indicators[cpt_name_indicators]);
+
+                switch (name_indicators[cpt_name_indicators]) {
+                    case 'nb_messages_read':
+                        data_print.push(nb_messages_read);
+                        break;
+                    case 'nb_messages_sent':
+                        data_print.push(nb_messages_sent);
+                        break;
+                    case 'nb_files_upload':
+                        data_print.push(nb_files_upload);
+                        break;
+                    case 'nb_files_download':
+                        data_print.push(nb_files_download);
+                        break;
+                    case 'nb_connection_users':
+                        data_print.push(nb_connection_users);
+                        break;
+                    case 'nb_messages_sent_users':
+                        data_print.push(nb_messages_sent_users);
+                        break;
+                    case 'nb_messages_read_users':
+                        data_print.push(nb_messages_read_users);
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+
+
         }
     }
-
-    if(state_save == true){
-       save_element(); 
+    if (state_save == true) {
+        save_element();
     }
-    
-
     print_graph();
 }
 
