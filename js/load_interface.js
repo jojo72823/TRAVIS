@@ -5,59 +5,37 @@
  */
 
 //ATTRIBUTES
-var tab_indicators = new Array();
+var tab_indicators;
 var data_panel;
+var indicators;
 
 
 function load_interface() {
-    // alert("load_interface");
-    get_panels_saved();
+    //INITIALIZATION
+    indicators = get_indicators();
+
     load_indicators();
+
+
+    //TODO 
+    data_panel = get_panels_saved();
+    //
+    load_panels_saved();
+
 }
-function get_panels_saved() {
-
-    var dfrd1 = $.Deferred();
-    setTimeout(function () {
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'getPanel', id_user: "0"},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    data_panel = objetJson;
-                } else {
-                    alert("erreur getPanel! ");
-                }
-            },
-            cache: false
-        });
 
 
-        if (data_panel == null) {
-            get_panels_saved();
 
-        } else {
-            dfrd1.resolve();
-        }
-
-
-    }, 100);
-    return $.when(dfrd1).done(function () {
-        load_panels_saved();
-
-    }).promise();
-}
 
 
 
 function load_panels_saved() {
     //INITIALIZE
-    //alert('load_panels_saved');
+    // alert('load_panels_saved');
 
-    nb_panel = Object.keys(data_panel).length;
+    nb_panel = data_panel.length;
     // for (var cpt = 0; cpt < nb_panel; cpt++) {
-    for (var cpt = 0; cpt < 1; cpt++) {
+    for (var cpt = 0; cpt < nb_panel; cpt++) {
 
         var id_panel = data_panel[cpt][0][0];
         var num_panel = data_panel[cpt][0][1];
@@ -67,26 +45,38 @@ function load_panels_saved() {
         var color = data_panel[cpt][0][5];
         add_panel_saved(num_panel, id_user, name, letter, color);
         add_button_right_panel_saved(num_panel, id_user, name, letter, color);
-        //TODO  get save in database (load_element)
-        get_element(id_panel);
+        //TODO  get save on database (load_element)
+        panel_select = id_panel;
+
+        //TODO for each element's panel
+        tab_indicators = get_element(id_panel);
+        if (tab_indicators != null) {
+            for (cpt_tab_indicators = 0; cpt_tab_indicators < tab_indicators.length; cpt_tab_indicators++) {
+                add_section();
+                name_indicators = tab_indicators[cpt_tab_indicators];
+                pre_print_graph();
+            }
+
+
+
+
+
+        }
+
 
     }
-
-
-    //generate one element
-
-
+    view_panel(1);
 
 }
 
+
+
 function load_indicators() {
 
+//    alert("load_indicators");
 
-    get_indicators();
-    if (indicators == null) {
-        get_indicators();
-    }
-    alert("load_indicators");
+
+
 
     var element = document.getElementById('tab_indicators');
     for (cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {

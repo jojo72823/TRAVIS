@@ -1,25 +1,11 @@
 var select_indicators_new = new Array();
 var count = 0;
 var name_indicators = new Array();
-//var select_indicators = ["nb_messages_read", "nb_messages_sent", "nb_files_upload", "nb_files_download", "nb_connection_user", "nb_mess_sent_user", "nb_mess_read_user"];
 var indicators;
 var data_print = new Array();
 var legende_print = new Array();
 var data = new Array();
 var tab_graph = new Array();
-var nb_messages_read;
-var nb_messages_send;
-var nb_files_upload;
-var nb_files_download;
-var nb_messages_sent_users;
-var nb_connection_users;
-var nb_messages_read_users;
-var select_nb_connection_users;
-var select_nb_messages_sent_users;
-var select_nb_messages_read_users;
-var id_select_nb_connection_users;
-var id_select_nb_messages_sent_users;
-var id_select_nb_messages_read_users;
 var data_indicator = new Array();
 var nb_graph = 0;
 var nb_filter = 0;
@@ -52,9 +38,11 @@ function delete_filter(number) {
 
 
 function delete_graph(number) {
+   // alert("number = +"number + "panel_select  "+panel_select);
 
     document.getElementById('card' + number).remove();
-    //document.getElementById(name).remove();
+    //delete_graph_js(number,panel_select);
+    document.getElementById(name).remove();
 }
 
 
@@ -84,6 +72,8 @@ function add_indicator(name_indicator) {
 function add_section() {
 
     nb_graph = nb_graph + 1;
+    
+    //get_new_id_chart())
     var element = document.getElementById('panel' + panel_select);
 
     var card = document.createElement("div");
@@ -125,6 +115,9 @@ function generate_graph() {
     add_section();
     get_indicators();
 
+   // name_indicators = new Array();
+    name_indicators.length =0;
+
     state_save = true;
     //GET SELECT_INDICATORS
     select_indicators_new.length = 0;
@@ -137,10 +130,12 @@ function generate_graph() {
         }
     }
 
-    moteur_calcul_indicateur();
+    //moteur_calcul_indicateur();
+    pre_print_graph();
 }
 
 function pre_print_graph() {
+
 
     legende_print.length = 0;
     data_print.length = 0;
@@ -153,25 +148,25 @@ function pre_print_graph() {
         //call function of this indicator
         for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
             //call function of this indicator
-          //  moteur_calcul_indicateur();//temp
+            //  moteur_calcul_indicateur();//temp
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators]) {
-                
+
                 legende_print.push(name_indicators[cpt_name_indicators]);
-                
+
                 add_indicator(name_indicators[cpt_name_indicators]);
 
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
-                        data_print.push(nb_messages_read);
+                        data_print.push(get_nb_messages_read());
                         break;
                     case 'nb_messages_sent':
-                        data_print.push(nb_messages_sent);
+                        data_print.push(get_nb_messages_sent());
                         break;
                     case 'nb_files_upload':
-                        data_print.push(nb_files_upload);
+                        data_print.push(get_nb_files_upload());
                         break;
                     case 'nb_files_download':
-                        data_print.push(nb_files_download);
+                        data_print.push(get_nb_files_download());
                         break;
                     case 'nb_connection_users':
                         data_print.push(nb_connection_users);

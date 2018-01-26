@@ -26,7 +26,8 @@ function nb_messages_read() {
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT count(*) AS count FROM message_receiver');
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo 200;
     $requete->closeCursor();
 }
 
@@ -34,7 +35,8 @@ function nb_messages_sent() {
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT count(*) AS count FROM message');
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo 300;
     $requete->closeCursor();
 }
 
@@ -42,7 +44,8 @@ function nb_files_upload() {
     $bdd = connexionBd();
     $requete = $bdd->query("SELECT count(*) AS count FROM action WHERE type='Upload un fichier avec le message'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+     echo 400;
     $requete->closeCursor();
 }
 
@@ -50,7 +53,8 @@ function nb_files_download() {
     $bdd = connexionBd();
     $requete = $bdd->query("SELECT count(*) AS count FROM action WHERE type='Download un fichier dans le message'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+     echo 500;
     $requete->closeCursor();
 }
 

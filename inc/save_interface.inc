@@ -34,10 +34,16 @@ function save_element($args) {
     $id_panel = $args['id_panel'];
     $class_size_element = $args['class_size_element'];
     $type_content = $args['type_content'];
-    $id_type_graph = $args['id_type_graph'];
     $tab_indicators = $args['tab_indicators'];
     //connect to database
     $bdd = connexionBdTravis();
+
+    //get $id_type_graph
+    $requete_id = $bdd->query("SELECT `ID_POLAR` FROM `tab_polar` ORDER BY `ID_POLAR` DESC");
+    $count = $requete_id->fetch();
+    $id_type_graph = $count['ID_POLAR'];
+    $id_type_graph = $id_type_graph + 1;
+//    echo  $count['ID_POLAR']
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_CONTENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_content,:id_type_graph)");
     $requete->bindParam(":id_panel", $id_panel);
@@ -82,12 +88,11 @@ function save_type_polar($id_type_graph, $tab_indicators) {
 
 function save_type_number($args) {
 
-   
+
     //connect to database
     $bdd = connexionBdTravis();
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_number`(`ID_POLAR`, `ID_INDICATOR`) VALUES (:id_polar,:id_indicator)");
-   
 }
 
 function get_id_indicators($args) {
@@ -114,3 +119,33 @@ function get_id_indicators($args) {
     //close connection
     $requete->closeCursor();
 }
+
+function delete_graph_php($args) {
+    //get paramaters
+    $id_graph = $args['p_number'];
+    $panel_select = $args['p_panel_select'];
+
+    //connect to database
+    $bdd = connexionBdTravis();
+
+    $requete = $bdd->prepare("DELETE FROM `tab_element` WHERE `ID_PANEL` = :panel_select AND `ID_TYPE_GRAPH` = :id_graph");
+    $requete->bindParam(":panel_select", $panel_select);
+    $requete->bindParam(":id_graph", $id_graph);
+    $requete->execute() or die("ERROR REQUEST delete_graph tab_element");
+    
+    
+    //TODO for different chart
+
+    $requete = $bdd->prepare("DELETE FROM `tab_polar` WHERE `ID_POLAR` = :id_graph");
+    $requete->bindParam(":id_graph", $id_graph);
+    $requete->execute() or die("ERROR REQUEST delete_graph tab_polar");
+}
+
+//function get_id_chart(){
+//     //get $id_type_graph
+//    $requete_id = $bdd->query("SELECT `ID_POLAR` FROM `tab_polar` ORDER BY `ID_POLAR` DESC");
+//    $count = $requete_id->fetch();
+//    $id_type_graph = $count['ID_POLAR'];
+//    $id_type_graph = $id_type_graph + 1;
+//    echo $id_type_graph;
+//}

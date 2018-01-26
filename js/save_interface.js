@@ -18,11 +18,12 @@ function save_element(){
         },
         cache: false
     });
+   
     alert("toto");
     
      $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'save_element', id_panel: "1",class_size_element: "null",type_content: "TAB_POLAR",id_type_graph:1,tab_indicators: id_indicators},
+        data: {fonction: 'save_element', id_panel: panel_select,class_size_element: "null",type_content: "TAB_POLAR",tab_indicators: id_indicators},
         type: 'POST',
         dataType: 'json',
         success: function (objetJson) {
@@ -34,5 +35,29 @@ function save_element(){
         },
         cache: false
     });
+}
+
+function get_new_id_chart(){
+        
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_id_chart'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur getPanel! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("getPanel failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+   
 }
 

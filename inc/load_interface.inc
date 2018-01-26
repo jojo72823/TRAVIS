@@ -38,6 +38,7 @@ function tab_data() {
 function load_element($args) {
     //get paramaters
     $id_panel = $args['id_panel'];
+    $retour = array();
     //connect to database
     $bdd = connexionBdTravis();
     //prepare request
@@ -50,18 +51,22 @@ function load_element($args) {
         //call an other function
         switch ($data['TYPE_CONTENT']) {
             case 'TAB_POLAR':
-                echo json_encode(load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
+//               echo json_encode(load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
+//                $tmp = ;
+                 array_push($retour, load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
                 break;
             case 'TAB_NUMBER':
                 //TODO
                 break;
             default:
+                echo "defaut";
                 break;
         }
+       
     }
 
     $requete->closeCursor();
-    
+    echo json_encode($retour);
 }
 
 //  load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']);

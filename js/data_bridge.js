@@ -5,73 +5,112 @@
  */
 var indicators;
 
-function moteur_calcul_indicateur() {
+function delete_graph_js(number, panel_select) {
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'delete_graph_php', p_panel_select: panel_select,p_number: number},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
 
-    var dfrd1 = $.Deferred();
-    setTimeout(function () {
+        },
+        
+    });
+}
+
+function get_nb_messages_read() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'nb_messages_read'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_read! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_nb_messages_read failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+
+function get_nb_messages_sent() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'nb_messages_sent'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_sent! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_nb_messages_sent failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+function get_nb_files_upload() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'nb_files_upload'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_files_upload! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_nb_files_upload failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+function get_nb_files_download() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'nb_files_download'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_files_download! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_nb_files_download failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
 
 
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_read'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    nb_messages_read = objetJson;
-                    //alert("ok nb_messages_read! " + objetJson);
-                } else {
-                    alert("erreur nb_messages_read! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_messages_sent'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_messages_sent! " + objetJson);
-                    nb_messages_send = objetJson;
-                } else {
-                    alert("erreur nb_messages_sent! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_files_upload'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_files_upload! " + objetJson);
-                    nb_files_upload = objetJson;
-                } else {
-                    alert("erreur nb_files_upload! ");
-                }
-            },
-            cache: false
-        });
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'nb_files_download'},
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    //alert("ok nb_files_download! " + objetJson);
-                    nb_files_download = objetJson;
-                } else {
-                    alert("erreur nb_files_download! ");
-                }
-            },
-            cache: false
-        });
-        //get indicator for user
+
+
+
+
+//get indicator for user
 //        $.ajax({
 //            url: 'php/accessFonctions.php',
 //            data: {fonction: 'nb_connection_users', p_name_user: select_nb_connection_users},
@@ -115,76 +154,104 @@ function moteur_calcul_indicateur() {
 //            },
 //            cache: false
 //        });
-        if (nb_messages_read == null ||
-                nb_messages_send == null ||
-                nb_files_upload == null ||
-                nb_files_download == null) {
-            moteur_calcul_indicateur();
-        } else {
-            dfrd1.resolve();
-        }
 
 
-    }, 800);
-    return $.when(dfrd1).done(function () {
-
-        pre_print_graph();
-    }).promise();
-}
-
+//INITIALIZE 
 function get_element(id_panel) {
-    var dfrd1 = $.Deferred();
-    setTimeout(function () {
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'load_element', id_panel: id_panel, },
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    tab_indicators = objetJson;
-                } else {
-                    alert("erreur load_element! ");
-                }
-            },
-            cache: false
-        });
-        if (tab_indicators == null) {
-            get_element(id_panel);
-        } else {
-            dfrd1.resolve();
-        }
+    var var_tab_indicators;
 
-
-    }, 800);
-    return $.when(dfrd1).done(function () {
-        //view_panel(nb_panel-1);
-        //TODO load all element's panel
-        //TODO check if the loading is correct in the good panel 
-        panel_select = id_panel;
-        add_section();
-        get_indicators();
-        name_indicators = tab_indicators;
-        moteur_calcul_indicateur();
-    }).promise();
-}
-
-
-function get_indicators() {
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'get_indicators'},
+        data: {fonction: 'load_element', id_panel: id_panel, },
+        async: false,
         type: 'POST',
         dataType: 'json',
         success: function (objetJson) {
             if (objetJson != null) {
-                indicators = objetJson;
 
+                var_tab_indicators = objetJson;
+            } else {
+                alert("erreur get_element! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+//            alert("get_element failed " + errorThrown);
+            var_tab_indicators = null;
+        }
+    });
+    return var_tab_indicators;
+
+}
+
+
+//OK
+function get_indicators() {
+
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_indicators'},
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
             } else {
                 alert("ERROR : get_indicators! ");
             }
         },
-        cache: false
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_indicators failed " + errorThrown);
+        }
     });
+    //alert("returnValue"+paramList);
+    return var_tmp;
 }
+
+function get_panels_saved() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'getPanel', id_user: "0"},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur getPanel! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("getPanel failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+
+}
+
+//function get_new_id_chart() {
+//    var var_tmp;
+//    $.ajax({
+//        url: 'php/accessFonctions.php',
+//        data: {fonction: 'getPanel', id_user: "0"},
+//        type: 'POST',
+//        async: false,
+//        dataType: 'json',
+//        success: function (objetJson) {
+//            if (objetJson != null) {
+//                var_tmp = objetJson;
+//            } else {
+//                alert("erreur getPanel! ");
+//            }
+//        },
+//        error: function (jqXHR, textStatus, errorThrown) {
+//            alert("getPanel failed " + errorThrown);
+//        }
+//    });
+//    return var_tmp;
+//
+//}
 
