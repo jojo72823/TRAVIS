@@ -56,7 +56,8 @@ function load_panels_saved() {
     //alert('load_panels_saved');
 
     nb_panel = Object.keys(data_panel).length;
-    for (var cpt = 0; cpt < nb_panel; cpt++) {
+    // for (var cpt = 0; cpt < nb_panel; cpt++) {
+    for (var cpt = 0; cpt < 1; cpt++) {
 
         var id_panel = data_panel[cpt][0][0];
         var num_panel = data_panel[cpt][0][1];
@@ -66,59 +67,15 @@ function load_panels_saved() {
         var color = data_panel[cpt][0][5];
         add_panel_saved(num_panel, id_user, name, letter, color);
         add_button_right_panel_saved(num_panel, id_user, name, letter, color);
-        //TODO  load_element
-        $.ajax({
-            url: 'php/accessFonctions.php',
-            data: {fonction: 'load_element', id_panel: id_panel, },
-            type: 'POST',
-            dataType: 'json',
-            success: function (objetJson) {
-                if (objetJson != null) {
-                    tab_indicators = objetJson;
-                } else {
-                    alert("erreur load_element! ");
-                }
-            },
-            cache: false
-        });
-        
+        //TODO  get save in database (load_element)
+        get_element(id_panel);
+
     }
 
 
-        view_panel(nb_panel);
-
-        //GET SELECT_INDICATORS
-        get_indicators();
-
-        //  alert("length = " + tab_indicators.length);
-        select_indicators_new.length = 0;
-        for (cpt = 0; cpt < indicators.length; cpt++) {
-                //TODO GET SAVE INDICATOR
-                //IF/ELSE CASE INDDICATOR IF IT'S PRESENT IN DATABASE
-              
-        }
+    //generate one element
 
 
-
-
-        
-        select_indicators_new.length = 0;
-        select_indicators_new.push(true);
-        select_indicators_new.push(true);
-        select_indicators_new.push(true);
-        select_indicators_new.push(false);
-        select_indicators_new.push(true);
-        select_indicators_new.push(true);
-        select_indicators_new.push(true);
-        select_nb_connection_users = 5;
-        select_nb_messages_sent_users = 5;
-        select_nb_messages_read_users = 5;
-
-
-        if (tab_indicators.length != 0) {
-            add_section();
-            moteur_calcul_indicateur();
-        }
 
 }
 
