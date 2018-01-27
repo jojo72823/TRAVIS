@@ -160,3 +160,36 @@ function get_id_element_php() {
     $ID_ELEMENT = $ID_ELEMENT + 1;
     echo $ID_ELEMENT;
 }
+
+function save_user_selected_php() {
+//    //get paramaters
+//    $user_selected = $args['user_selected'];
+//    $cpt_users_selected = $args['cpt_users_selected'];
+//    $id_panel = $args['id_panel'];
+//    $type_content = $args['type_content'];
+//
+//    //connect to database
+//    $bdd = connexionBdTravis();
+//
+//    //GET ID
+//
+//    switch ($type_content) {
+//        case 'TAB_POLAR':
+//           
+//            break;
+//        case 'TAB_NUMBER':
+//        
+//            break;
+//        default:
+//            break;
+//    }
+//    
+//    
+//    
+//    //get $id_type_graph
+//    $requete_id = $bdd->query("SELECT `ID_ELEMENT` FROM `tab_element` ORDER BY `ID_ELEMENT` DESC");
+//    $count = $requete_id->fetch();
+//    $ID_ELEMENT = $count['ID_ELEMENT'];
+//    $ID_ELEMENT = $ID_ELEMENT + 1;
+//    echo $ID_ELEMENT;
+}

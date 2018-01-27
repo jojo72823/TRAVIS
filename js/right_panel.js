@@ -27,7 +27,7 @@ function add_panel_saved(num_panel, id_user, name, letter, color) {
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + num_panel);
     div.setAttribute("class", 'mdl-grid background_content');
-    div.setAttribute("style", 'background-color: #99ff99');
+    div.setAttribute("style", 'background-color: #d7d7d7');
     page_content.appendChild(div);
 }
 function add_panel() {
@@ -41,7 +41,7 @@ function add_panel() {
     //TODO save in BDD
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'savePanel', num_panel: nb_panel, id_user: "jojo", name: "test", letter: "J", color: "#123456"},
+        data: {fonction: 'savePanel', num_panel: nb_panel, id_user: "1", name: "test", letter: "J", color: "#123456"},
         type: 'POST',
         dataType: 'json',
         success: function (objetJson) {

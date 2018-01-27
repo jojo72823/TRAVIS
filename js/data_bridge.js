@@ -18,6 +18,8 @@ function delete_graph_js(number, panel_select) {
     });
 }
 
+
+
 function get_nb_messages_read() {
     var var_tmp;
     $.ajax({
@@ -123,7 +125,6 @@ function get_element(id_panel) {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-//            alert("get_element failed " + errorThrown);
             var_tab_indicators = null;
         }
     });
@@ -225,49 +226,152 @@ function load_type_graph_js() {
     return var_tmp;
 }
 
+function list_compatible_indicators_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'list_compatible_indicators_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur list_compatible_indicators! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("list_compatible_indicators failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
 
-//get indicator for user
-//        $.ajax({
-//            url: 'php/accessFonctions.php',
-//            data: {fonction: 'nb_connection_users', p_name_user: select_nb_connection_users},
-//            type: 'POST',
-//            dataType: 'json',
-//            success: function (objetJson) {
-//                if (objetJson != null) {
-//                    nb_connection_users = objetJson;
-//                } else {
-//                    alert("erreur nb_connection_users! ");
-//                }
-//            },
-//            cache: false
-//        });
-//        $.ajax({
-//            url: 'php/accessFonctions.php',
-//            data: {fonction: 'nb_messages_sent_users', p_name_user: select_nb_messages_sent_users},
-//            type: 'POST',
-//            dataType: 'json',
-//            success: function (objetJson) {
-//                if (objetJson != null) {
-//                    nb_messages_sent_users = objetJson;
-//                } else {
-//                    alert("erreur nb_messages_sent_users! ");
-//                }
-//            },
-//            cache: false
-//
-//        });
-//        $.ajax({
-//            url: 'php/accessFonctions.php',
-//            data: {fonction: 'nb_messages_read_users', p_name_user: select_nb_messages_read_users},
-//            type: 'POST',
-//            dataType: 'json',
-//            success: function (objetJson) {
-//                if (objetJson != null) {
-//                    nb_messages_read_users = objetJson;
-//                } else {
-//                    alert("erreur nb_messages_read_users! ");
-//                }
-//            },
-//            cache: false
-//        });
+function id_compatible_indicators_js(id_indicator_1, id_indicator_2) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'id_compatible_indicators_php', id_indicator_1: id_indicator_1, id_indicator_2: id_indicator_2},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur id_compatible_indicators_js! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("id_compatible_indicators_js failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+
+function bool_compatible_indicators_js(id_indicator_1, id_indicator_2) {
+    var var_tmp = false;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'id_compatible_indicators_php', id_indicator_1: id_indicator_1, id_indicator_2: id_indicator_2},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = true;
+            } else {
+                var_tmp = false;
+            }
+        },
+//        error: function (jqXHR, textStatus, errorThrown) {
+//            alert("bool_compatible_indicators_js failed " + errorThrown);
+//        }
+    });
+    return var_tmp;
+}
+
+function get_list_users_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_list_users_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_list_users ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_list_users failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+
+function get_nb_connection_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_connection_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_connection_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_messages_sent_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_messages_sent_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_sent_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_messages_read_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_messages_read_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_read_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
 

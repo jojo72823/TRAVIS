@@ -45,6 +45,26 @@ function save_element() {
     });
 }
 
+function save_users_selected_js(user_selected,cpt_users_selected){
+
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'save_user_selected_php',user_selected : user_selected, cpt_users_selected:cpt_users_selected, id_panel: panel_select, type_content: "TAB_POLAR"},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+
+            } else {
+                alert("erreur save_user_selected_php! ");
+            }
+        },
+        cache: false
+    });
+
+}
+
 function get_new_id_chart() {
 
     var var_tmp;

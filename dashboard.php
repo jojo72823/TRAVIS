@@ -28,10 +28,11 @@
         <link rel='stylesheet prefetch' href='css/dashboard.css'>
 
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/custom_material.indigo-blue.min.css" />
-        <link rel="stylesheet" href="css/dashboard.css">
-        <link rel="stylesheet" href="css/material_design_perso.css">
+        <link rel="stylesheet" href="css/custom_material.min.css" />
 
+        <link rel="stylesheet" href="css/dashboard.css">
+
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
         <script src="./mdl/material.min.js"></script>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
@@ -47,7 +48,7 @@
 
 
     </head>
-    <body style="background-color: #ff0000"onload="load_interface();">
+    <body style="background-color: #d7d7d7"onload="load_interface();">
         <div class=" mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer" >
                 <div class="mdl-layout__drawer" style="background: #404041;color: white">
@@ -59,18 +60,20 @@
                         </span>
                     </div>
                     <nav class="mdl-navigation" >
-                        <a class="mdl-navigation__link" href="" style="color: white">Tableau de bord</a>
+                        <a class="mdl-navigation__link" href="" style="color: white">Dashboard</a>
                         <a class="mdl-navigation__link" href="" style="color: white">Time Machine</a>
-                        <a class="mdl-navigation__link" href="" style="color: white">Préférences</a>
-                        <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="index.php" style="color: white">Se déconnecter</a>
+                        <a class="mdl-navigation__link" href="" style="color: white">Settings</a>
+                        <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="index.php" style="color: white">Sign out</a>
                     </nav>
                 </div>
             </div>
+
 
             <!MAIN PART-------------------------------------------------------->
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
+
 
                     <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
                         <i class="material-icons-fab">add</i>
@@ -104,91 +107,33 @@
 <dialog id="my_dialog" class="mdl-dialog" style="width: 50%">
     <h4 class="mdl-dialog__title">Paramètres du graphique</h4>
     <div class="mdl-dialog__content">
-        <table id='tab_indicators'>  
-<!--            <tr>
-                <td>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_read"> 
-                        <input id="tr_nb_messages_read" type="checkbox" class="mdl-checkbox__input">
-                        <span class="mdl-checkbox__label">Nombre de messages lus</span>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_send"> <input id="tr_nb_messages_send" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de messages envoyés</span>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_files_upload"> <input id="tr_nb_files_upload" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de fichier envoyés</span>
-                    </label>
-                </td>
-            <tr>
-            <tr>
-                <td>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_files_download"> <input id="tr_nb_files_download" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de fichier téléchargés</span>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_connection_users"> <input id="tr_nb_connection_users" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de connexion de l'utilisateur</span>
-                    </label>
-                </td>
-                <td> 
-                    <select name="nb_connection_users" style=width:100px>
-                        <?php
-//                        require_once 'inc/accessBd.inc';
-//                        list_user();
-                        ?>
-                    </select> 
-                </td>
-            </tr>
-            <tr>
-                <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_sent_users"> <input id="tr_nb_messages_sent_users" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de message envoyés par l'utilisateur</span>
-                    </label></td>
-                <td> 
-                    <select name="nb_messages_sent_users" style=width:100px>
-                        <?php
-//                        require_once 'inc/accessBd.inc';
-//                        list_user();
-                        ?>
-                    </select> 
-                </td>
+        <table>
 
-            </tr>
             <tr>
-                <td><label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tr_nb_messages_read_users"> <input id="tr_nb_messages_read_users" type="checkbox" class="mdl-checkbox__input"><span class="mdl-checkbox__label">Nombre de message lus par l'utilisateur</span>
-                    </label></td>
-                <td> 
-                    <select name="nb_messages_read_users" style=width:100px>
-                        <?php
-//                        require_once 'inc/accessBd.inc';
-//                        list_user();
-                        ?>
-                    </select> 
+                <td>
+                    <table id='tab_graph'>  
+                    </table>
                 </td>
-            </tr>-->
+                <td>
+                    <table id='tab_indicators'>  
+                    </table>
+                </td>
+            </tr>
         </table>
         <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton">
-            Générer le graphique avec les paramètres
+            Generate graph
         </button>
-
-
         <h4>Graphiques prédéfinis</h4>
         <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_nb_co">
-            Comparaison nombre de connexion
+            Exemple 1
         </button>
         <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_note">
-            Comparaison des notes
+            Exemple 2 
         </button>
-
-
-
     </div>
 
     <div class="mdl-dialog__actions">
-        <button type="button" class="mdl-button close">Fermer</button>
+        <button type="button" class="mdl-button close">Close</button>
     </div>
 </dialog>
 

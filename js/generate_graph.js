@@ -9,6 +9,8 @@ var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
 
+var users_selected = new Array();
+
 
 function readSearchInput(el, e) {
     console.log(e)
@@ -29,6 +31,31 @@ function readSearchInput(el, e) {
 }
 
 
+function select_graph(id_graph) {
+
+    switch (id_graph) {
+        case 1:
+            load_indicators();
+            break;
+        case 2:
+            var element = document.getElementById('tab_indicators');
+            element.innerHTML = '';
+
+            break;
+        case 3:
+            var element = document.getElementById('tab_indicators');
+            element.innerHTML = '';
+
+            break;
+
+        default:
+
+            break;
+    }
+
+}
+
+
 function delete_filter(number) {
     document.getElementById('filter' + number).remove();
 }
@@ -36,7 +63,7 @@ function delete_filter(number) {
 
 function delete_graph(number) {
     document.getElementById('card' + number).remove();
-    delete_graph_js(number,panel_select);
+    delete_graph_js(number, panel_select);
     document.getElementById(name).remove();
 }
 
@@ -70,7 +97,7 @@ function add_section() {
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_graph);
     card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12');
-    card.setAttribute("style", 'background-color : #123456; height: auto;margin-bottom :10px');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
 
@@ -104,13 +131,19 @@ function generate_graph() {
     add_section();
     get_indicators();
 
-    name_indicators.length =0;
+    name_indicators.length = 0;
 
     state_save = true;
     //GET SELECT_INDICATORS
     for (var cpt = 0; cpt < indicators.length; cpt++) {
-        if (document.getElementById(indicators[cpt]).checked) {
-            name_indicators.push(indicators[cpt]);//get name of indicator
+        if (document.getElementById(indicators[cpt][1]).checked) {
+            name_indicators.push(indicators[cpt][1]);//get name of indicator
+            if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+                users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+            }else{
+                 users_selected.push('null');
+            }
+
         }
     }
     pre_print_graph();
@@ -127,11 +160,11 @@ function pre_print_graph() {
         //call function of this indicator
         for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
             //call function of this indicator
-            if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators]) {
+            if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
-                legende_print.push(name_indicators[cpt_name_indicators]);
+                legende_print.push(indicators[cpt_name_indicators][2]);
 
-                add_indicator(name_indicators[cpt_name_indicators]);
+                add_indicator(indicators[cpt_name_indicators][2]);
 
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
@@ -146,14 +179,14 @@ function pre_print_graph() {
                     case 'nb_files_download':
                         data_print.push(get_nb_files_download());
                         break;
-                    case 'nb_connection_users':
-                        data_print.push(nb_connection_users);
+                    case 'nb_connection_user':
+                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators]));
                         break;
-                    case 'nb_messages_sent_users':
-                        data_print.push(nb_messages_sent_users);
+                    case 'nb_messages_sent_user':
+                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators]));
                         break;
-                    case 'nb_messages_read_users':
-                        data_print.push(nb_messages_read_users);
+                    case 'nb_messages_read_user':
+                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators]));
                         break;
                     default:
 
@@ -165,6 +198,14 @@ function pre_print_graph() {
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
         save_element();
+        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
+            if(users_selected[cpt_users_selected] != 'null'){
+                save_users_selected_js(users_selected[cpt_users_selected],cpt_users_selected);
+            }
+            
+             
+        }
+       
     }
     print_graph();
 }
