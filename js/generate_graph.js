@@ -1,13 +1,10 @@
-var select_indicators_new = new Array();
 var count = 0;
 var name_indicators = new Array();
 var indicators;
 var data_print = new Array();
 var legende_print = new Array();
 var data = new Array();
-var tab_graph = new Array();
-var data_indicator = new Array();
-var nb_graph = 0;
+var id_graph = 0;
 var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
@@ -38,17 +35,14 @@ function delete_filter(number) {
 
 
 function delete_graph(number) {
-   // alert("number = +"number + "panel_select  "+panel_select);
-
     document.getElementById('card' + number).remove();
-    //delete_graph_js(number,panel_select);
+    delete_graph_js(number,panel_select);
     document.getElementById(name).remove();
 }
 
 
 function add_indicator(name_indicator) {
-    var close = document.getElementById('close' + nb_graph);
-
+    var close = document.getElementById('close' + id_graph);
     var indicator_span = document.createElement("span");
     indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
     indicator_span.setAttribute("style", 'margin : 5px');
@@ -71,66 +65,54 @@ function add_indicator(name_indicator) {
 
 function add_section() {
 
-    nb_graph = nb_graph + 1;
-    
-    //get_new_id_chart())
     var element = document.getElementById('panel' + panel_select);
 
     var card = document.createElement("div");
-    card.setAttribute("id", 'card' + nb_graph);
+    card.setAttribute("id", 'card' + id_graph);
     card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12');
     card.setAttribute("style", 'background-color : #123456; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
 
-    var content_card = document.getElementById('card' + nb_graph);
+    var content_card = document.getElementById('card' + id_graph);
 
     var in_content_card = document.createElement("div");
     in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
     var close = document.createElement("div");
-    close.setAttribute("id", 'close' + nb_graph);
+    close.setAttribute("id", 'close' + id_graph);
     var input = document.createElement("input");
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 30px;float: right;padding:5px');
-    input.setAttribute("onclick", 'delete_graph(\'' + nb_graph + '\')');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
 
 
     close.appendChild(input);
     var container = document.createElement("div");
-    container.setAttribute("id", 'container' + nb_graph);
+    container.setAttribute("id", 'container' + id_graph);
     container.setAttribute("style", 'style="height=500px;width=100%"');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
-
 }
 
-
-
 function generate_graph() {
+    id_graph = get_id_element_js();
     add_section();
     get_indicators();
 
-   // name_indicators = new Array();
     name_indicators.length =0;
 
     state_save = true;
     //GET SELECT_INDICATORS
-    select_indicators_new.length = 0;
-
-    //TODO automatic get checked
     for (var cpt = 0; cpt < indicators.length; cpt++) {
-        //select_indicators_new.push(document.getElementById(indicators[cpt]).checked);
         if (document.getElementById(indicators[cpt]).checked) {
             name_indicators.push(indicators[cpt]);//get name of indicator
         }
     }
-
-    //moteur_calcul_indicateur();
     pre_print_graph();
 }
 
@@ -139,16 +121,12 @@ function pre_print_graph() {
 
     legende_print.length = 0;
     data_print.length = 0;
-    data_indicator.length = 0;
     count = 0;
-
-    //TODO get function for a each indicator
 
     for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
         //call function of this indicator
         for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
             //call function of this indicator
-            //  moteur_calcul_indicateur();//temp
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators]) {
 
                 legende_print.push(name_indicators[cpt_name_indicators]);
@@ -182,11 +160,10 @@ function pre_print_graph() {
                         break;
                 }
             }
-
-
         }
     }
     if (state_save == true) {
+        id_indicators = get_id_indicators_js();
         save_element();
     }
     print_graph();
@@ -195,7 +172,7 @@ function pre_print_graph() {
 
 
 function print_graph() {
-    var myChart = Highcharts.chart('container' + nb_graph, {
+    var myChart = Highcharts.chart('container' + id_graph, {
         chart: {
             polar: true
         },
@@ -243,7 +220,7 @@ function print_graph() {
 
 function graphique_comparaison_note() {
     add_section();
-    var myChart = Highcharts.chart('container' + nb_graph, {
+    var myChart = Highcharts.chart('container' + id_graph, {
         title: {
             text: 'Comparaison des notes'
         },
@@ -317,7 +294,7 @@ function graphique_comparaison_nb_co() {
 
 
     add_section();
-    var myChart = Highcharts.chart('container' + nb_graph, {
+    var myChart = Highcharts.chart('container' + id_graph, {
         chart: {
             type: 'column'
         },

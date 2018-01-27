@@ -8,8 +8,6 @@
 var nb_panel = 0;
 var panel_select = 0;
 
-
-
 //MENU ADD IN SIDE PANEL
 $(".mdl-menu__item").click(function () {
     if (nb_panel < 10) {

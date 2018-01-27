@@ -2,33 +2,41 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * 
  */
-function save_element(){
+function get_id_indicators_js() {
+    var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
         data: {fonction: 'get_id_indicators', data_print: legende_print},
         type: 'POST',
+        async: false,
         dataType: 'json',
         success: function (objetJson) {
             if (objetJson != null) {
-                id_indicators = objetJson;
+                var_tmp = objetJson;
             } else {
                 alert("erreur get_id_indicators! ");
             }
         },
-        cache: false
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_id_indicators failed " + errorThrown);
+        }
     });
-   
-    alert("toto");
-    
-     $.ajax({
+    return var_tmp;
+}
+
+function save_element() {
+
+    $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'save_element', id_panel: panel_select,class_size_element: "null",type_content: "TAB_POLAR",tab_indicators: id_indicators},
+        data: {fonction: 'save_element', id_panel: panel_select, class_size_element: "null", type_content: "TAB_POLAR", tab_indicators: id_indicators},
         type: 'POST',
+        async: false,
         dataType: 'json',
         success: function (objetJson) {
             if (objetJson != null) {
-              
+
             } else {
                 alert("erreur save_element! ");
             }
@@ -37,8 +45,8 @@ function save_element(){
     });
 }
 
-function get_new_id_chart(){
-        
+function get_new_id_chart() {
+
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
@@ -58,6 +66,6 @@ function get_new_id_chart(){
         }
     });
     return var_tmp;
-   
+
 }
 
