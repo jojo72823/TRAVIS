@@ -8,14 +8,13 @@ var indicators;
 function delete_graph_js(number, panel_select) {
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'delete_graph_php', p_panel_select: panel_select,p_number: number},
+        data: {fonction: 'delete_graph_php', p_panel_select: panel_select, p_number: number},
         type: 'POST',
         async: false,
         dataType: 'json',
         success: function (objetJson) {
-            alert("->"+objetJson);
+            alert("->" + objetJson);
         },
-        
     });
 }
 
@@ -203,6 +202,29 @@ function get_id_element_js() {
     return var_tmp;
 
 }
+
+function load_type_graph_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'load_type_graph_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur load_type_graph! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("load_type_graph failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+
 
 //get indicator for user
 //        $.ajax({
