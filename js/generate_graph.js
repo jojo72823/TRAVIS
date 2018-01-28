@@ -1,19 +1,3 @@
-var count = 0;
-var name_indicators = new Array();
-var indicators;
-var data_print = new Array();
-var legende_print = new Array();
-var data = new Array();
-var id_graph = 0;
-var nb_filter = 0;
-var id_indicators = new Array();
-var state_save = false;
-
-var id_graph_exemple = 100;
-
-var users_selected = new Array();
-
-
 function readSearchInput(el, e) {
     console.log(e)
     if (e.keyCode == 13) {//touche entrée
@@ -32,27 +16,26 @@ function readSearchInput(el, e) {
     return false;
 }
 
-
-function select_graph(id_graph) {
+function select_element(p_type) {
     var element = document.getElementById('tab_indicators');
     element.innerHTML = '';
 
-    switch (id_graph) {
-        case 1:
+    switch (p_type) {
+        case "TAB_POLAR":
             load_indicators();
+            type_element = "POLAR";
             break;
-        case 2:
-
-
-            break;
-        case 3:
-
+        case "TAB_LINE":
 
             break;
-        case 4:
+        case "TAB_BAR":
+
+
+            break;
+        case "TAB_BIG_NUMBER":
 
             load_indicators_radio_button();
-
+            type_element = "BIG_NUMBER";
             break;
 
         default:
@@ -62,18 +45,72 @@ function select_graph(id_graph) {
 
 }
 
+function generate_chart() {
+
+    id_graph = get_id_element_js();
+    switch (type_element) {
+        case "POLAR":
+            add_section();
+            name_indicators.length = 0;
+            state_save = true;
+            //GET SELECT_INDICATORS
+            for (var cpt = 0; cpt < indicators.length; cpt++) {
+                if (document.getElementById(indicators[cpt][1]).checked) {
+                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+                    } else {
+                        users_selected.push('null');
+                    }
+                }
+            }
+            pre_print_graph();
+            break;
+        case "BIG_NUMBER":
+            add_section_big_number();
+            name_indicators.length = 0;
+            state_save = true;
+            //GET SELECT_INDICATORS
+            for (var cpt = 0; cpt < indicators.length; cpt++) {
+                if (document.getElementById(indicators[cpt][1]).checked) {
+//                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+//                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+//                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+//                    } else {
+//                        users_selected.push('null');
+//                    }
+                    users_selected.push('nb_messages_read');
+
+                }
+            }
+            var tmp_element = document.getElementById('container' + id_graph);
+            var value = document.createElement("div");
+            value.setAttribute("id", "big_number" + id_graph);
+            value.setAttribute("class","text_big_number");
+            add_indicator("nb_messages_read");
+            value.textContent = get_nb_messages_read();
+            
+            tmp_element.appendChild(value);
+
+
+            break;
+        case 3:
+        default:
+
+            break;
+    }
+}
+
 
 function delete_filter(number) {
     document.getElementById('filter' + number).remove();
 }
-
 
 function delete_graph(number) {
     document.getElementById('card' + number).remove();
     delete_graph_js(number, panel_select);
     document.getElementById(name).remove();
 }
-
 
 function add_indicator(name_indicator) {
     var close = document.getElementById('close' + id_graph);
@@ -95,65 +132,6 @@ function add_indicator(name_indicator) {
     indicator_span.appendChild(indicator_in_span_button);
 
     close.appendChild(indicator_span);
-}
-
-function add_section() {
-
-    var element = document.getElementById('panel' + panel_select);
-
-    var card = document.createElement("div");
-    card.setAttribute("id", 'card' + id_graph);
-    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
-    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
-
-    element.appendChild(card);
-
-    var content_card = document.getElementById('card' + id_graph);
-
-    var in_content_card = document.createElement("div");
-    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
-    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
-
-    var close = document.createElement("div");
-    close.setAttribute("id", 'close' + id_graph);
-    var input = document.createElement("input");
-    input.setAttribute("id", 'delete_button');
-    input.setAttribute("type", 'image');
-    input.setAttribute("src", 'images/icon_close.png');
-    input.setAttribute("style", 'width: 30px;float: right;padding:5px');
-    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
-
-
-    close.appendChild(input);
-    var container = document.createElement("div");
-    container.setAttribute("id", 'container' + id_graph);
-    container.setAttribute("style", 'style="height=500px;width=100%"');
-    in_content_card.appendChild(close);
-    in_content_card.appendChild(container);
-    content_card.appendChild(in_content_card);
-}
-
-function generate_graph() {
-    id_graph = get_id_element_js();
-    add_section();
-    get_indicators();
-
-    name_indicators.length = 0;
-
-    state_save = true;
-    //GET SELECT_INDICATORS
-    for (var cpt = 0; cpt < indicators.length; cpt++) {
-        if (document.getElementById(indicators[cpt][1]).checked) {
-            name_indicators.push(indicators[cpt][1]);//get name of indicator
-            if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-                users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-            } else {
-                users_selected.push('null');
-            }
-
-        }
-    }
-    pre_print_graph();
 }
 
 function pre_print_graph() {

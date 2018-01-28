@@ -3,12 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//ATTRIBUTES
-var tab_indicators;
-var data_panel;
-var indicators;
-var tab_type_element;
-var users;
+
 function load_interface() {
     //INITIALIZATION
     indicators = get_indicators();
@@ -49,7 +44,8 @@ function load_panels_saved() {
 }
 
 function load_type_element() {
-
+    
+    
     tab_type_element = load_type_element_js();
     var element = document.getElementById('tab_graph');
     for (cpt_tab_type_element = 0; cpt_tab_type_element < tab_type_element.length; cpt_tab_type_element++) {
@@ -62,7 +58,7 @@ function load_type_element() {
         input.setAttribute("id", tab_type_element[cpt_tab_type_element][0]);
         input.setAttribute("type", 'radio');
         input.setAttribute("name", 'myRadios');
-        input.setAttribute("onclick", 'select_graph(' + tab_type_element[cpt_tab_type_element][0] + ');');
+        input.setAttribute("onclick", 'select_element(\"' + tab_type_element[cpt_tab_type_element][2] + '\");');
         input.setAttribute("class", 'mdl-checkbox__input');
         var span = document.createElement("span");
         span.setAttribute("class", 'mdl-checkbox__label');
@@ -164,5 +160,78 @@ function load_indicators_radio_button() {
 
 
     }
+}
+
+function add_section() {
+
+    var element = document.getElementById('panel' + panel_select);
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'card' + id_graph);
+    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
+
+    element.appendChild(card);
+
+    var content_card = document.getElementById('card' + id_graph);
+
+    var in_content_card = document.createElement("div");
+    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+    var close = document.createElement("div");
+    close.setAttribute("id", 'close' + id_graph);
+    var input = document.createElement("input");
+    input.setAttribute("id", 'delete_button');
+    input.setAttribute("type", 'image');
+    input.setAttribute("src", 'images/icon_close.png');
+    input.setAttribute("style", 'width: 30px;float: right;padding:5px');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
+
+
+    close.appendChild(input);
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_graph);
+    container.setAttribute("style", 'height=500px;width=100%');
+    in_content_card.appendChild(close);
+    in_content_card.appendChild(container);
+    content_card.appendChild(in_content_card);
+}
+
+function add_section_big_number() {
+
+     var element = document.getElementById('panel' + panel_select);
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'card' + id_graph);
+    card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
+    card.setAttribute("style", 'background-color : #123456; height: 400px;margin-bottom :10px');
+
+    element.appendChild(card);
+
+    var content_card = document.getElementById('card' + id_graph);
+
+    var in_content_card = document.createElement("div");
+    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+    var close = document.createElement("div");
+    close.setAttribute("id", 'close' + id_graph);
+    var input = document.createElement("input");
+    input.setAttribute("id", 'delete_button');
+    input.setAttribute("type", 'image');
+    input.setAttribute("src", 'images/icon_close.png');
+    input.setAttribute("style", 'width: 30px;float: right;padding:5px');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
+
+
+    close.appendChild(input);
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_graph);
+    container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
+    in_content_card.appendChild(close);
+    in_content_card.appendChild(container);
+    
+    content_card.appendChild(in_content_card);
 }
 

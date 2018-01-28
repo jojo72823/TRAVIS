@@ -43,6 +43,7 @@
         <script src="js/load_interface.js"></script>
         <script src="js/save_interface.js"></script>
         <script src="js/data_bridge.js"></script>
+        <script src="js/Variables.js"></script>
 
         <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>

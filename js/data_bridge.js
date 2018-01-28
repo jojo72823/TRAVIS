@@ -373,5 +373,3 @@ function get_nb_messages_read_user_js(name_user) {
     });
     return var_tmp;
 }
-
-

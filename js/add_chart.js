@@ -19,7 +19,7 @@ dialog.querySelector('.close').addEventListener('click', function () {
     dialog.close();
 });
 dialog.querySelector('#MyButton').addEventListener('click', function () {
-    generate_graph();
+    generate_chart();
     dialog.close();
 });
 dialog.querySelector('#MyButtongraphique_comparaison_nb_co').addEventListener('click', function () {
