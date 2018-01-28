@@ -9,6 +9,8 @@ var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
 
+var id_graph_exemple = 100;
+
 var users_selected = new Array();
 
 
@@ -32,19 +34,24 @@ function readSearchInput(el, e) {
 
 
 function select_graph(id_graph) {
+    var element = document.getElementById('tab_indicators');
+    element.innerHTML = '';
 
     switch (id_graph) {
         case 1:
             load_indicators();
             break;
         case 2:
-            var element = document.getElementById('tab_indicators');
-            element.innerHTML = '';
+
 
             break;
         case 3:
-            var element = document.getElementById('tab_indicators');
-            element.innerHTML = '';
+
+
+            break;
+        case 4:
+
+            load_indicators_radio_button();
 
             break;
 
@@ -96,7 +103,7 @@ function add_section() {
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_graph);
-    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12');
+    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
     card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
@@ -140,8 +147,8 @@ function generate_graph() {
             name_indicators.push(indicators[cpt][1]);//get name of indicator
             if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
                 users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-            }else{
-                 users_selected.push('null');
+            } else {
+                users_selected.push('null');
             }
 
         }
@@ -199,13 +206,13 @@ function pre_print_graph() {
         id_indicators = get_id_indicators_js();
         save_element();
         for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
-            if(users_selected[cpt_users_selected] != 'null'){
-                save_users_selected_js(users_selected[cpt_users_selected],cpt_users_selected);
+            if (users_selected[cpt_users_selected] != 'null') {
+                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
             }
-            
-             
+
+
         }
-       
+
     }
     print_graph();
 }
@@ -260,6 +267,8 @@ function print_graph() {
 }
 
 function graphique_comparaison_note() {
+    id_graph = id_graph_exemple;
+    id_graph_exemple = id_graph_exemple + 1;
     add_section();
     var myChart = Highcharts.chart('container' + id_graph, {
         title: {
@@ -332,7 +341,8 @@ var options = {
         }]
 };
 function graphique_comparaison_nb_co() {
-
+    id_graph = id_graph_exemple;
+    id_graph_exemple = id_graph_exemple + 1;
 
     add_section();
     var myChart = Highcharts.chart('container' + id_graph, {

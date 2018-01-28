@@ -8,7 +8,7 @@ function get_id_indicators_js() {
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'get_id_indicators', data_print: legende_print},
+        data: {fonction: 'get_id_indicators', data_print: name_indicators},
         type: 'POST',
         async: false,
         dataType: 'json',

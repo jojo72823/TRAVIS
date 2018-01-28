@@ -27,10 +27,13 @@
         <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
         <link rel='stylesheet prefetch' href='css/dashboard.css'>
 
+        <link href="css/animate.css" rel="stylesheet"> 
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/custom_material.min.css" />
 
         <link rel="stylesheet" href="css/dashboard.css">
+
+        <link rel="stylesheet" href="css/main.css">
 
         <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
@@ -48,7 +51,15 @@
 
 
     </head>
-    <body style="background-color: #d7d7d7"onload="load_interface();">
+    <body style="background-color: #d7d7d7">
+        <div class="preloader">
+            <div class="preloder-wrap">
+                <div class="preloder-inner"> 
+                    <div class="loading">
+                    </div> 
+                </div>
+            </div>
+        </div>
         <div class=" mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer" >
                 <div class="mdl-layout__drawer" style="background: #404041;color: white">
@@ -73,7 +84,7 @@
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-
+                   
 
                     <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
                         <i class="material-icons-fab">add</i>
@@ -104,9 +115,9 @@
 
 
 <!--Dialog to add graph-->
-<dialog id="my_dialog" class="mdl-dialog" style="width: 50%">
-    <h4 class="mdl-dialog__title">Paramètres du graphique</h4>
-    <div class="mdl-dialog__content">
+<dialog id="my_dialog" class="mdl-dialog animated zoomIn" style="width: 50%">
+    <h4 class="mdl-dialog__title">Chart generator</h4>
+    <div class="mdl-dialog__content ">
         <table>
 
             <tr>
@@ -142,3 +153,4 @@
 <script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
 <script src="js/add_chart.js"></script>
 <script src="js/right_panel.js"></script>
+<script type="text/javascript" src="js/main.js"></script> 

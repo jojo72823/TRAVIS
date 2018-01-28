@@ -7,19 +7,22 @@
 var tab_indicators;
 var data_panel;
 var indicators;
-var tab_type_chart;
+var tab_type_element;
 var users;
 function load_interface() {
     //INITIALIZATION
     indicators = get_indicators();
     users = get_list_users_js();
-    load_type_graph();
+    load_type_element();
     data_panel = get_panels_saved();
-    load_panels_saved();
+
+    if (data_panel.length != 0) {
+        load_panels_saved();
+    }
 }
 
 function load_panels_saved() {
-//INITIALIZE
+    //INITIALIZE
     nb_panel = data_panel.length;
     for (var cpt = 0; cpt < nb_panel; cpt++) {
 
@@ -45,26 +48,25 @@ function load_panels_saved() {
     view_panel(1);
 }
 
-function load_type_graph() {
+function load_type_element() {
 
-
-    tab_type_chart = load_type_graph_js();
+    tab_type_element = load_type_element_js();
     var element = document.getElementById('tab_graph');
-    for (cpt_type_chart = 0; cpt_type_chart < tab_type_chart.length; cpt_type_chart++) {
+    for (cpt_tab_type_element = 0; cpt_tab_type_element < tab_type_element.length; cpt_tab_type_element++) {
         var tr = document.createElement("tr");
         var td = document.createElement("td");
         var label = document.createElement("label");
         label.setAttribute("class", '');
-        label.setAttribute("for", tab_type_chart[cpt_type_chart][0]);
+        label.setAttribute("for", tab_type_element[cpt_tab_type_element][0]);
         var input = document.createElement("input");
-        input.setAttribute("id", tab_type_chart[cpt_type_chart][0]);
+        input.setAttribute("id", tab_type_element[cpt_tab_type_element][0]);
         input.setAttribute("type", 'radio');
         input.setAttribute("name", 'myRadios');
-        input.setAttribute("onclick", 'select_graph(' + tab_type_chart[cpt_type_chart][0] + ');');
+        input.setAttribute("onclick", 'select_graph(' + tab_type_element[cpt_tab_type_element][0] + ');');
         input.setAttribute("class", 'mdl-checkbox__input');
         var span = document.createElement("span");
         span.setAttribute("class", 'mdl-checkbox__label');
-        span.textContent = tab_type_chart[cpt_type_chart][1];
+        span.textContent = tab_type_element[cpt_tab_type_element][1];
         label.appendChild(span);
         label.appendChild(input);
         td.appendChild(label);
@@ -74,20 +76,10 @@ function load_type_graph() {
 }
 
 function load_indicators() {
-    
-    
-
-
 
     var element = document.getElementById('tab_indicators');
-    
+
     for (cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
-
-
-//< label class = "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect check" for = "checkbox-1" >
-//        < input type = "checkbox" id = "checkbox-1" class = "mdl-checkbox__input" >
-//        < span class = "mdl-checkbox__label" > Checkbox < /span>
-//        < /label>
 
         var tr = document.createElement("tr");
         var td = document.createElement("td");
@@ -123,6 +115,54 @@ function load_indicators() {
         tr.appendChild(td);
         tr.appendChild(td2);
         element.appendChild(tr);
+    }
+}
+
+function load_indicators_radio_button() {
+
+    var element = document.getElementById('tab_indicators');
+
+    for (cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
+
+
+        var tr = document.createElement("tr");
+        var td = document.createElement("td");
+        var td2 = document.createElement("td2");
+        var label = document.createElement("label");
+        label.setAttribute("class", 'mdl-radio mdl-js-radio mdl-js-ripple-effect');
+        label.setAttribute("for", indicators[cpt_indicators][1]);
+        var input = document.createElement("input");
+        input.setAttribute("id", indicators[cpt_indicators][1]);
+        input.setAttribute("type", 'radio');
+        input.setAttribute("class", 'mdl-radio__input');
+        input.setAttribute("name", 'indicator');
+        var span = document.createElement("span");
+        span.setAttribute("class", 'mdl-radio__label');
+        span.textContent = indicators[cpt_indicators][2];
+        label.appendChild(input);
+        label.appendChild(span);
+        td.appendChild(label);
+        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
+
+            var select = document.createElement("select");
+            select.setAttribute("name", indicators[cpt_indicators][1]);
+            select.setAttribute("style", 'width:100px');
+            for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
+                var option = document.createElement("option");
+                option.setAttribute("id", users[cpt_users][0]);
+                option.setAttribute("selected", 'selected');
+                option.textContent = users[cpt_users][1];
+                select.appendChild(option);
+            }
+            td2.appendChild(select);
+        }
+
+        tr.appendChild(td);
+        tr.appendChild(td2);
+        element.appendChild(tr);
+
+
+
     }
 }
 

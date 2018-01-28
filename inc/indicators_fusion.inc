@@ -6,17 +6,17 @@
  * and open the template in the editor.
  */
 
-function load_type_graph_php() {
+function load_type_element_php() {
     $bdd = connexionBdTravis();
 
     $retour = array();
 
-    $requete = $bdd->query('SELECT * FROM `tab_chart`');
+    $requete = $bdd->query('SELECT * FROM `tab_type_element`');
     while ($data = $requete->fetch()) {
         $tmp = array();
-        array_push($tmp, $data['ID_CHART']);
-        array_push($tmp, $data['NAME_CHART']);
-        array_push($tmp, $data['NAME_TAB_CHART']);
+        array_push($tmp, $data['ID_ELEMENT']);
+        array_push($tmp, $data['NAME_ELEMENT']);
+        array_push($tmp, $data['NAME_TAB_ELEMENT']);
         
         array_push($retour, $tmp);
     }

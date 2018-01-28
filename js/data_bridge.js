@@ -162,7 +162,7 @@ function get_panels_saved() {
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'getPanel', id_user: "0"},
+        data: {fonction: 'getPanel', id_user: "1"},
         type: 'POST',
         async: false,
         dataType: 'json',
@@ -204,11 +204,11 @@ function get_id_element_js() {
 
 }
 
-function load_type_graph_js() {
+function load_type_element_js() {
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'load_type_graph_php'},
+        data: {fonction: 'load_type_element_php'},
         type: 'POST',
         async: false,
         dataType: 'json',
@@ -216,11 +216,11 @@ function load_type_graph_js() {
             if (objetJson != null) {
                 var_tmp = objetJson;
             } else {
-                alert("erreur load_type_graph! ");
+                alert("erreur load_type_element! ");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("load_type_graph failed " + errorThrown);
+            alert("load_type_element failed " + errorThrown);
         }
     });
     return var_tmp;

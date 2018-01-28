@@ -26,7 +26,7 @@ function add_panel_saved(num_panel, id_user, name, letter, color) {
     var page_content = document.getElementById('page_content');
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + num_panel);
-    div.setAttribute("class", 'mdl-grid background_content');
+    div.setAttribute("class", 'mdl-grid background_content ');
     div.setAttribute("style", 'background-color: #d7d7d7');
     page_content.appendChild(div);
 }
@@ -34,7 +34,7 @@ function add_panel() {
     var page_content = document.getElementById('page_content');
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + nb_panel);
-    div.setAttribute("class", 'mdl-grid background_content');
+    div.setAttribute("class", 'mdl-grid background_content ');
     div.setAttribute("style", 'background-color: #99ff99');
     page_content.appendChild(div);
 
@@ -59,7 +59,7 @@ function add_button_right_panel_saved(num_panel, id_user, name, letter, color) {
 
     var div = document.createElement("div");
     div.setAttribute("id", 'btn_panel' + num_panel);
-    div.setAttribute("class", 'layout_btn_right_bar mdl-js-button');
+    div.setAttribute("class", 'layout_btn_right_bar mdl-js-button animated zoomIn');
 
     var img = document.createElement("img");
     img.setAttribute("id", 'img_btn_panel' + num_panel);
