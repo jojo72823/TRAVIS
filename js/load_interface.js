@@ -17,6 +17,7 @@ function load_interface() {
 }
 
 function load_panels_saved() {
+    name_indicators.length = 0;
     //INITIALIZE
     nb_panel = data_panel.length;
     for (var cpt = 0; cpt < nb_panel; cpt++) {

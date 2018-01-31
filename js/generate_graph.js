@@ -56,10 +56,11 @@ function select_element(p_type) {
 function generate_chart() {
 
     id_graph = get_id_element_js();
+    name_indicators.length = 0;
     switch (type_element) {
         case "TAB_POLAR":
             add_section();
-            name_indicators.length = 0;
+
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
@@ -76,7 +77,7 @@ function generate_chart() {
             break;
         case "TAB_SPIDER":
             add_section();
-            name_indicators.length = 0;
+
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
@@ -95,7 +96,7 @@ function generate_chart() {
         case "TAB_BIG_NUMBER":
 
             add_section_big_number();
-            name_indicators.length = 0;
+
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
@@ -147,16 +148,16 @@ function add_indicator(name_indicator) {
     var indicator_in_span = document.createElement("span");
     indicator_in_span.setAttribute("class", 'mdl-chip__text');
     indicator_in_span.textContent = name_indicator;
-    var indicator_in_span_button = document.createElement("button");
-    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
-    indicator_in_span_button.setAttribute("type", 'button');
-    var indicator_in_span_button_i = document.createElement("i");
-    indicator_in_span_button_i.textContent = "cancel";
-    indicator_in_span_button_i.setAttribute("class", 'material-icons');
-
-    indicator_in_span_button.appendChild(indicator_in_span_button_i);
+//    var indicator_in_span_button = document.createElement("button");
+//    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
+//    indicator_in_span_button.setAttribute("type", 'button');
+//    var indicator_in_span_button_i = document.createElement("i");
+//    indicator_in_span_button_i.textContent = "cancel";
+//    indicator_in_span_button_i.setAttribute("class", 'material-icons');
+//
+//    indicator_in_span_button.appendChild(indicator_in_span_button_i);
     indicator_span.appendChild(indicator_in_span);
-    indicator_span.appendChild(indicator_in_span_button);
+//    indicator_span.appendChild(indicator_in_span_button);
 
     close.appendChild(indicator_span);
 }
@@ -164,8 +165,8 @@ function add_indicator(name_indicator) {
 function pre_print_graph() {
 
 
-    legende_print.length = 0;
-    data_print.length = 0;
+    legende_print.length = [];
+    data_print.length = [];
     count = 0;
 
     for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
@@ -174,7 +175,8 @@ function pre_print_graph() {
             //call function of this indicator
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
-                legende_print.push(indicators[cpt_name_indicators][2]);
+                legende_print.push(indicators[cpt_indicators][2]);
+                
 
                 add_indicator(indicators[cpt_name_indicators][2]);
 
@@ -279,14 +281,14 @@ function print_polar() {
         tooltip: {
             formatter: function () {
                 var tmp_interval = (360 / legende_print.length);
-                for(var cpt=0;cpt< legende_print.length;cpt++){
-                    if(this.x == cpt*tmp_interval){
-                        return ''+legende_print[cpt]+'<br><div style="color:'+this.series.color+'">'+this.series.name +"</div>: <b>"+this.point.y;
+                for (var cpt = 0; cpt < legende_print.length; cpt++) {
+                    if (this.x == cpt * tmp_interval) {
+                        return '' + legende_print[cpt] + '<br><div style="color:' + this.series.color + '">' + this.series.name + "</div>: <b>" + this.point.y;
                         return '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
                     }
                 }
-                
-                
+
+
             }
         },
         plotOptions: {
@@ -310,45 +312,37 @@ function print_polar() {
 
 function print_spider() {
     var myChart = Highcharts.chart('container' + id_graph, {
-
         chart: {
             polar: true,
             type: 'line'
         },
-
         title: {
             text: '',
             x: -80
         },
-
         pane: {
             size: '80%'
         },
-
         xAxis: {
             categories: legende_print,
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
-
         yAxis: {
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
             min: 0
         },
-
         tooltip: {
             shared: true,
             pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
         },
-
         legend: {
             align: 'right',
             verticalAlign: 'top',
             y: 70,
             layout: 'vertical'
         },
-
         series: [{
                 type: 'area',
                 name: 'Results',
