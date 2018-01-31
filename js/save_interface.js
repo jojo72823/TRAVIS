@@ -26,30 +26,58 @@ function get_id_indicators_js() {
     return var_tmp;
 }
 
-function save_element() {
+function save_element(panel_select, type_element) {
 
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'save_element', id_panel: panel_select, class_size_element: "null", type_content: "TAB_POLAR", tab_indicators: id_indicators},
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
+    switch (type_element) {
+        case "TAB_POLAR":
+            $.ajax({
+                url: 'php/accessFonctions.php',
+                data: {fonction: 'save_element_polar', id_panel: panel_select, class_size_element: "null", type_element: type_element, tab_indicators: id_indicators},
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                success: function (objetJson) {
+                    if (objetJson != null) {
 
-            } else {
-                alert("erreur save_element! ");
-            }
-        },
-        cache: false
-    });
+                    } else {
+                        alert("erreur save_element! ");
+                    }
+                },
+                cache: false
+            });
+            break;
+
+        case "TAB_SPIDER":
+            $.ajax({
+                url: 'php/accessFonctions.php',
+                data: {fonction: 'save_element_spider', id_panel: panel_select, class_size_element: "null", type_element: type_element, tab_indicators: id_indicators},
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                success: function (objetJson) {
+                    if (objetJson != null) {
+
+                    } else {
+                        alert("erreur save_element! ");
+                    }
+                },
+                cache: false
+            });
+            break;
+
+        default:
+
+            break;
+    }
+
+
 }
 
-function save_users_selected_js(user_selected,cpt_users_selected){
+function save_users_selected_js(user_selected, cpt_users_selected) {
 
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'save_user_selected_php',user_selected : user_selected, cpt_users_selected:cpt_users_selected, id_panel: panel_select, type_content: "TAB_POLAR"},
+        data: {fonction: 'save_user_selected_php', user_selected: user_selected, cpt_users_selected: cpt_users_selected, id_panel: panel_select, type_element: "TAB_POLAR"},
         type: 'POST',
         async: false,
         dataType: 'json',

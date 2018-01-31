@@ -28,12 +28,12 @@ function savePanel($args) {
     $requete->closeCursor();
 }
 
-function save_element($args) {
+function save_element_polar($args) {
 
     //get paramaters
     $id_panel = $args['id_panel'];
     $class_size_element = $args['class_size_element'];
-    $type_content = $args['type_content'];
+    $type_element = $args['type_element'];
     $tab_indicators = $args['tab_indicators'];
     //connect to database
     $bdd = connexionBdTravis();
@@ -45,10 +45,10 @@ function save_element($args) {
     $id_type_graph = $id_type_graph + 1;
 //    echo  $count['ID_POLAR']
     //prepare request
-    $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_CONTENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_content,:id_type_graph)");
+    $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_ELEMENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_element,:id_type_graph)");
     $requete->bindParam(":id_panel", $id_panel);
     $requete->bindParam(":class_size_element", $class_size_element);
-    $requete->bindParam(":type_content", $type_content);
+    $requete->bindParam(":type_element", $type_element);
     $requete->bindParam(":id_type_graph", $id_type_graph);
     //execute request
     $requete->execute() or die("erreur requête save_element");
@@ -56,9 +56,53 @@ function save_element($args) {
     $requete->closeCursor();
 
     //call an other function
-    switch ($type_content) {
+    switch ($type_element) {
         case 'TAB_POLAR':
             save_type_polar($id_type_graph, $tab_indicators);
+            break;
+        case 'TAB_NUMBER':
+            save_type_number($id_type_graph, $tab_indicators);
+            break;
+        default:
+            break;
+    }
+}
+
+function save_element_spider($args) {
+
+    //get paramaters
+    $id_panel = $args['id_panel'];
+    $class_size_element = $args['class_size_element'];
+    $type_element = $args['type_element'];
+    $tab_indicators = $args['tab_indicators'];
+    //connect to database
+    $bdd = connexionBdTravis();
+
+    //get $id_type_graph
+    $requete_id = $bdd->query("SELECT `ID_SPIDER` FROM `tab_spider` ORDER BY `ID_SPIDER` DESC");
+    $count = $requete_id->fetch();
+    $id_type_graph = $count['ID_SPIDER'];
+    $id_type_graph = $id_type_graph + 1;
+//    echo  $count['ID_POLAR']
+    //prepare request
+    $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_ELEMENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_element,:id_type_graph)");
+    $requete->bindParam(":id_panel", $id_panel);
+    $requete->bindParam(":class_size_element", $class_size_element);
+    $requete->bindParam(":type_element", $type_element);
+    $requete->bindParam(":id_type_graph", $id_type_graph);
+    //execute request
+    $requete->execute() or die("erreur requête save_element");
+    //close connection
+    $requete->closeCursor();
+
+    //call an other function
+    switch ($type_element) {
+        case 'TAB_POLAR':
+            save_type_polar($id_type_graph, $tab_indicators);
+            break;
+        
+         case 'TAB_SPIDER':
+            save_type_spider($id_type_graph, $tab_indicators);
             break;
         case 'TAB_NUMBER':
             save_type_number($id_type_graph, $tab_indicators);
@@ -76,8 +120,26 @@ function save_type_polar($id_type_graph, $tab_indicators) {
 
     for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
         //prepare request
-        $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ID_INDICATOR`) VALUES (:id_polar,:id_indicator)");
+        $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ID_INDICATORS`) VALUES (:id_polar,:id_indicator)");
         $requete->bindParam(":id_polar", $id_type_graph);
+        $requete->bindParam(":id_indicator", $tab_indicators[$cpt]);
+        //execute request
+        $requete->execute() or die(mysql_error());
+    }
+    //close connection
+    $requete->closeCursor();
+}
+
+function save_type_spider($id_type_graph, $tab_indicators) {
+
+
+    //connect to database
+    $bdd = connexionBdTravis();
+
+    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
+        //prepare request
+        $requete = $bdd->prepare("INSERT INTO `tab_spider`(`ID_SPIDER`, `ID_INDICATORS`) VALUES (:id_spider,:id_indicator)");
+        $requete->bindParam(":id_spider", $id_type_graph);
         $requete->bindParam(":id_indicator", $tab_indicators[$cpt]);
         //execute request
         $requete->execute() or die(mysql_error());

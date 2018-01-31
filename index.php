@@ -77,10 +77,6 @@
     <body class="part_body" >
         <div class="container">
            
-            <!--            <div class="overlay">
-                            <h1>A blurred overlay</h1>
-                            <p>... mask or whatever<br>that is responsive and could be cross-browser compatible back to IE9</p>
-                        </div>-->
             <div class="row " >
                 <!--Absolute-Center-->
                 <div class=" is-Responsive">

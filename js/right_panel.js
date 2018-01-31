@@ -7,9 +7,17 @@
 //ATTRIBUTES
 var nb_panel = 0;
 var panel_select = 0;
+var color_select;
+var name_panel;
 
 //MENU ADD IN SIDE PANEL
-$(".mdl-menu__item").click(function () {
+function pre_add_panel(){7
+    color_select = document.getElementById("color_panel").value;
+    name_panel = document.getElementById("name_panel").value;
+  
+
+    
+    
     if (nb_panel < 10) {
         nb_panel = nb_panel + 1;
         panel_select = nb_panel;
@@ -19,7 +27,7 @@ $(".mdl-menu__item").click(function () {
     } else {
         alert("Size limit reached. Max 10 panel.");
     }
-})
+}
 
 //TODO LIMITE DE PANEL (10 max)
 function add_panel_saved(num_panel, id_user, name, letter, color) {
@@ -27,7 +35,7 @@ function add_panel_saved(num_panel, id_user, name, letter, color) {
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + num_panel);
     div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'background-color: #d7d7d7');
+    div.setAttribute("style", 'background-color: '+color+';');
     page_content.appendChild(div);
 }
 function add_panel() {
@@ -35,13 +43,13 @@ function add_panel() {
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + nb_panel);
     div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'background-color: #99ff99');
+    div.setAttribute("style", 'background-color: '+color_select);
     page_content.appendChild(div);
 
     //TODO save in BDD
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'savePanel', num_panel: nb_panel, id_user: "1", name: "test", letter: "J", color: "#123456"},
+        data: {fonction: 'savePanel', num_panel: nb_panel, id_user: "1", name: name_panel, letter: name_panel.charAt(0), color: color_select},
         type: 'POST',
         dataType: 'json',
         success: function (objetJson) {
@@ -66,12 +74,12 @@ function add_button_right_panel_saved(num_panel, id_user, name, letter, color) {
     img.setAttribute("class", 'img_btn_right_bar mdl-button mdl-js-button mdl-button--icon');
     img.setAttribute("src", 'images/circle.png');
     img.setAttribute("onclick", 'view_panel(\'' + num_panel + '\')');
-    img.setAttribute("style", 'background-color: rgba(0, 0, 255, 0);');
+    img.setAttribute("style", 'background-color: '+color);
     var text = document.createElement("div");
     text.setAttribute("id", 'text_btn_panel' + num_panel);
     text.setAttribute("class", 'text_btn_right_bar ');
     text.setAttribute("onclick", 'view_panel(\'' + num_panel + '\')');
-    text.textContent = "" + num_panel;
+    text.textContent = "" + letter;
 
     div.appendChild(text);
     div.appendChild(img);
@@ -90,12 +98,12 @@ function add_button_right_panel() {
     img.setAttribute("class", 'img_btn_right_bar mdl-button mdl-js-button mdl-button--icon');
     img.setAttribute("src", 'images/circle.png');
     img.setAttribute("onclick", 'view_panel(\'' + nb_panel + '\')');
-    img.setAttribute("style", 'background-color:#3575bb;');
+    img.setAttribute("style", 'background-color: '+color_select+";");
     var text = document.createElement("div");
     text.setAttribute("id", 'text_btn_panel' + nb_panel);
     text.setAttribute("class", 'text_btn_right_bar ');
     text.setAttribute("onclick", 'view_panel(\'' + nb_panel + '\')');
-    text.textContent = "" + nb_panel;
+    text.textContent = name_panel.charAt(0);
 
     div.appendChild(text);
     div.appendChild(img);
@@ -109,12 +117,12 @@ function view_panel(number) {
         var panel = document.getElementById('panel' + cpt);
         panel.style.display = 'none';
         var img_btn_panel = document.getElementById('img_btn_panel' + cpt);
-        img_btn_panel.setAttribute("style", 'background-color: rgba(0, 0, 255, 0);');
+        img_btn_panel.setAttribute("src", 'images/circle_hide.png');
     }
     var panel = document.getElementById('panel' + panel_select);
     panel.style.display = 'block';
     var img_btn_panel = document.getElementById('img_btn_panel' + panel_select);
-    img_btn_panel.setAttribute("style", 'background-color: #3575bb;');
+    img_btn_panel.setAttribute("src", 'images/circle.png');
 
 
 }

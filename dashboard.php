@@ -45,6 +45,8 @@
         <script src="js/data_bridge.js"></script>
         <script src="js/Variables.js"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -85,9 +87,7 @@
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-                   
-
-                    <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
+                    <button id="show-dialog" data-toggle="modal" data-target="#modal_add_element" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
                         <i class="material-icons-fab">add</i>
                     </button>
                 </div>
@@ -102,9 +102,9 @@
 
                     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                         for="demo-menu-lower-right">
-                        <li id="panel" class="mdl-menu__item">Add panel</li>
-                        <li disabled class="mdl-menu__item">Add indicator</li>
-                        <li disabled class="mdl-menu__item">Add chart</li>
+                        <li id="add_panel" data-toggle="modal" data-target="#modal_add_panel" class="mdl-menu__item">Add panel</li>
+
+
                     </ul>
 
                 </div>
@@ -114,44 +114,73 @@
 </html>
 
 
+<!-- Modal add_element -->
+<div class="modal fade" id="modal_add_element" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Chart generator</h5>
+                <!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>-->
+            </div>
+            <div class="modal-body">
+                <table>
 
-<!--Dialog to add graph-->
-<dialog id="my_dialog" class="mdl-dialog animated zoomIn" style="width: 50%">
-    <h4 class="mdl-dialog__title">Chart generator</h4>
-    <div class="mdl-dialog__content ">
-        <table>
-
-            <tr>
-                <td>
-                    <table id='tab_graph'>  
-                    </table>
-                </td>
-                <td>
-                    <table id='tab_indicators'>  
-                    </table>
-                </td>
-            </tr>
-        </table>
-        <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton">
-            Generate graph
-        </button>
-        <h4>Graphiques prédéfinis</h4>
-        <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_nb_co">
-            Exemple 1
-        </button>
-        <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_note">
-            Exemple 2 
-        </button>
+                    <tr>
+                        <td>
+                            <table id='tab_graph'>  
+                            </table>
+                        </td>
+                        <td>
+                            <table id='tab_indicators'>  
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton" onclick="generate_chart();" data-dismiss="modal">
+                    Generate graph
+                </button>
+                
+                <h4>Predefined chart</h4>
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_nb_co" data-dismiss="modal" onclick="graphique_comparaison_nb_co();">
+                    Exemple 1
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_note" data-dismiss="modal" onclick="graphique_comparaison_note();">
+                    Exemple 2 
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="mdl-dialog__actions">
-        <button type="button" class="mdl-button close">Close</button>
+<!-- Modal add_panel -->
+<div class="modal fade" id="modal_add_panel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add panel </h5>
+            </div>
+            <div class="modal-body">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="name_panel">
+            <label class="mdl-textfield__label" for="sample3">Name</label>
+        </div>
+        <input id="color_panel" type="color" value="#ff0000">
+
+        <button class="mdl-button mdl-js-button mdl-button--raised" data-dismiss="modal" onclick="pre_add_panel();" style="margin: 10px;" id="MyButton">
+            Add panel
+        </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-</dialog>
+</div>
 
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.js'></script>
-<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
-<script src="js/add_chart.js"></script>
 <script src="js/right_panel.js"></script>
 <script type="text/javascript" src="js/main.js"></script> 

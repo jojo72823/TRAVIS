@@ -373,3 +373,23 @@ function get_nb_messages_read_user_js(name_user) {
     });
     return var_tmp;
 }
+
+function get_type_element_js(id_element) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_type_element_php', p_id_element: id_element},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_type_element! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}

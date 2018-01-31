@@ -33,7 +33,9 @@ function load_panels_saved() {
         tab_indicators = get_element(id_panel);
         if (tab_indicators != null) {
             for (cpt_tab_indicators = 0; cpt_tab_indicators < tab_indicators.length; cpt_tab_indicators++) {
+                
                 id_graph = tab_indicators[cpt_tab_indicators][0];
+                type_element = get_type_element_js(id_graph);
                 add_section();
                 name_indicators = tab_indicators[cpt_tab_indicators][1];
                 pre_print_graph();

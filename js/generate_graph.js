@@ -1,3 +1,7 @@
+var type_element;
+var count = 0;
+var myPointFormat;
+
 function readSearchInput(el, e) {
     console.log(e)
     if (e.keyCode == 13) {//touche entrée
@@ -19,11 +23,16 @@ function readSearchInput(el, e) {
 function select_element(p_type) {
     var element = document.getElementById('tab_indicators');
     element.innerHTML = '';
+    type_element = p_type;
 
     switch (p_type) {
         case "TAB_POLAR":
             load_indicators();
-            type_element = "POLAR";
+
+            break;
+        case "TAB_SPIDER":
+            load_indicators();
+
             break;
         case "TAB_LINE":
 
@@ -35,7 +44,6 @@ function select_element(p_type) {
         case "TAB_BIG_NUMBER":
 
             load_indicators_radio_button();
-            type_element = "BIG_NUMBER";
             break;
 
         default:
@@ -49,7 +57,7 @@ function generate_chart() {
 
     id_graph = get_id_element_js();
     switch (type_element) {
-        case "POLAR":
+        case "TAB_POLAR":
             add_section();
             name_indicators.length = 0;
             state_save = true;
@@ -66,7 +74,26 @@ function generate_chart() {
             }
             pre_print_graph();
             break;
-        case "BIG_NUMBER":
+        case "TAB_SPIDER":
+            add_section();
+            name_indicators.length = 0;
+            state_save = true;
+            //GET SELECT_INDICATORS
+            for (var cpt = 0; cpt < indicators.length; cpt++) {
+                if (document.getElementById(indicators[cpt][1]).checked) {
+                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+                    } else {
+                        users_selected.push('null');
+                    }
+                }
+            }
+            pre_print_graph();
+            break;
+
+        case "TAB_BIG_NUMBER":
+
             add_section_big_number();
             name_indicators.length = 0;
             state_save = true;
@@ -86,10 +113,10 @@ function generate_chart() {
             var tmp_element = document.getElementById('container' + id_graph);
             var value = document.createElement("div");
             value.setAttribute("id", "big_number" + id_graph);
-            value.setAttribute("class","text_big_number");
+            value.setAttribute("class", "text_big_number");
             add_indicator("nb_messages_read");
             value.textContent = get_nb_messages_read();
-            
+
             tmp_element.appendChild(value);
 
 
@@ -154,6 +181,7 @@ function pre_print_graph() {
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
                         data_print.push(get_nb_messages_read());
+
                         break;
                     case 'nb_messages_sent':
                         data_print.push(get_nb_messages_sent());
@@ -182,28 +210,45 @@ function pre_print_graph() {
     }
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
-        save_element();
+        save_element(panel_select, type_element);
         for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
             if (users_selected[cpt_users_selected] != 'null') {
                 save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
             }
-
-
         }
 
+
     }
-    print_graph();
+
+    switch (type_element) {
+        case "TAB_POLAR":
+            print_polar();
+            break;
+        case "TAB_SPIDER":
+            print_spider();
+            break;
+
+        case "TAB_BIG_NUMBER":
+            break;
+        case 3:
+        default:
+
+            break;
+    }
+
+
+
+
 }
 
+function print_polar() {
 
-
-function print_graph() {
     var myChart = Highcharts.chart('container' + id_graph, {
         chart: {
             polar: true
         },
         title: {
-            text: 'TP CMC'
+            text: ''
         },
         pane: {
             startAngle: 0,
@@ -215,15 +260,34 @@ function print_graph() {
             max: 360,
             labels: {
                 formatter: function () {
+                    if (count == legende_print.length) {
+                        count = 0;
+                    }
                     var value = legende_print[count];
                     count++;
                     return value;
+//                    count++;
+//                    return this.value+"|"+count;
+
                 }
             }
         },
         yAxis: {
             min: 0
 
+        },
+        tooltip: {
+            formatter: function () {
+                var tmp_interval = (360 / legende_print.length);
+                for(var cpt=0;cpt< legende_print.length;cpt++){
+                    if(this.x == cpt*tmp_interval){
+                        return ''+legende_print[cpt]+'<br><div style="color:'+this.series.color+'">'+this.series.name +"</div>: <b>"+this.point.y;
+                        return '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+                    }
+                }
+                
+                
+            }
         },
         plotOptions: {
             series: {
@@ -243,6 +307,57 @@ function print_graph() {
     });
     myChart.setSize(null, 400, doAnimation = true);
 }
+
+function print_spider() {
+    var myChart = Highcharts.chart('container' + id_graph, {
+
+        chart: {
+            polar: true,
+            type: 'line'
+        },
+
+        title: {
+            text: '',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: legende_print,
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
+        },
+
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 70,
+            layout: 'vertical'
+        },
+
+        series: [{
+                type: 'area',
+                name: 'Results',
+                data: data_print
+            }]
+
+    });
+}
+
 
 function graphique_comparaison_note() {
     id_graph = id_graph_exemple;

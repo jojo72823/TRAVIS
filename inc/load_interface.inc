@@ -49,11 +49,17 @@ function load_element($args) {
 
     while ($data = $requete->fetch()) {//GET each element
         //call an other function
-        switch ($data['TYPE_CONTENT']) {
+        switch ($data['TYPE_ELEMENT']) {
             case 'TAB_POLAR':
                 $tmp = array();
                 array_push($tmp, $data['ID_ELEMENT']);
                 array_push($tmp, load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
+                array_push($retour, $tmp);
+                break;
+            case 'TAB_SPIDER':
+                $tmp = array();
+                array_push($tmp, $data['ID_ELEMENT']);
+                array_push($tmp, load_type_spider($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
                 array_push($retour, $tmp);
                 break;
             case 'TAB_NUMBER':
@@ -83,7 +89,7 @@ function load_type_polar($id_polar, $class_size_element) {
     while ($data = $requete->fetch()) {
 
         $requete_indicator = $bdd->prepare("SELECT INDICATOR FROM `TAB_INDICATORS` WHERE `ID_INDICATOR`= :ID_INDICATOR");
-        $requete_indicator->bindParam(":ID_INDICATOR", $data['ID_INDICATOR']);
+        $requete_indicator->bindParam(":ID_INDICATOR", $data['ID_INDICATORS']);
         $requete_indicator->execute() or die("erreur requete requete_indicator");
         $data_indicator = $requete_indicator->fetch();
         array_push($retour, $data_indicator[0]);
@@ -91,5 +97,47 @@ function load_type_polar($id_polar, $class_size_element) {
     return $retour;
 
     //close connection
+    $requete->closeCursor();
+}
+function load_type_spider($id_spider, $class_size_element) {
+
+    $retour = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->prepare("SELECT * FROM `tab_spider` WHERE `ID_SPIDER`= :id_spider");
+    $requete->bindParam(":id_spider", $id_spider);
+    $requete->execute() or die("erreur requete load_type_spider");
+
+    while ($data = $requete->fetch()) {
+
+        $requete_indicator = $bdd->prepare("SELECT INDICATOR FROM `TAB_INDICATORS` WHERE `ID_INDICATOR`= :ID_INDICATOR");
+        $requete_indicator->bindParam(":ID_INDICATOR", $data['ID_INDICATORS']);
+        $requete_indicator->execute() or die("erreur requete requete_indicator");
+        $data_indicator = $requete_indicator->fetch();
+        array_push($retour, $data_indicator[0]);
+    }
+    return $retour;
+
+    //close connection
+    $requete->closeCursor();
+}
+
+
+function get_type_element_php($args) {
+    
+    //connect to database
+    $bdd = connexionBdTravis();
+    //prepare request
+    $requete = $bdd->prepare("SELECT * FROM `tab_element` WHERE `ID_ELEMENT`= :id_element");
+    $requete->bindParam(":id_element", $args['p_id_element']);
+    //execute request
+    $requete->execute() or die("erreur requete get_type_element_php");
+
+    while ($data = $requete->fetch()) {
+       
+        echo json_encode($data['TYPE_ELEMENT']);  
+    }
+
     $requete->closeCursor();
 }
