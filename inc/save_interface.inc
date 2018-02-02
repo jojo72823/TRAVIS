@@ -34,7 +34,7 @@ function save_element_polar($args) {
     $id_panel = $args['id_panel'];
     $class_size_element = $args['class_size_element'];
     $type_element = $args['type_element'];
-    $tab_indicators = $args['tab_indicators'];
+    $array_id_indicators_element = $args['array_id_indicators_element'];
     //connect to database
     $bdd = connexionBdTravis();
 
@@ -58,10 +58,10 @@ function save_element_polar($args) {
     //call an other function
     switch ($type_element) {
         case 'TAB_POLAR':
-            save_type_polar($id_type_graph, $tab_indicators);
+            save_type_polar($id_type_graph, $array_id_indicators_element);
             break;
         case 'TAB_NUMBER':
-            save_type_number($id_type_graph, $tab_indicators);
+            save_type_number($id_type_graph, $array_id_indicators_element);
             break;
         default:
             break;
@@ -74,7 +74,7 @@ function save_element_spider($args) {
     $id_panel = $args['id_panel'];
     $class_size_element = $args['class_size_element'];
     $type_element = $args['type_element'];
-    $tab_indicators = $args['tab_indicators'];
+    $array_id_indicators_element = $args['array_id_indicators_element'];
     //connect to database
     $bdd = connexionBdTravis();
 
@@ -98,52 +98,52 @@ function save_element_spider($args) {
     //call an other function
     switch ($type_element) {
         case 'TAB_POLAR':
-            save_type_polar($id_type_graph, $tab_indicators);
+            save_type_polar($id_type_graph, $array_id_indicators_element);
             break;
         
          case 'TAB_SPIDER':
-            save_type_spider($id_type_graph, $tab_indicators);
+            save_type_spider($id_type_graph, $array_id_indicators_element);
             break;
         case 'TAB_NUMBER':
-            save_type_number($id_type_graph, $tab_indicators);
+            save_type_number($id_type_graph, $array_id_indicators_element);
             break;
         default:
             break;
     }
 }
 
-function save_type_polar($id_type_graph, $tab_indicators) {
+function save_type_polar($id_type_graph, $array_id_indicators_element) {
 
 
     //connect to database
     $bdd = connexionBdTravis();
 
-    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
+//    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
         //prepare request
-        $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ID_INDICATORS`) VALUES (:id_polar,:id_indicator)");
+        $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ARRAY_INDICATORS`) VALUES (:id_polar,:array_id_indicators_element)");
         $requete->bindParam(":id_polar", $id_type_graph);
-        $requete->bindParam(":id_indicator", $tab_indicators[$cpt]);
+        $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
         //execute request
         $requete->execute() or die(mysql_error());
-    }
+//    }
     //close connection
     $requete->closeCursor();
 }
 
-function save_type_spider($id_type_graph, $tab_indicators) {
+function save_type_spider($id_type_graph, $array_id_indicators_element) {
 
 
     //connect to database
     $bdd = connexionBdTravis();
 
-    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
+   
         //prepare request
-        $requete = $bdd->prepare("INSERT INTO `tab_spider`(`ID_SPIDER`, `ID_INDICATORS`) VALUES (:id_spider,:id_indicator)");
+        $requete = $bdd->prepare("INSERT INTO `tab_spider`(`ID_SPIDER`, `ARRAY_INDICATORS`) VALUES (:id_spider,:array_id_indicators_element)");
         $requete->bindParam(":id_spider", $id_type_graph);
-        $requete->bindParam(":id_indicator", $tab_indicators[$cpt]);
+        $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
         //execute request
         $requete->execute() or die(mysql_error());
-    }
+    
     //close connection
     $requete->closeCursor();
 }

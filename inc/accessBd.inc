@@ -175,6 +175,51 @@ function get_list_users_php() {
     }
     echo json_encode($retour);
 }
+
+function get_id_for_name_indicator_php($args) {
+
+    $bdd = connexionBdTravis();
+
+    $requete = $bdd->prepare('SELECT * FROM `tab_indicators` WHERE INDICATOR= :indicator');
+    $requete->bindParam(":indicator", $args['p_name_indicator']);
+    $requete->execute() or die("ERROR REQUEST : get_id_for_name_indicator_php");
+    $data = $requete->fetch();
+    echo $data['ID_INDICATOR'];
+}
+
+
+function get_name_of_id_indicator_php($args) {
+    
+    $bdd = connexionBdTravis();
+
+    $requete = $bdd->prepare('SELECT `INDICATOR` FROM `tab_indicators` WHERE `ID_INDICATOR` = :id_indicator');
+    $requete->bindParam(":id_indicator", $args['id_indicator']);
+    $requete->execute() or die("ERROR REQUEST : get_name_of_id_indicator_php");
+    $data = $requete->fetch();
+    echo json_encode($data['INDICATOR']);
+}
+
+function get_id_user_php($args) {
+    $bdd = connexionBd();
+
+    $requete = $bdd->prepare('SELECT idUser FROM user WHERE name = :name');
+    $requete->bindParam(":name", $args['p_name_user']);
+    $requete->execute() or die("ERROR REQUEST : get_id_user_php");
+    $data = $requete->fetch();
+    echo $data['idUser'];
+}
+
+function get_name_of_id_user_php($args) {
+    
+    $bdd = connexionBd();
+
+    $requete = $bdd->prepare('SELECT name FROM user WHERE idUser = :id_user');
+    $requete->bindParam(":id_user", $args['id_user']);
+    $requete->execute() or die("ERROR REQUEST : get_name_of_id_user_php");
+    $data = $requete->fetch();
+    echo json_encode($data['name']);
+}
+
 ?>
 
 

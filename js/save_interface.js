@@ -26,13 +26,13 @@ function get_id_indicators_js() {
     return var_tmp;
 }
 
-function save_element(panel_select, type_element) {
+function save_element(panel_select, type_element,array_id_indicators_element) {
 
     switch (type_element) {
         case "TAB_POLAR":
             $.ajax({
                 url: 'php/accessFonctions.php',
-                data: {fonction: 'save_element_polar', id_panel: panel_select, class_size_element: "null", type_element: type_element, tab_indicators: id_indicators},
+                data: {fonction: 'save_element_polar', id_panel: panel_select, class_size_element: "null", type_element: type_element, array_id_indicators_element: array_id_indicators_element},
                 type: 'POST',
                 async: false,
                 dataType: 'json',
@@ -50,7 +50,7 @@ function save_element(panel_select, type_element) {
         case "TAB_SPIDER":
             $.ajax({
                 url: 'php/accessFonctions.php',
-                data: {fonction: 'save_element_spider', id_panel: panel_select, class_size_element: "null", type_element: type_element, tab_indicators: id_indicators},
+                data: {fonction: 'save_element_spider', id_panel: panel_select, class_size_element: "null", type_element: type_element,  array_id_indicators_element: array_id_indicators_element},
                 type: 'POST',
                 async: false,
                 dataType: 'json',

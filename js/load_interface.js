@@ -3,7 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var panel_elements;
+var tmp_array_id_indicators = new Array();
+var id_element;
+var data_panel;
+var indicators;
+var users;
 
+/**
+ * First function to load all interface
+ * @returns {undefined}
+ */
 function load_interface() {
     //INITIALIZATION
     indicators = get_indicators();
@@ -16,6 +26,10 @@ function load_interface() {
     }
 }
 
+/**
+ * Load each panel with their elements
+ * @returns {undefined}
+ */
 function load_panels_saved() {
     name_indicators.length = 0;
     //INITIALIZE
@@ -31,24 +45,52 @@ function load_panels_saved() {
         add_panel_saved(num_panel, id_user, name, letter, color);
         add_button_right_panel_saved(num_panel, id_user, name, letter, color);
         panel_select = id_panel;
-        tab_indicators = get_element(id_panel);
-        if (tab_indicators != null) {
-            for (cpt_tab_indicators = 0; cpt_tab_indicators < tab_indicators.length; cpt_tab_indicators++) {
+
+        panel_elements = get_elements(id_panel);
+
+        if (panel_elements != null) {//if there is element in the panel
+            for (cpt_panel_elements = 0; cpt_panel_elements < panel_elements.length; cpt_panel_elements++) {
+
+                //Initialize
+                id_element = panel_elements[cpt_panel_elements][0];
+                type_element = panel_elements[cpt_panel_elements][3];
+                tmp_array_id_indicators.length = 0;
+                name_indicators.length = 0;
+                users_selected.length = 0;
                 
-                id_graph = tab_indicators[cpt_tab_indicators][0];
-                type_element = get_type_element_js(id_graph);
-                add_section();
-                name_indicators = tab_indicators[cpt_tab_indicators][1];
+                //GET INDICATORS OF ELEMENT
+                tmp_array_id_indicators = load_array_indicators_element(panel_elements[cpt_panel_elements][4],panel_elements[cpt_panel_elements][3]);
+                
+                //Create new section of this element
+                add_section(panel_elements[cpt_panel_elements][0], panel_select);
+                
+                //Prepare each indicator
+                for (cpt_name = 0; cpt_name < tmp_array_id_indicators.length; cpt_name++) {
+
+                    //Simple indicator
+                    if (tmp_array_id_indicators[cpt_name].length == 1) {
+                        var name = get_name_of_id_indicator(tmp_array_id_indicators[cpt_name]);
+                        name_indicators.push(name);
+                        users_selected.push("null");
+                    } else {//MULTI INDICATORS
+                        var name = get_name_of_id_indicator(tmp_array_id_indicators[cpt_name][0]);
+                        name_indicators.push(name);
+                        //tmp_array_id_indicators[cpt_name][1] == type of second indicator
+                        //switch case
+                        users_selected.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
+                    }
+                }
                 pre_print_graph();
             }
         }
     }
+
     view_panel(1);
 }
 
 function load_type_element() {
-    
-    
+
+
     tab_type_element = load_type_element_js();
     var element = document.getElementById('tab_graph');
     for (cpt_tab_type_element = 0; cpt_tab_type_element < tab_type_element.length; cpt_tab_type_element++) {
@@ -165,76 +207,76 @@ function load_indicators_radio_button() {
     }
 }
 
-function add_section() {
+function add_section(id_element, panel_select) {
 
     var element = document.getElementById('panel' + panel_select);
 
     var card = document.createElement("div");
-    card.setAttribute("id", 'card' + id_graph);
+    card.setAttribute("id", 'card' + id_element);
     card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
     card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
 
-    var content_card = document.getElementById('card' + id_graph);
+    var content_card = document.getElementById('card' + id_element);
 
     var in_content_card = document.createElement("div");
     in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
     var close = document.createElement("div");
-    close.setAttribute("id", 'close' + id_graph);
+    close.setAttribute("id", 'close' + id_element);
     var input = document.createElement("input");
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 30px;float: right;padding:5px');
-    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 
     close.appendChild(input);
     var container = document.createElement("div");
-    container.setAttribute("id", 'container' + id_graph);
+    container.setAttribute("id", 'container' + id_element);
     container.setAttribute("style", 'height=500px;width=100%');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
 }
 
-function add_section_big_number() {
+function add_section_big_number(id_element) {
 
-     var element = document.getElementById('panel' + panel_select);
+    var element = document.getElementById('panel' + panel_select);
 
     var card = document.createElement("div");
-    card.setAttribute("id", 'card' + id_graph);
+    card.setAttribute("id", 'card' + id_element);
     card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
     card.setAttribute("style", 'background-color : #123456; height: 400px;margin-bottom :10px');
 
     element.appendChild(card);
 
-    var content_card = document.getElementById('card' + id_graph);
+    var content_card = document.getElementById('card' + id_element);
 
     var in_content_card = document.createElement("div");
     in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
     var close = document.createElement("div");
-    close.setAttribute("id", 'close' + id_graph);
+    close.setAttribute("id", 'close' + id_element);
     var input = document.createElement("input");
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 30px;float: right;padding:5px');
-    input.setAttribute("onclick", 'delete_graph(\'' + id_graph + '\')');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 
     close.appendChild(input);
     var container = document.createElement("div");
-    container.setAttribute("id", 'container' + id_graph);
+    container.setAttribute("id", 'container' + id_element);
     container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
-    
+
     content_card.appendChild(in_content_card);
 }
 

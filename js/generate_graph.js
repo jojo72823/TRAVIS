@@ -2,6 +2,8 @@ var type_element;
 var count = 0;
 var myPointFormat;
 
+var array_id_indicators_element = new Array();
+
 function readSearchInput(el, e) {
     console.log(e)
     if (e.keyCode == 13) {//touche entrée
@@ -55,38 +57,63 @@ function select_element(p_type) {
 
 function generate_chart() {
 
-    id_graph = get_id_element_js();
+    id_element = get_id_element_js();
     name_indicators.length = 0;
+    array_id_indicators_element.length = 0;
+    users_selected.length = 0;
+
     switch (type_element) {
         case "TAB_POLAR":
-            add_section();
+            add_section(id_element, panel_select);
 
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
                 if (document.getElementById(indicators[cpt][1]).checked) {
-                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+
                     if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
                         users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+
+                        var array_many_indicators = new Array();
+                        array_many_indicators.push(indicators[cpt][0]);
+                        array_many_indicators.push(8);
+                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
+                        array_id_indicators_element.push(array_many_indicators);
+//                        array_id_indicators_element.push((indicators[cpt][0]));
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     } else {
                         users_selected.push('null');
+                        array_id_indicators_element.push(indicators[cpt][0]);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     }
                 }
             }
             pre_print_graph();
             break;
         case "TAB_SPIDER":
-            add_section();
+           add_section(id_element, panel_select);
 
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
                 if (document.getElementById(indicators[cpt][1]).checked) {
-                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+
                     if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
                         users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+
+                        var array_many_indicators = new Array();
+                        array_many_indicators.push(indicators[cpt][0]);
+                        array_many_indicators.push(8);
+                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
+                        array_id_indicators_element.push(array_many_indicators);
+//                        array_id_indicators_element.push((indicators[cpt][0]));
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     } else {
                         users_selected.push('null');
+                        array_id_indicators_element.push(indicators[cpt][0]);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     }
                 }
             }
@@ -111,9 +138,9 @@ function generate_chart() {
 
                 }
             }
-            var tmp_element = document.getElementById('container' + id_graph);
+            var tmp_element = document.getElementById('container' + id_element);
             var value = document.createElement("div");
-            value.setAttribute("id", "big_number" + id_graph);
+            value.setAttribute("id", "big_number" + id_element);
             value.setAttribute("class", "text_big_number");
             add_indicator("nb_messages_read");
             value.textContent = get_nb_messages_read();
@@ -141,7 +168,7 @@ function delete_graph(number) {
 }
 
 function add_indicator(name_indicator) {
-    var close = document.getElementById('close' + id_graph);
+    var close = document.getElementById('close' + id_element);
     var indicator_span = document.createElement("span");
     indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
     indicator_span.setAttribute("style", 'margin : 5px');
@@ -176,7 +203,7 @@ function pre_print_graph() {
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
                 legende_print.push(indicators[cpt_indicators][2]);
-                
+
 
                 add_indicator(indicators[cpt_name_indicators][2]);
 
@@ -212,12 +239,16 @@ function pre_print_graph() {
     }
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
-        save_element(panel_select, type_element);
+        //TODO SAVE ARRAY IN DATABASE
+        save_element(panel_select, type_element, array_id_indicators_element);
         for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
             if (users_selected[cpt_users_selected] != 'null') {
                 save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
             }
         }
+
+
+
 
 
     }
@@ -245,7 +276,7 @@ function pre_print_graph() {
 
 function print_polar() {
 
-    var myChart = Highcharts.chart('container' + id_graph, {
+    var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             polar: true
         },
@@ -311,7 +342,7 @@ function print_polar() {
 }
 
 function print_spider() {
-    var myChart = Highcharts.chart('container' + id_graph, {
+    var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             polar: true,
             type: 'line'
@@ -354,10 +385,10 @@ function print_spider() {
 
 
 function graphique_comparaison_note() {
-    id_graph = id_graph_exemple;
-    id_graph_exemple = id_graph_exemple + 1;
-    add_section();
-    var myChart = Highcharts.chart('container' + id_graph, {
+    id_element = id_element_exemple;
+    id_element_exemple = id_element_exemple + 1;
+    add_section(id_element, panel_select);
+    var myChart = Highcharts.chart('container' + id_element, {
         title: {
             text: 'Comparaison des notes'
         },
@@ -428,11 +459,11 @@ var options = {
         }]
 };
 function graphique_comparaison_nb_co() {
-    id_graph = id_graph_exemple;
-    id_graph_exemple = id_graph_exemple + 1;
+    id_element = id_element_exemple;
+    id_element_exemple = id_element_exemple + 1;
 
-    add_section();
-    var myChart = Highcharts.chart('container' + id_graph, {
+    add_section(id_element, panel_select);
+    var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'column'
         },

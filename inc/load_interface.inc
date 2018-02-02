@@ -35,7 +35,7 @@ function tab_data() {
     echo json_encode($retour);
 }
 
-function load_element($args) {
+function get_elements_php($args) {
     //get paramaters
     $id_panel = $args['id_panel'];
     $retour = array();
@@ -48,27 +48,14 @@ function load_element($args) {
     $requete->execute() or die("erreur requete load_element");
 
     while ($data = $requete->fetch()) {//GET each element
-        //call an other function
-        switch ($data['TYPE_ELEMENT']) {
-            case 'TAB_POLAR':
-                $tmp = array();
-                array_push($tmp, $data['ID_ELEMENT']);
-                array_push($tmp, load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
-                array_push($retour, $tmp);
-                break;
-            case 'TAB_SPIDER':
-                $tmp = array();
-                array_push($tmp, $data['ID_ELEMENT']);
-                array_push($tmp, load_type_spider($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']));
-                array_push($retour, $tmp);
-                break;
-            case 'TAB_NUMBER':
-                //TODO
-                break;
-            default:
-                echo "defaut";
-                break;
-        }
+        $tmp = array();
+        array_push($tmp, $data['ID_ELEMENT']);
+        array_push($tmp, $data['ID_PANEL']);
+        array_push($tmp, $data['CLASS_SIZE_ELEMENT']);
+        array_push($tmp, $data['TYPE_ELEMENT']);
+        array_push($tmp, $data['ID_TYPE_GRAPH']);
+        array_push($tmp, $data['ID_TYPE_GRAPH']);
+        array_push($retour, $tmp);
     }
 
     $requete->closeCursor();
@@ -99,6 +86,40 @@ function load_type_polar($id_polar, $class_size_element) {
     //close connection
     $requete->closeCursor();
 }
+
+function load_array_indicators_polar_php($args) {
+
+    $retour = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->prepare("SELECT * FROM `tab_polar` WHERE `ID_POLAR` = :id_element");
+    $requete->bindParam(":id_element", $args['id_element']);
+    $requete->execute() or die("erreur requete load_array_indicators_polar_php");
+
+    $data = $requete->fetch();
+    echo json_encode($data['ARRAY_INDICATORS']);
+
+    //close connection
+    $requete->closeCursor();
+}
+
+function load_array_indicators_spider_php($args) {
+    $retour = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->prepare("SELECT * FROM `tab_spider` WHERE `ID_SPIDER` = :id_element");
+    $requete->bindParam(":id_element", $args['id_element']);
+    $requete->execute() or die("erreur requete load_array_indicators_polar_php");
+
+    $data = $requete->fetch();
+    echo json_encode($data['ARRAY_INDICATORS']);
+
+    //close connection
+    $requete->closeCursor();
+}
+
 function load_type_spider($id_spider, $class_size_element) {
 
     $retour = array();
@@ -123,9 +144,8 @@ function load_type_spider($id_spider, $class_size_element) {
     $requete->closeCursor();
 }
 
-
 function get_type_element_php($args) {
-    
+
     //connect to database
     $bdd = connexionBdTravis();
     //prepare request
@@ -135,8 +155,8 @@ function get_type_element_php($args) {
     $requete->execute() or die("erreur requete get_type_element_php");
 
     while ($data = $requete->fetch()) {
-       
-        echo json_encode($data['TYPE_ELEMENT']);  
+
+        echo json_encode($data['TYPE_ELEMENT']);
     }
 
     $requete->closeCursor();
