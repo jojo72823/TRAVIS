@@ -43,7 +43,6 @@
         <script src="js/load_interface.js"></script>
         <script src="js/save_interface.js"></script>
         <script src="js/data_bridge.js"></script>
-        <script src="js/Variables.js"></script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -87,9 +86,7 @@
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-                    <button id="show-dialog" data-toggle="modal" data-target="#modal_add_element" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
-                        <i class="material-icons-fab">add</i>
-                    </button>
+                 
                 </div>
                 <!RIGHT MENU--------------------------------------------------->
                 <div id="right_panel" class="rightSide">
@@ -98,7 +95,6 @@
 
                         <img id="demo-menu-lower-right" class="img_btn_right_bar mdl-button mdl-js-button mdl-button--icon"  src="images/icon_add.png"/>
                     </div>
-
 
                     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
                         for="demo-menu-lower-right">
@@ -141,7 +137,7 @@
                 <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton" onclick="generate_chart();" data-dismiss="modal">
                     Generate graph
                 </button>
-                
+
                 <h4>Predefined chart</h4>
                 <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButtongraphique_comparaison_nb_co" data-dismiss="modal" onclick="graphique_comparaison_nb_co();">
                     Exemple 1
@@ -166,14 +162,14 @@
             </div>
             <div class="modal-body">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="name_panel">
-            <label class="mdl-textfield__label" for="sample3">Name</label>
-        </div>
-        <input id="color_panel" type="color" value="#ff0000">
+                    <input class="mdl-textfield__input" type="text" id="name_panel">
+                    <label class="mdl-textfield__label" for="sample3">Name</label>
+                </div>
+                <input id="color_panel" type="color" value="#ff0000">
 
-        <button class="mdl-button mdl-js-button mdl-button--raised" data-dismiss="modal" onclick="pre_add_panel();" style="margin: 10px;" id="MyButton">
-            Add panel
-        </button>
+                <button class="mdl-button mdl-js-button mdl-button--raised" data-dismiss="modal" onclick="pre_add_panel();" style="margin: 10px;" id="MyButton">
+                    Add panel
+                </button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

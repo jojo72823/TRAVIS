@@ -1,75 +1,25 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 var indicators;
+var name_indicators = new Array();
 
-function delete_graph_js(number, panel_select) {
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'delete_graph_php', p_panel_select: panel_select, p_number: number},
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        success: function (objetJson) {
-            alert("->" + objetJson);
-        },
-    });
-}
-
-function load_array_indicators_element(id_element, type_element) {
-    var var_tmp;
-    switch (type_element) {
-        case 'TAB_POLAR':
-            $.ajax({
-                url: 'php/accessFonctions.php',
-                data: {fonction: 'load_array_indicators_polar_php', id_element: id_element},
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                success: function (objetJson) {
-                    if (objetJson != null) {
-                        var_tmp = JSON.parse(objetJson);
-                    } else {
-                        alert("ERROR : load_array_indicators_polar! ");
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("load_array_indicators_element | tab_polar failed / " + errorThrown);
-                }
-            });
-            break;
-        case 'TAB_SPIDER':
-            $.ajax({
-                url: 'php/accessFonctions.php',
-                data: {fonction: 'load_array_indicators_spider_php', id_element: id_element},
-                type: 'POST',
-                async: false,
-                dataType: 'json',
-                success: function (objetJson) {
-                    if (objetJson != null) {
-                        var_tmp = JSON.parse(objetJson);
-                    } else {
-                        alert("ERROR : load_array_indicators_spider! ");
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("load_array_indicators_element |tab_spider failed / " + errorThrown);
-                }
-            });
-            break;
-
-        default:
-            break;
-    }
+var indicators;
+var data_print = new Array();
+var legende_print = new Array();
+var data = new Array();
+var id_element = 0;
+var nb_filter = 0;
+var id_indicators = new Array();
+var state_save = false;
 
 
-    return var_tmp;
-}
+var id_element_exemple = 100;
 
+var users_selected = new Array();
+var tab_type_element;
+var tab_indicators;
 
-
+/*******************************************************************************
+ * GET RESULT OF INFICATORS
+ ******************************************************************************/
 function get_nb_messages_read() {
     var var_tmp;
     $.ajax({
@@ -91,7 +41,65 @@ function get_nb_messages_read() {
     });
     return var_tmp;
 }
+function get_nb_connection_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_connection_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_connection_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
 
+function get_nb_messages_sent_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_messages_sent_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_sent_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_messages_read_user_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_messages_read_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur nb_messages_read_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
 function get_nb_messages_sent() {
     var var_tmp;
     $.ajax({
@@ -156,7 +164,98 @@ function get_nb_files_download() {
     return var_tmp;
 }
 
-//INITIALIZE 
+/*******************************************************************************
+ * INTERFACE DAO
+ ******************************************************************************/
+function delete_graph_js(number, panel_select) {
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'delete_graph_php', p_panel_select: panel_select, p_number: number},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            alert("->" + objetJson);
+        },
+    });
+}
+/*******************************************************************************
+ * GET ALL TYPE ELEMENTS
+ ******************************************************************************/
+function load_type_element_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'load_type_element_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur load_type_element! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("load_type_element failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+/*******************************************************************************
+ * GET ALL INDICATORS
+ ******************************************************************************/
+function get_indicators() {
+
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_indicators'},
+        async: false,
+        type: 'POST',
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("ERROR : get_indicators! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_indicators failed " + errorThrown);
+        }
+    });
+    //alert("returnValue"+paramList);
+    return var_tmp;
+}
+/*******************************************************************************
+ * GET ALL USERS
+ ******************************************************************************/
+function get_list_users_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_list_users_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_list_users ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_list_users failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+/*******************************************************************************
+ * LOAD ELEMENTS
+ ******************************************************************************/
 function get_elements(id_panel) {
     var var_tab_indicators;
 
@@ -181,33 +280,6 @@ function get_elements(id_panel) {
     return var_tab_indicators;
 
 }
-
-
-//OK
-function get_indicators() {
-
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_indicators'},
-        async: false,
-        type: 'POST',
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("ERROR : get_indicators! ");
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert("get_indicators failed " + errorThrown);
-        }
-    });
-    //alert("returnValue"+paramList);
-    return var_tmp;
-}
-
 function get_panels_saved() {
     var var_tmp;
     $.ajax({
@@ -231,6 +303,9 @@ function get_panels_saved() {
 
 }
 
+/*******************************************************************************
+ * TRANSLATE
+ ******************************************************************************/
 function get_id_element_js() {
     var var_tmp;
     $.ajax({
@@ -253,12 +328,114 @@ function get_id_element_js() {
     return var_tmp;
 
 }
-
-function load_type_element_js() {
+function get_type_element_js(id_element) {
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'load_type_element_php'},
+        data: {fonction: 'get_type_element_php', p_id_element: id_element},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_type_element! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+//USER TRANSLATE
+function get_name_of_id_user(id_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_name_of_id_user_php', id_user: id_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_name_of_id_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+function get_id_user(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_id_user_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_id_user! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+//INDICATOR TRANSLATE
+function get_name_of_id_indicator(id_indicator) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_name_of_id_indicator_php', id_indicator: id_indicator},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("ERROR get_name_of_id_indicator! ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_name_of_id_indicator failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+function get_id_for_name_indicator(name_indicator) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_id_for_name_indicator_php', p_name_indicator: name_indicator},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_id_for_name_indicator! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+/*******************************************************************************
+ * OTHER TOOLS 
+ ******************************************************************************/
+function id_compatible_indicators_js(id_indicator_1, id_indicator_2) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'id_compatible_indicators_php', id_indicator_1: id_indicator_1, id_indicator_2: id_indicator_2},
         type: 'POST',
         async: false,
         dataType: 'json',
@@ -266,11 +443,11 @@ function load_type_element_js() {
             if (objetJson != null) {
                 var_tmp = objetJson;
             } else {
-                alert("erreur load_type_element! ");
+                alert("erreur id_compatible_indicators_js! ");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("load_type_element failed " + errorThrown);
+            alert("id_compatible_indicators_js failed " + errorThrown);
         }
     });
     return var_tmp;
@@ -297,29 +474,6 @@ function list_compatible_indicators_js() {
     });
     return var_tmp;
 }
-
-function id_compatible_indicators_js(id_indicator_1, id_indicator_2) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'id_compatible_indicators_php', id_indicator_1: id_indicator_1, id_indicator_2: id_indicator_2},
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur id_compatible_indicators_js! ");
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert("id_compatible_indicators_js failed " + errorThrown);
-        }
-    });
-    return var_tmp;
-}
-
 function bool_compatible_indicators_js(id_indicator_1, id_indicator_2) {
     var var_tmp = false;
     $.ajax({
@@ -334,198 +488,7 @@ function bool_compatible_indicators_js(id_indicator_1, id_indicator_2) {
             } else {
                 var_tmp = false;
             }
-        },
-//        error: function (jqXHR, textStatus, errorThrown) {
-//            alert("bool_compatible_indicators_js failed " + errorThrown);
-//        }
-    });
-    return var_tmp;
-}
-
-function get_list_users_js() {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_list_users_php'},
-        type: 'POST',
-        async: false,
-        dataType: 'json',
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur get_list_users ");
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert("get_list_users failed " + errorThrown);
         }
     });
     return var_tmp;
 }
-
-function get_nb_connection_user_js(name_user) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_nb_connection_user_php', p_name_user: name_user},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur nb_connection_user! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_nb_messages_sent_user_js(name_user) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_nb_messages_sent_user_php', p_name_user: name_user},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur nb_messages_sent_user! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_nb_messages_read_user_js(name_user) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_nb_messages_read_user_php', p_name_user: name_user},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur nb_messages_read_user! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_type_element_js(id_element) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_type_element_php', p_id_element: id_element},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur get_type_element! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_id_for_name_indicator(name_indicator) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_id_for_name_indicator_php', p_name_indicator: name_indicator},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur get_id_for_name_indicator! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_id_user(name_user) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_id_user_php', p_name_user: name_user},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur get_id_user! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-function get_name_of_id_user(id_user) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_name_of_id_user_php', id_user: id_user},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("erreur get_name_of_id_user! ");
-            }
-        },
-        cache: false
-    });
-    return var_tmp;
-}
-
-
-
-
-function get_name_of_id_indicator(id_indicator) {
-    var var_tmp;
-    $.ajax({
-        url: 'php/accessFonctions.php',
-        data: {fonction: 'get_name_of_id_indicator_php', id_indicator: id_indicator},
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        success: function (objetJson) {
-            if (objetJson != null) {
-                var_tmp = objetJson;
-            } else {
-                alert("ERROR get_name_of_id_indicator! ");
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert("get_name_of_id_indicator failed " + errorThrown);
-        }
-    });
-    return var_tmp;
-}
-

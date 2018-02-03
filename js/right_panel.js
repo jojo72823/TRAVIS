@@ -1,9 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 //ATTRIBUTES
 var nb_panel = 0;
 var panel_select = 0;
@@ -11,13 +5,10 @@ var color_select;
 var name_panel;
 
 //MENU ADD IN SIDE PANEL
-function pre_add_panel(){7
+function pre_add_panel() {
     color_select = document.getElementById("color_panel").value;
     name_panel = document.getElementById("name_panel").value;
-  
 
-    
-    
     if (nb_panel < 10) {
         nb_panel = nb_panel + 1;
         panel_select = nb_panel;
@@ -35,15 +26,18 @@ function add_panel_saved(num_panel, id_user, name, letter, color) {
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + num_panel);
     div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'background-color: '+color+';');
+    div.setAttribute("style", 'background-color: ' + color + ';');
     page_content.appendChild(div);
+
+
+
 }
 function add_panel() {
     var page_content = document.getElementById('page_content');
     var div = document.createElement("div");
     div.setAttribute("id", 'panel' + nb_panel);
     div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'background-color: '+color_select);
+    div.setAttribute("style", 'background-color: ' + color_select);
     page_content.appendChild(div);
 
     //TODO save in BDD
@@ -74,7 +68,7 @@ function add_button_right_panel_saved(num_panel, id_user, name, letter, color) {
     img.setAttribute("class", 'img_btn_right_bar mdl-button mdl-js-button mdl-button--icon');
     img.setAttribute("src", 'images/circle.png');
     img.setAttribute("onclick", 'view_panel(\'' + num_panel + '\')');
-    img.setAttribute("style", 'background-color: '+color);
+    img.setAttribute("style", 'background-color: ' + color);
     var text = document.createElement("div");
     text.setAttribute("id", 'text_btn_panel' + num_panel);
     text.setAttribute("class", 'text_btn_right_bar ');
@@ -84,6 +78,8 @@ function add_button_right_panel_saved(num_panel, id_user, name, letter, color) {
     div.appendChild(text);
     div.appendChild(img);
     right_panel.appendChild(div);
+
+    jQuery("#demo-menu-lower-right").detach().appendTo('#right_panel');
 }
 
 function add_button_right_panel() {
@@ -98,7 +94,7 @@ function add_button_right_panel() {
     img.setAttribute("class", 'img_btn_right_bar mdl-button mdl-js-button mdl-button--icon');
     img.setAttribute("src", 'images/circle.png');
     img.setAttribute("onclick", 'view_panel(\'' + nb_panel + '\')');
-    img.setAttribute("style", 'background-color: '+color_select+";");
+    img.setAttribute("style", 'background-color: ' + color_select + ";");
     var text = document.createElement("div");
     text.setAttribute("id", 'text_btn_panel' + nb_panel);
     text.setAttribute("class", 'text_btn_right_bar ');
@@ -108,6 +104,8 @@ function add_button_right_panel() {
     div.appendChild(text);
     div.appendChild(img);
     right_panel.appendChild(div);
+
+    jQuery("#demo-menu-lower-right").detach().appendTo('#right_panel');
 }
 
 function view_panel(number) {
@@ -126,6 +124,7 @@ function view_panel(number) {
 
 
 }
+
 
 
 

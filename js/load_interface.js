@@ -1,8 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*******************************************************************************
+ *Attributes
+ *******************************************************************************/
 var panel_elements;
 var tmp_array_id_indicators = new Array();
 var id_element;
@@ -57,13 +55,13 @@ function load_panels_saved() {
                 tmp_array_id_indicators.length = 0;
                 name_indicators.length = 0;
                 users_selected.length = 0;
-                
+
                 //GET INDICATORS OF ELEMENT
-                tmp_array_id_indicators = load_array_indicators_element(panel_elements[cpt_panel_elements][4],panel_elements[cpt_panel_elements][3]);
-                
+                tmp_array_id_indicators = load_array_indicators_element(panel_elements[cpt_panel_elements][4], panel_elements[cpt_panel_elements][3]);
+
                 //Create new section of this element
                 add_section(panel_elements[cpt_panel_elements][0], panel_select);
-                
+
                 //Prepare each indicator
                 for (cpt_name = 0; cpt_name < tmp_array_id_indicators.length; cpt_name++) {
 
@@ -81,15 +79,20 @@ function load_panels_saved() {
                     }
                 }
                 pre_print_graph();
+                
             }
         }
+            add_section_add_button(num_panel);
     }
 
     view_panel(1);
 }
 
+/**
+ * Load type element in dialog
+ * @returns {undefined}
+ */
 function load_type_element() {
-
 
     tab_type_element = load_type_element_js();
     var element = document.getElementById('tab_graph');
@@ -116,7 +119,7 @@ function load_type_element() {
     }
 }
 
-function load_indicators() {
+function load_indicators_multiple_choice() {
 
     var element = document.getElementById('tab_indicators');
 
@@ -159,7 +162,7 @@ function load_indicators() {
     }
 }
 
-function load_indicators_radio_button() {
+function load_indicators_single_choice() {
 
     var element = document.getElementById('tab_indicators');
 
@@ -207,6 +210,56 @@ function load_indicators_radio_button() {
     }
 }
 
+function load_array_indicators_element(id_element, type_element) {
+    var var_tmp;
+    switch (type_element) {
+        case 'TAB_POLAR':
+            $.ajax({
+                url: 'php/accessFonctions.php',
+                data: {fonction: 'load_array_indicators_polar_php', id_element: id_element},
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                success: function (objetJson) {
+                    if (objetJson != null) {
+                        var_tmp = JSON.parse(objetJson);
+                    } else {
+                        alert("ERROR : load_array_indicators_polar! ");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("load_array_indicators_element | tab_polar failed / " + errorThrown);
+                }
+            });
+            break;
+        case 'TAB_SPIDER':
+            $.ajax({
+                url: 'php/accessFonctions.php',
+                data: {fonction: 'load_array_indicators_spider_php', id_element: id_element},
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                success: function (objetJson) {
+                    if (objetJson != null) {
+                        var_tmp = JSON.parse(objetJson);
+                    } else {
+                        alert("ERROR : load_array_indicators_spider! ");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("load_array_indicators_element |tab_spider failed / " + errorThrown);
+                }
+            });
+            break;
+
+        default:
+            break;
+    }
+
+
+    return var_tmp;
+}
+
 function add_section(id_element, panel_select) {
 
     var element = document.getElementById('panel' + panel_select);
@@ -241,6 +294,10 @@ function add_section(id_element, panel_select) {
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
+    
+//    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
+
+
 }
 
 function add_section_big_number(id_element) {
@@ -278,5 +335,58 @@ function add_section_big_number(id_element) {
     in_content_card.appendChild(container);
 
     content_card.appendChild(in_content_card);
+}
+
+function add_section_add_button(panel_select) {
+    id_element = id_element_exemple;
+    id_element_exemple = id_element_exemple + 1;
+
+    var element = document.getElementById('panel' + panel_select);
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'card_add' + panel_select);
+    card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: 200px;margin-bottom :10px');
+
+    element.appendChild(card);
+
+    var content_card = document.getElementById('card_add' + panel_select);
+
+    var in_content_card = document.createElement("div");
+    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_element);
+//    container.setAttribute("style", 'height=200px;width=100%');
+
+    var img = document.createElement("img");
+    img.setAttribute("id", 'show-dialog');
+    img.setAttribute("data-toggle", 'modal');
+
+    img.setAttribute("style", "padding : 15px");
+    img.setAttribute("data-target", '#modal_add_element');
+    img.setAttribute("src", 'images/icon_add.png');
+    img.setAttribute("class", 'img_btn_add_in_card');
+
+
+
+    container.appendChild(img);
+
+
+
+
+
+    in_content_card.appendChild(container);
+    content_card.appendChild(in_content_card);
+
+
+    /* <button id="show-dialog" 
+     data-toggle="modal" 
+     data-target="#modal_add_element" 
+     class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
+     <i class="material-icons-fab">add</i>
+     </button>*/
 }
 

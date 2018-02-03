@@ -29,11 +29,11 @@ function select_element(p_type) {
 
     switch (p_type) {
         case "TAB_POLAR":
-            load_indicators();
+            load_indicators_multiple_choice();
 
             break;
         case "TAB_SPIDER":
-            load_indicators();
+            load_indicators_multiple_choice();
 
             break;
         case "TAB_LINE":
@@ -45,7 +45,7 @@ function select_element(p_type) {
             break;
         case "TAB_BIG_NUMBER":
 
-            load_indicators_radio_button();
+            load_indicators_single_choice();
             break;
 
         default:
@@ -92,7 +92,7 @@ function generate_chart() {
             pre_print_graph();
             break;
         case "TAB_SPIDER":
-           add_section(id_element, panel_select);
+            add_section(id_element, panel_select);
 
             state_save = true;
             //GET SELECT_INDICATORS

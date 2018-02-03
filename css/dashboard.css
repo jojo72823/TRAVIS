@@ -163,6 +163,19 @@ and open the template in the editor.
     position:relative;
 }
 
+.img_btn_add_in_card{
+    display: block;
+    width: auto;
+    height: auto;
+    background-color: #3575bb;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+    cursor: pointer;
+    position:relative;
+}
+
+
 .text_btn_right_bar {
     color: white;
     z-index: 1;
@@ -188,6 +201,10 @@ and open the template in the editor.
 }
 
 .img_btn_right_bar:hover {
+    /*//rgb(63,127,197)*/
+    background-color: rgb(63,127,197);
+}
+.img_btn_add_in_card:hover {
     /*//rgb(63,127,197)*/
     background-color: rgb(63,127,197);
 }

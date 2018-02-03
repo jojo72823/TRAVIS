@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+//FOR THE LOADING SCREEN
 jQuery(window).load(function () {
 
     'use strict';
@@ -15,6 +17,7 @@ jQuery(window).load(function () {
 
 });
 
+//For the color choice of the new panel
 colorPicker.addEventListener("input", updateFirst, false);
 colorPicker.addEventListener("change", watchColorPicker, false);
 
