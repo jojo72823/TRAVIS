@@ -37,7 +37,7 @@
 
         <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-        <script src="./mdl/material.min.js"></script>
+        
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="js/generate_graph.js"></script>
         <script src="js/load_interface.js"></script>
@@ -134,7 +134,7 @@
                         </td>
                     </tr>
                 </table>
-                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton" onclick="generate_chart();" data-dismiss="modal">
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="MyButton" onclick="get_indicators_selected();" data-dismiss="modal">
                     Generate graph
                 </button>
 

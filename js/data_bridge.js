@@ -1,6 +1,8 @@
+    /*******************************************************************************
+     * ATTRIBUTES
+     ******************************************************************************/
 var indicators;
 var name_indicators = new Array();
-
 var indicators;
 var data_print = new Array();
 var legende_print = new Array();
@@ -9,10 +11,6 @@ var id_element = 0;
 var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
-
-
-var id_element_exemple = 100;
-
 var users_selected = new Array();
 var tab_type_element;
 var tab_indicators;
@@ -175,7 +173,6 @@ function delete_graph_js(number, panel_select) {
         async: false,
         dataType: 'json',
         success: function (objetJson) {
-            alert("->" + objetJson);
         },
     });
 }
@@ -211,7 +208,7 @@ function get_indicators() {
     var var_tmp;
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'get_indicators'},
+        data: {fonction: 'get_indicators_php'},
         async: false,
         type: 'POST',
         dataType: 'json',

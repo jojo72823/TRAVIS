@@ -1,14 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 function savePanel($args) {
     //get paramaters
-    $num_panel = $args['num_panel'];
     $id_user = $args['id_user'];
     $name = $args['name'];
     $letter = $args['letter'];
@@ -16,8 +9,7 @@ function savePanel($args) {
     //connect to database
     $bdd = connexionBdTravis();
     //prepare request
-    $requete = $bdd->prepare("INSERT INTO `tab_panel`(`NUM_PANEL`, `ID_USER`, `NAME`, `LETTER`, `COLOR`) VALUES (:num_panel,:id_user,:name,:letter,:color)");
-    $requete->bindParam(":num_panel", $num_panel);
+    $requete = $bdd->prepare("INSERT INTO `tab_panel`(`ID_USER`, `NAME`, `LETTER`, `COLOR`) VALUES (:id_user,:name,:letter,:color)");
     $requete->bindParam(":id_user", $id_user);
     $requete->bindParam(":name", $name);
     $requete->bindParam(":letter", $letter);
@@ -25,6 +17,9 @@ function savePanel($args) {
     //execute request
     $requete->execute() or die("erreur requête savePanel");
     //close connection
+
+    echo $bdd->lastInsertId();
+
     $requete->closeCursor();
 }
 
@@ -43,7 +38,6 @@ function save_element_polar($args) {
     $count = $requete_id->fetch();
     $id_type_graph = $count['ID_POLAR'];
     $id_type_graph = $id_type_graph + 1;
-//    echo  $count['ID_POLAR']
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_ELEMENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_element,:id_type_graph)");
     $requete->bindParam(":id_panel", $id_panel);
@@ -83,7 +77,6 @@ function save_element_spider($args) {
     $count = $requete_id->fetch();
     $id_type_graph = $count['ID_SPIDER'];
     $id_type_graph = $id_type_graph + 1;
-//    echo  $count['ID_POLAR']
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_ELEMENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_element,:id_type_graph)");
     $requete->bindParam(":id_panel", $id_panel);
@@ -100,8 +93,8 @@ function save_element_spider($args) {
         case 'TAB_POLAR':
             save_type_polar($id_type_graph, $array_id_indicators_element);
             break;
-        
-         case 'TAB_SPIDER':
+
+        case 'TAB_SPIDER':
             save_type_spider($id_type_graph, $array_id_indicators_element);
             break;
         case 'TAB_NUMBER':
@@ -114,18 +107,15 @@ function save_element_spider($args) {
 
 function save_type_polar($id_type_graph, $array_id_indicators_element) {
 
-
     //connect to database
     $bdd = connexionBdTravis();
 
-//    for ($cpt = 0; $cpt <= count($tab_indicators); $cpt++) {
-        //prepare request
-        $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ARRAY_INDICATORS`) VALUES (:id_polar,:array_id_indicators_element)");
-        $requete->bindParam(":id_polar", $id_type_graph);
-        $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
-        //execute request
-        $requete->execute() or die(mysql_error());
-//    }
+    //prepare request
+    $requete = $bdd->prepare("INSERT INTO `tab_polar`(`ID_POLAR`, `ARRAY_INDICATORS`) VALUES (:id_polar,:array_id_indicators_element)");
+    $requete->bindParam(":id_polar", $id_type_graph);
+    $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
+    //execute request
+    $requete->execute() or die(mysql_error());
     //close connection
     $requete->closeCursor();
 }
@@ -136,14 +126,13 @@ function save_type_spider($id_type_graph, $array_id_indicators_element) {
     //connect to database
     $bdd = connexionBdTravis();
 
-   
-        //prepare request
-        $requete = $bdd->prepare("INSERT INTO `tab_spider`(`ID_SPIDER`, `ARRAY_INDICATORS`) VALUES (:id_spider,:array_id_indicators_element)");
-        $requete->bindParam(":id_spider", $id_type_graph);
-        $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
-        //execute request
-        $requete->execute() or die(mysql_error());
-    
+    //prepare request
+    $requete = $bdd->prepare("INSERT INTO `tab_spider`(`ID_SPIDER`, `ARRAY_INDICATORS`) VALUES (:id_spider,:array_id_indicators_element)");
+    $requete->bindParam(":id_spider", $id_type_graph);
+    $requete->bindParam(":array_id_indicators_element", json_encode($array_id_indicators_element));
+    //execute request
+    $requete->execute() or die(mysql_error());
+
     //close connection
     $requete->closeCursor();
 }
@@ -223,35 +212,3 @@ function get_id_element_php() {
     echo $ID_ELEMENT;
 }
 
-function save_user_selected_php() {
-//    //get paramaters
-//    $user_selected = $args['user_selected'];
-//    $cpt_users_selected = $args['cpt_users_selected'];
-//    $id_panel = $args['id_panel'];
-//    $type_content = $args['type_content'];
-//
-//    //connect to database
-//    $bdd = connexionBdTravis();
-//
-//    //GET ID
-//
-//    switch ($type_content) {
-//        case 'TAB_POLAR':
-//           
-//            break;
-//        case 'TAB_NUMBER':
-//        
-//            break;
-//        default:
-//            break;
-//    }
-//    
-//    
-//    
-//    //get $id_type_graph
-//    $requete_id = $bdd->query("SELECT `ID_ELEMENT` FROM `tab_element` ORDER BY `ID_ELEMENT` DESC");
-//    $count = $requete_id->fetch();
-//    $ID_ELEMENT = $count['ID_ELEMENT'];
-//    $ID_ELEMENT = $ID_ELEMENT + 1;
-//    echo $ID_ELEMENT;
-}

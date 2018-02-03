@@ -35,13 +35,12 @@ function load_panels_saved() {
     for (var cpt = 0; cpt < nb_panel; cpt++) {
 
         var id_panel = data_panel[cpt][0][0];
-        var num_panel = data_panel[cpt][0][1];
-        var id_user = data_panel[cpt][0][2];
-        var name = data_panel[cpt][0][3];
-        var letter = data_panel[cpt][0][4];
-        var color = data_panel[cpt][0][5];
-        add_panel_saved(num_panel, id_user, name, letter, color);
-        add_button_right_panel_saved(num_panel, id_user, name, letter, color);
+        var id_user = data_panel[cpt][0][1];
+        var name = data_panel[cpt][0][2];
+        var letter = data_panel[cpt][0][3];
+        var color = data_panel[cpt][0][4];
+        add_panel_saved(id_panel, id_user, name, letter, color);
+        add_button_right_panel_saved(id_panel, id_user, name, letter, color);
         panel_select = id_panel;
 
         panel_elements = get_elements(id_panel);
@@ -78,14 +77,18 @@ function load_panels_saved() {
                         users_selected.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
                     }
                 }
-                pre_print_graph();
-                
+                get_results_indicators_selected();
+
             }
         }
-            add_section_add_button(num_panel);
+        add_section_add_button(id_panel);
+        
+
+    }
+    if (nb_panel != 0) {
+        view_panel(data_panel[0][0][0], data_panel);
     }
 
-    view_panel(1);
 }
 
 /**
@@ -106,7 +109,7 @@ function load_type_element() {
         input.setAttribute("id", tab_type_element[cpt_tab_type_element][0]);
         input.setAttribute("type", 'radio');
         input.setAttribute("name", 'myRadios');
-        input.setAttribute("onclick", 'select_element(\"' + tab_type_element[cpt_tab_type_element][2] + '\");');
+        input.setAttribute("onclick", 'load_indicators_of_type_element_selected(\"' + tab_type_element[cpt_tab_type_element][2] + '\");');
         input.setAttribute("class", 'mdl-checkbox__input');
         var span = document.createElement("span");
         span.setAttribute("class", 'mdl-checkbox__label');
@@ -294,7 +297,7 @@ function add_section(id_element, panel_select) {
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
-    
+
 //    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
 
 
@@ -346,47 +349,89 @@ function add_section_add_button(panel_select) {
     var card = document.createElement("div");
     card.setAttribute("id", 'card_add' + panel_select);
     card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
-    card.setAttribute("style", 'background-color : #d7d7d7; height: 200px;margin-bottom :10px');
+    card.setAttribute("style", 'background-color : #d7d7d7;');
 
     element.appendChild(card);
 
     var content_card = document.getElementById('card_add' + panel_select);
 
     var in_content_card = document.createElement("div");
-    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
+    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;width:auto');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
-
 
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + id_element);
-//    container.setAttribute("style", 'height=200px;width=100%');
-
     var img = document.createElement("img");
     img.setAttribute("id", 'show-dialog');
     img.setAttribute("data-toggle", 'modal');
 
-    img.setAttribute("style", "padding : 15px");
+    img.setAttribute("style", "width:100%;height:auto");
     img.setAttribute("data-target", '#modal_add_element');
     img.setAttribute("src", 'images/icon_add.png');
     img.setAttribute("class", 'img_btn_add_in_card');
 
-
-
     container.appendChild(img);
-
-
-
-
-
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
+}
+
+/*******************************************************************************
+ * GET INDICATORS OF ELEMENT TYPE SELECT
+ ******************************************************************************/
+function load_indicators_of_type_element_selected(p_type) {
+    var element = document.getElementById('tab_indicators');
+    element.innerHTML = '';
+    type_element = p_type;
+
+    switch (p_type) {
+        case "TAB_POLAR":
+            load_indicators_multiple_choice();
+
+            break;
+        case "TAB_SPIDER":
+            load_indicators_multiple_choice();
+
+            break;
+        case "TAB_LINE":
+
+            break;
+        case "TAB_BAR":
 
 
-    /* <button id="show-dialog" 
-     data-toggle="modal" 
-     data-target="#modal_add_element" 
-     class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab mdl-button--colored dialog-button">
-     <i class="material-icons-fab">add</i>
-     </button>*/
+            break;
+        case "TAB_BIG_NUMBER":
+
+            load_indicators_single_choice();
+            break;
+
+        default:
+
+            break;
+    }
+
+}
+/*******************************************************************************
+ * LOAD CHIP WITH INDICATOR SELECTED
+ ******************************************************************************/
+function add_indicator(name_indicator) {
+    var close = document.getElementById('close' + id_element);
+    var indicator_span = document.createElement("span");
+    indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
+    indicator_span.setAttribute("style", 'margin : 5px');
+    var indicator_in_span = document.createElement("span");
+    indicator_in_span.setAttribute("class", 'mdl-chip__text');
+    indicator_in_span.textContent = name_indicator;
+//    var indicator_in_span_button = document.createElement("button");
+//    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
+//    indicator_in_span_button.setAttribute("type", 'button');
+//    var indicator_in_span_button_i = document.createElement("i");
+//    indicator_in_span_button_i.textContent = "cancel";
+//    indicator_in_span_button_i.setAttribute("class", 'material-icons');
+//
+//    indicator_in_span_button.appendChild(indicator_in_span_button_i);
+    indicator_span.appendChild(indicator_in_span);
+//    indicator_span.appendChild(indicator_in_span_button);
+
+    close.appendChild(indicator_span);
 }
 

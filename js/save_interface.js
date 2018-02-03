@@ -22,6 +22,7 @@ function get_id_indicators_js() {
 }
 
 function save_element(panel_select, type_element,array_id_indicators_element) {
+    
 
     switch (type_element) {
         case "TAB_POLAR":
@@ -33,7 +34,7 @@ function save_element(panel_select, type_element,array_id_indicators_element) {
                 dataType: 'json',
                 success: function (objetJson) {
                     if (objetJson != null) {
-
+                                
                     } else {
                         alert("erreur save_element! ");
                     }

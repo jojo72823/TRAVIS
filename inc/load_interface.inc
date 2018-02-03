@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 function getPanel($args) {
 
     $id_user = $args['id_user'];
@@ -62,7 +56,6 @@ function get_elements_php($args) {
     echo json_encode($retour);
 }
 
-//  load_type_polar($data['ID_TYPE_GRAPH'], $data['CLASS_SIZE_ELEMENT']);
 function load_type_polar($id_polar, $class_size_element) {
 
     $retour = array();
@@ -158,6 +151,5 @@ function get_type_element_php($args) {
 
         echo json_encode($data['TYPE_ELEMENT']);
     }
-
     $requete->closeCursor();
 }

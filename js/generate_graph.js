@@ -1,62 +1,18 @@
+/*******************************************************************************
+ * ATTRIBUTES
+ ******************************************************************************/
 var type_element;
 var count = 0;
 var myPointFormat;
-
 var array_id_indicators_element = new Array();
-
-function readSearchInput(el, e) {
-    console.log(e)
-    if (e.keyCode == 13) {//touche entrée
-        var value = document.getElementById('search_input').value;
-        nb_filter++;
-        document.getElementById('filter_bar').innerHTML +=
-                '<div id=filter' + nb_filter + '>\n\
-                    <span class=\"mdl-chip mdl-chip--deletable\">\n\
-                        <span class=\"mdl-chip__text\">' + value + '</span>\n\
-                        <button onclick="delete_filter(\'' + nb_filter + '\') "type=\"button\" class=\"mdl-chip__action\">\n\
-                            <i class=\"material-icons\">cancel</i>\n\
-                        </button>\n\
-                    </span>\n\
-                </div>'
-    }
-    return false;
-}
-
-function select_element(p_type) {
-    var element = document.getElementById('tab_indicators');
-    element.innerHTML = '';
-    type_element = p_type;
-
-    switch (p_type) {
-        case "TAB_POLAR":
-            load_indicators_multiple_choice();
-
-            break;
-        case "TAB_SPIDER":
-            load_indicators_multiple_choice();
-
-            break;
-        case "TAB_LINE":
-
-            break;
-        case "TAB_BAR":
+var id_element_exemple = -500;
 
 
-            break;
-        case "TAB_BIG_NUMBER":
 
-            load_indicators_single_choice();
-            break;
-
-        default:
-
-            break;
-    }
-
-}
-
-function generate_chart() {
-
+/*******************************************************************************
+ * GET ELEMENT SELECTED IN DIALOG
+ ******************************************************************************/
+function get_indicators_selected() {
     id_element = get_id_element_js();
     name_indicators.length = 0;
     array_id_indicators_element.length = 0;
@@ -70,17 +26,13 @@ function generate_chart() {
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
                 if (document.getElementById(indicators[cpt][1]).checked) {
-
-
                     if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
                         users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-
                         var array_many_indicators = new Array();
                         array_many_indicators.push(indicators[cpt][0]);
                         array_many_indicators.push(8);
                         array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
                         array_id_indicators_element.push(array_many_indicators);
-//                        array_id_indicators_element.push((indicators[cpt][0]));
                         name_indicators.push(indicators[cpt][1]);//get name of indicator
                     } else {
                         users_selected.push('null');
@@ -89,26 +41,21 @@ function generate_chart() {
                     }
                 }
             }
-            pre_print_graph();
+            get_results_indicators_selected();
             break;
         case "TAB_SPIDER":
             add_section(id_element, panel_select);
-
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
                 if (document.getElementById(indicators[cpt][1]).checked) {
-
-
                     if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
                         users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-
                         var array_many_indicators = new Array();
                         array_many_indicators.push(indicators[cpt][0]);
                         array_many_indicators.push(8);
                         array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
                         array_id_indicators_element.push(array_many_indicators);
-//                        array_id_indicators_element.push((indicators[cpt][0]));
                         name_indicators.push(indicators[cpt][1]);//get name of indicator
                     } else {
                         users_selected.push('null');
@@ -117,7 +64,7 @@ function generate_chart() {
                     }
                 }
             }
-            pre_print_graph();
+            get_results_indicators_selected();
             break;
 
         case "TAB_BIG_NUMBER":
@@ -134,7 +81,8 @@ function generate_chart() {
 //                    } else {
 //                        users_selected.push('null');
 //                    }
-                    users_selected.push('nb_messages_read');
+                    array_id_indicators_element.push(indicators[cpt][0]);
+                    name_indicators.push(indicators[cpt][1]);
 
                 }
             }
@@ -157,39 +105,13 @@ function generate_chart() {
 }
 
 
-function delete_filter(number) {
-    document.getElementById('filter' + number).remove();
-}
 
-function delete_graph(number) {
-    document.getElementById('card' + number).remove();
-    delete_graph_js(number, panel_select);
-    document.getElementById(name).remove();
-}
 
-function add_indicator(name_indicator) {
-    var close = document.getElementById('close' + id_element);
-    var indicator_span = document.createElement("span");
-    indicator_span.setAttribute("class", 'mdl-chip mdl-chip--deletable');
-    indicator_span.setAttribute("style", 'margin : 5px');
-    var indicator_in_span = document.createElement("span");
-    indicator_in_span.setAttribute("class", 'mdl-chip__text');
-    indicator_in_span.textContent = name_indicator;
-//    var indicator_in_span_button = document.createElement("button");
-//    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
-//    indicator_in_span_button.setAttribute("type", 'button');
-//    var indicator_in_span_button_i = document.createElement("i");
-//    indicator_in_span_button_i.textContent = "cancel";
-//    indicator_in_span_button_i.setAttribute("class", 'material-icons');
-//
-//    indicator_in_span_button.appendChild(indicator_in_span_button_i);
-    indicator_span.appendChild(indicator_in_span);
-//    indicator_span.appendChild(indicator_in_span_button);
 
-    close.appendChild(indicator_span);
-}
-
-function pre_print_graph() {
+/*******************************************************************************
+ * GET RESULT OF INDICATORS SELECTED
+ ******************************************************************************/
+function get_results_indicators_selected() {
 
 
     legende_print.length = [];
@@ -268,12 +190,16 @@ function pre_print_graph() {
 
             break;
     }
+    
+    jQuery("#card_add"+panel_select).detach().appendTo('#panel'+panel_select);
 
 
 
 
 }
-
+/*******************************************************************************
+ * PRINT CHART FUNCTIONS
+ ******************************************************************************/
 function print_polar() {
 
     var myChart = Highcharts.chart('container' + id_element, {
@@ -383,7 +309,9 @@ function print_spider() {
     });
 }
 
-
+/*******************************************************************************
+ * EXAMPLE CHART
+ ******************************************************************************/
 function graphique_comparaison_note() {
     id_element = id_element_exemple;
     id_element_exemple = id_element_exemple + 1;
@@ -519,4 +447,39 @@ function graphique_comparaison_nb_co() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
+}
+
+
+/*******************************************************************************
+ * DELETE FONCTIONS
+ ******************************************************************************/
+function delete_filter(number) {
+    document.getElementById('filter' + number).remove();
+}
+
+function delete_graph(number) {
+    document.getElementById('card' + number).remove();
+    delete_graph_js(number, panel_select);
+    document.getElementById(name).remove();
+}
+
+/*******************************************************************************
+ * FONCTION NOT USED
+ ******************************************************************************/
+function readSearchInput(el, e) {
+    console.log(e)
+    if (e.keyCode == 13) {//touche entrée
+        var value = document.getElementById('search_input').value;
+        nb_filter++;
+        document.getElementById('filter_bar').innerHTML +=
+                '<div id=filter' + nb_filter + '>\n\
+                    <span class=\"mdl-chip mdl-chip--deletable\">\n\
+                        <span class=\"mdl-chip__text\">' + value + '</span>\n\
+                        <button onclick="delete_filter(\'' + nb_filter + '\') "type=\"button\" class=\"mdl-chip__action\">\n\
+                            <i class=\"material-icons\">cancel</i>\n\
+                        </button>\n\
+                    </span>\n\
+                </div>'
+    }
+    return false;
 }

@@ -28,6 +28,5 @@ function fonctionVerifLogin($log, $mdp) {
             $retour = 'PID'; //login unknow
         }
     }
-
     return $retour;
 }
