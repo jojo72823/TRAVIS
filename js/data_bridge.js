@@ -12,6 +12,7 @@ var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
 var users_selected = new Array();
+var forums_selected = new Array();
 var forum_selected = new Array();
 var tab_type_element;
 var tab_indicators;

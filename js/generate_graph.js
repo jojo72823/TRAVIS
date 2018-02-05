@@ -25,30 +25,73 @@ function get_indicators_selected() {
             add_section(id_element, panel_select);
 
             state_save = true;
+
+
+
+
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
                 if (document.getElementById(indicators[cpt][1]).checked) {
-                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                        var array_many_indicators = new Array();
-                        array_many_indicators.push(indicators[cpt][0]);
-                        array_many_indicators.push(8);
-                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
-                        array_id_indicators_element.push(array_many_indicators);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-                    } else {
-                        if (bool_compatible_indicators_js(indicators[cpt][0], 13)) {
-                            forum_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                            var array_many_indicators = new Array();
-                            array_many_indicators.push(indicators[cpt][0]);
-                            array_many_indicators.push(13);
-                            array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][0] + ']').val()));
-                            array_id_indicators_element.push(array_many_indicators);
-                            forum_indicators.push(indicators[cpt][0]);
+
+                    var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
+
+                    if (array_compatible_indicators.length != 0) {
+                        var forum_selected_tmp = new Array();
+                        var users_selected_tmp = new Array();
+
+                        for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
+                            switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
+                                case "8"://users
+                                   
+
+                                    var array_many_indicators = new Array();
+                                    array_many_indicators.push(indicators[cpt][0]);
+                                    array_many_indicators.push(8);
+
+
+                                    array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
+                                    array_id_indicators_element.push(array_many_indicators);
+                                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+                                    users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                    forum_selected_tmp.push('null');
+
+                                    break;
+                                case "13"://forums
+                                    
+                                    var array_many_indicators = new Array();
+                                    array_many_indicators.push(indicators[cpt][0]);
+                                    array_many_indicators.push(13);
+                                    array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                    array_id_indicators_element.push(array_many_indicators);
+
+
+                                    forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                    users_selected_tmp.push('null');
+
+                                    break;
+
+
+                                default:
+
+                                    break;
+                            }
                         }
-                        users_selected.push('null');
+                        forum_selected.push(forum_selected_tmp);
+                        users_selected.push(users_selected_tmp);
+
+                    } else {
+                        var forum_selected_tmp = new Array();
+                        var users_selected_tmp = new Array();
+
+                        forum_selected_tmp.push('null');
+                        users_selected_tmp.push('null');
+
                         array_id_indicators_element.push(indicators[cpt][0]);
                         name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+                        forum_selected.push(forum_selected_tmp);
+                        users_selected.push(users_selected_tmp);
                     }
                 }
             }
@@ -155,25 +198,42 @@ function get_results_indicators_selected() {
                         data_print.push(get_nb_files_download());
                         break;
                     case 'nb_connection_user':
-                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators][0]));
+
                         break;
                     case 'nb_messages_sent_user':
-                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators][0]));
+
                         break;
                     case 'nb_messages_read_user':
-                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators][0]));
+
                         break;
                     case 'nb_files_download_users':
-                        data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators][0]));
+
                         break;
                     case 'nb_files_upload_users':
-                        data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators][0]));
+
                         break;
                     case 'nb_display_forum':
-                        data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators]));
+
+                        data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators][0]));
+
+
                         break;
                     case 'nb_display_forum_users':
-                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators], users_selected[cpt_name_indicators]));
+
+                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
+                            data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
+                        }
+
                         break;
                     default:
 
@@ -186,11 +246,15 @@ function get_results_indicators_selected() {
         id_indicators = get_id_indicators_js();
         //TODO SAVE ARRAY IN DATABASE
         save_element(panel_select, type_element, array_id_indicators_element);
-        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
-            if (users_selected[cpt_users_selected] != 'null') {
-                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
-            }
-        }
+//        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
+////            if (users_selected[cpt_users_selected] != 'null') {
+////                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
+////            }
+//
+//            //TODO save forum
+//
+//
+//        }
 
 
 
@@ -213,8 +277,8 @@ function get_results_indicators_selected() {
 
             break;
     }
-    
-    jQuery("#card_add"+panel_select).detach().appendTo('#panel'+panel_select);
+
+    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
 
 
 
@@ -398,45 +462,45 @@ function loadTimeMachine() {
             }
         },
         series: [{
-            name: 'USER1',
-            color: 'rgba(223, 83, 83, .5)',
-            data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
-                [170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
-                [172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
-                [147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
-                [159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
-                [174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
-                [154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
-                [162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
-                [168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
-                [167.6, 64.5], [167.6, 72.3], [167.6, 61.4], [154.9, 58.2], [162.6, 81.8],
-                [175.3, 63.6], [171.4, 53.4], [157.5, 54.5], [165.1, 53.6], [160.0, 60.0],
-                [174.0, 73.6], [162.6, 61.4], [174.0, 55.5], [162.6, 63.6], [161.3, 60.9],
-                [156.2, 60.0], [149.9, 46.8], [169.5, 57.3], [160.0, 64.1], [175.3, 63.6],
-                [169.5, 67.3], [160.0, 75.5], [172.7, 68.2], [162.6, 61.4], [157.5, 76.8],
-                [176.5, 71.8], [164.4, 55.5], [160.7, 48.6], [174.0, 66.4], [163.8, 67.3]]
+                name: 'USER1',
+                color: 'rgba(223, 83, 83, .5)',
+                data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
+                    [170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
+                    [172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
+                    [147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
+                    [159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
+                    [174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
+                    [154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
+                    [162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
+                    [168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
+                    [167.6, 64.5], [167.6, 72.3], [167.6, 61.4], [154.9, 58.2], [162.6, 81.8],
+                    [175.3, 63.6], [171.4, 53.4], [157.5, 54.5], [165.1, 53.6], [160.0, 60.0],
+                    [174.0, 73.6], [162.6, 61.4], [174.0, 55.5], [162.6, 63.6], [161.3, 60.9],
+                    [156.2, 60.0], [149.9, 46.8], [169.5, 57.3], [160.0, 64.1], [175.3, 63.6],
+                    [169.5, 67.3], [160.0, 75.5], [172.7, 68.2], [162.6, 61.4], [157.5, 76.8],
+                    [176.5, 71.8], [164.4, 55.5], [160.7, 48.6], [174.0, 66.4], [163.8, 67.3]]
 
-        }, {
-            name: 'USER2',
-            color: 'rgba(119, 152, 191, .5)',
-            data: [[174.0, 65.6], [175.3, 71.8], [193.5, 80.7], [186.5, 72.6], [187.2, 78.8],
-                [181.5, 74.8], [184.0, 86.4], [184.5, 78.4], [175.0, 62.0], [184.0, 81.6],
-                [180.0, 76.6], [177.8, 83.6], [192.0, 90.0], [176.0, 74.6], [174.0, 71.0],
-                [184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
-                [176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
-                [178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
-                [183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
-                [170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
-                [186.7, 87.8], [171.4, 84.7], [172.7, 73.4], [175.3, 72.1], [180.3, 82.6],
-                [182.9, 88.7], [188.0, 84.1], [177.2, 94.1], [172.1, 74.9], [167.0, 59.1],
-                [169.5, 75.6], [174.0, 86.2], [172.7, 75.3], [182.2, 87.1], [164.1, 55.2],
-                [163.0, 57.0], [171.5, 61.4], [184.2, 76.8], [174.0, 86.8], [174.0, 72.2],
-                [177.0, 71.6], [186.0, 84.8], [167.0, 68.2], [171.8, 66.1], [182.0, 72.0],
-                [167.0, 64.6], [177.8, 74.8], [164.5, 70.0], [192.0, 101.6], [175.5, 63.2],
-                [171.2, 79.1], [181.6, 78.9], [167.4, 67.7], [181.1, 66.0], [177.0, 68.2],
-                [170.2, 62.3], [177.8, 82.7], [179.1, 79.1], [190.5, 98.2], [177.8, 84.1],
-                [180.3, 83.2], [180.3, 83.2]]
-        }]
+            }, {
+                name: 'USER2',
+                color: 'rgba(119, 152, 191, .5)',
+                data: [[174.0, 65.6], [175.3, 71.8], [193.5, 80.7], [186.5, 72.6], [187.2, 78.8],
+                    [181.5, 74.8], [184.0, 86.4], [184.5, 78.4], [175.0, 62.0], [184.0, 81.6],
+                    [180.0, 76.6], [177.8, 83.6], [192.0, 90.0], [176.0, 74.6], [174.0, 71.0],
+                    [184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
+                    [176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
+                    [178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
+                    [183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
+                    [170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
+                    [186.7, 87.8], [171.4, 84.7], [172.7, 73.4], [175.3, 72.1], [180.3, 82.6],
+                    [182.9, 88.7], [188.0, 84.1], [177.2, 94.1], [172.1, 74.9], [167.0, 59.1],
+                    [169.5, 75.6], [174.0, 86.2], [172.7, 75.3], [182.2, 87.1], [164.1, 55.2],
+                    [163.0, 57.0], [171.5, 61.4], [184.2, 76.8], [174.0, 86.8], [174.0, 72.2],
+                    [177.0, 71.6], [186.0, 84.8], [167.0, 68.2], [171.8, 66.1], [182.0, 72.0],
+                    [167.0, 64.6], [177.8, 74.8], [164.5, 70.0], [192.0, 101.6], [175.5, 63.2],
+                    [171.2, 79.1], [181.6, 78.9], [167.4, 67.7], [181.1, 66.0], [177.0, 68.2],
+                    [170.2, 62.3], [177.8, 82.7], [179.1, 79.1], [190.5, 98.2], [177.8, 84.1],
+                    [180.3, 83.2], [180.3, 83.2]]
+            }]
     });
 }
 /*******************************************************************************

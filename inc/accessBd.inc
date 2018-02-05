@@ -96,7 +96,7 @@ function get_nb_connection_user_php($args) {
 
 function get_nb_messages_read_user_php($args) {
     if (isset($args['p_name_user'])) {
-        $name_user = $args['p_name_user'];
+        $name_user = ""+$args['p_name_user'];
     }
     $bdd = connexionBd();
 
@@ -109,6 +109,7 @@ function get_nb_messages_read_user_php($args) {
     echo $count['count'];
     $requete->closeCursor();
 }
+
 
 function get_nb_files_download_users_php($args) {
     if (isset($args['p_name_user'])) {
@@ -126,7 +127,7 @@ function get_nb_files_download_users_php($args) {
     $requete->closeCursor();
 }
 
-function get_nb_files_upload_users($args) {
+function get_nb_files_upload_users_php($args) {
     if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }

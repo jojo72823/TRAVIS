@@ -146,10 +146,13 @@ function load_indicators_multiple_choice() {
         label.appendChild(input);
         label.appendChild(span);
         td.appendChild(label);
+        
+        //TODO CHANGE ID IN FUNCTION's PARAMETER
         if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
 
             var select = document.createElement("select");
             select.setAttribute("name", indicators[cpt_indicators][1]);
+            select.setAttribute("id", 8);
             select.setAttribute("style", 'width:100px');
             for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
                 var option = document.createElement("option");
@@ -160,10 +163,13 @@ function load_indicators_multiple_choice() {
             }
             td2.appendChild(select);
         }
+        
+        //TODO CHANGE ID IN FUNCTION's PARAMETER
         if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
 
             var select = document.createElement("select");
             select.setAttribute("name", indicators[cpt_indicators][1]);
+            select.setAttribute("id", 13);
             select.setAttribute("style", 'width:100px');
             for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
                 var option = document.createElement("option");
