@@ -110,7 +110,7 @@ function get_nb_messages_read_user_php($args) {
     $requete->closeCursor();
 }
 
-function nb_files_download_users($args) {
+function get_nb_files_download_users_php($args) {
     if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }
@@ -126,7 +126,7 @@ function nb_files_download_users($args) {
     $requete->closeCursor();
 }
 
-function nb_files_upload_users($args) {
+function get_nb_files_upload_users($args) {
     if (isset($args['p_name_user'])) {
         $name_user = $args['p_name_user'];
     }
@@ -142,7 +142,7 @@ function nb_files_upload_users($args) {
     $requete->closeCursor();
 }
 
-function nb_display_forum_users($args) {
+function get_nb_display_forum_users($args) {
     if (isset($args['p_forum_number']) && isset($args['p_name_user'])) {
         $forum_number = $args['p_forum_number'];
         $name_user = $args['p_name_user'];
@@ -210,6 +210,7 @@ function nb_display_forum_date_users($args) {
  * TRANSLATER
  */
 
+//Translater user
 function get_name_of_id_user_php($args) {
 
     $bdd = connexionBd();
@@ -348,7 +349,31 @@ function get_list_users_php() {
     echo json_encode($retour);
 }
 
-function nb_display_forum($args) {
+function list_forum(){
+    $bdd = connexionBd();
+    $requete = $bdd->query('SELECT DISTINCT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Title,",",1),"=",-1) AS Unsigned) AS idForum FROM `attributes` WHERE Title LIKE "IDForum%" ORDER BY idForum ASC');
+    while ($donnees = $requete->fetch()) {
+        echo ' <option id=' . $donnees['idForum'] . ' selected=\'selected\'>' . $donnees['idForum'] . '</option>';
+    }
+}
+
+function get_list_forums_php() {
+
+    $retour = array();
+
+    $bdd = connexionBd();
+
+    $requete = $bdd->query('SELECT DISTINCT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Title,",",1),"=",-1) AS Unsigned) AS idForum FROM `attributes` WHERE Title LIKE "IDForum%" ORDER BY idForum ASC');
+    while ($data = $requete->fetch()) {
+        $tmp = array();
+        array_push($tmp, $data['idForum']);
+        array_push($retour, $tmp);
+    }
+    echo json_encode($retour);
+}
+
+
+function get_nb_display_forum($args) {
     if (isset($args['p_forum_number'])) {
         $forum_number = $args['p_forum_number'];
     }

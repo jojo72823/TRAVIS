@@ -3,7 +3,7 @@
      ******************************************************************************/
 var indicators;
 var name_indicators = new Array();
-var indicators;
+var forum_indicators = new Array();
 var data_print = new Array();
 var legende_print = new Array();
 var data = new Array();
@@ -12,6 +12,7 @@ var nb_filter = 0;
 var id_indicators = new Array();
 var state_save = false;
 var users_selected = new Array();
+var forum_selected = new Array();
 var tab_type_element;
 var tab_indicators;
 
@@ -98,6 +99,7 @@ function get_nb_messages_read_user_js(name_user) {
     });
     return var_tmp;
 }
+
 function get_nb_messages_sent() {
     var var_tmp;
     $.ajax({
@@ -158,6 +160,86 @@ function get_nb_files_download() {
         error: function (jqXHR, textStatus, errorThrown) {
             alert("get_nb_files_download failed " + errorThrown);
         }
+    });
+    return var_tmp;
+}
+
+function get_nb_files_download_users_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_files_download_users_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_files_download_users! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_files_upload_users_js(name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_files_upload_users_php', p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_files_upload_users! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_display_forum_js(forum_number) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_display_forum', p_forum_number: forum_number},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_display_forum_js! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
+function get_nb_display_forum_users_js(forum_number, name_user) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_display_forum_users', p_forum_number: forum_number, p_name_user: name_user},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_display_forum_users_js! ");
+            }
+        },
+        cache: false
     });
     return var_tmp;
 }
@@ -246,6 +328,30 @@ function get_list_users_js() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("get_list_users failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+/*******************************************************************************
+ * GET ALL FORUMS NUMBERS
+ ******************************************************************************/
+function get_list_forums_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_list_forums_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_list_forums ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_forums_users failed " + errorThrown);
         }
     });
     return var_tmp;

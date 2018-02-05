@@ -20,18 +20,18 @@
     <head>
         <meta charset="utf-8">
 
-        <title>TRAVIS - Dashboard</title>
+        <title>TRAVIS - TimeMachine</title>
 
         <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
         <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.css'>
         <link rel="stylesheet prefetch" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
-        <link rel='stylesheet prefetch' href='css/dashboard.css'>
+        <link rel='stylesheet prefetch' href='css/timeMachine.css'>
 
         <link href="css/animate.css" rel="stylesheet"> 
         <!--<link rel="stylesheet" href="css/style.css">-->
         <link rel="stylesheet" href="css/custom_material.min.css" />
 
-        <link rel="stylesheet" href="css/dashboard.css">
+        <link rel="stylesheet" href="css/timeMachine.css">
 
         <link rel="stylesheet" href="css/main.css">
 
@@ -54,14 +54,14 @@
 
     </head>
     <body style="background-color: #d7d7d7">
-        <div class="preloader">
+        <!--<div class="preloader">
             <div class="preloder-wrap">
                 <div class="preloder-inner"> 
                     <div class="loading">
                     </div> 
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class=" mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
             <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer" >
                 <div class="mdl-layout__drawer" style="background: #404041;color: white">
@@ -74,7 +74,7 @@
                     </div>
                     <nav class="mdl-navigation" >
                         <a class="mdl-navigation__link" href="" style="color: white">Dashboard</a>
-                        <a class="mdl-navigation__link" href="timeMachine.php" style="color: white">Time Machine</a>
+                        <a class="mdl-navigation__link" href="" style="color: white">Time Machine</a>
                         <a class="mdl-navigation__link" href="" style="color: white">Settings</a>
                         <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="index.php" style="color: white">Sign out</a>
                     </nav>
@@ -86,7 +86,9 @@
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-                 
+                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
+                    Generate TimeMachine
+                </button>
                 </div>
                 <!RIGHT MENU--------------------------------------------------->
                 <div id="right_panel" class="rightSide">
@@ -179,4 +181,4 @@
 </div>
 
 <script src="js/right_panel.js"></script>
-<script type="text/javascript" src="js/main.js"></script> 
+<!--<script type="text/javascript" src="js/main.js"></script> -->

@@ -7,6 +7,7 @@ var id_element;
 var data_panel;
 var indicators;
 var users;
+var forums;
 
 /**
  * First function to load all interface
@@ -16,6 +17,7 @@ function load_interface() {
     //INITIALIZATION
     indicators = get_indicators();
     users = get_list_users_js();
+    forums = get_list_forums_js();
     load_type_element();
     data_panel = get_panels_saved();
 
@@ -158,6 +160,20 @@ function load_indicators_multiple_choice() {
             }
             td2.appendChild(select);
         }
+        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
+
+            var select = document.createElement("select");
+            select.setAttribute("name", indicators[cpt_indicators][1]);
+            select.setAttribute("style", 'width:100px');
+            for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
+                var option = document.createElement("option");
+                option.setAttribute("id", forums[cpt_forums][0]);
+                option.setAttribute("selected", 'selected');
+                option.textContent = forums[cpt_forums][0];
+                select.appendChild(option);
+            }
+            td2.appendChild(select);
+        }
 
         tr.appendChild(td);
         tr.appendChild(td2);
@@ -198,7 +214,21 @@ function load_indicators_single_choice() {
                 var option = document.createElement("option");
                 option.setAttribute("id", users[cpt_users][0]);
                 option.setAttribute("selected", 'selected');
-                option.textContent = users[cpt_users][1];
+                option.textContent = users[cpt_users][0];
+                select.appendChild(option);
+            }
+            td2.appendChild(select);
+        }
+        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
+
+            var select = document.createElement("select");
+            select.setAttribute("name", indicators[cpt_indicators][1]);
+            select.setAttribute("style", 'width:100px');
+            for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
+                var option = document.createElement("option");
+                option.setAttribute("id", forums[cpt_forums][0]);
+                option.setAttribute("selected", 'selected');
+                option.textContent = forums[cpt_forums][0];
                 select.appendChild(option);
             }
             td2.appendChild(select);
