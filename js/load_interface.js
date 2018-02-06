@@ -41,7 +41,7 @@ function load_panels_saved() {
         var name = data_panel[cpt][0][2];
         var letter = data_panel[cpt][0][3];
         var color = data_panel[cpt][0][4];
-        add_panel_saved(id_panel, id_user, name, letter, color);
+        add_panel(id_panel, id_user, name, letter, color);
         add_button_right_panel_saved(id_panel, id_user, name, letter, color);
         panel_select = id_panel;
 
@@ -367,7 +367,7 @@ function add_section(id_element, panel_select) {
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_element);
-    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
+    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated fadeInUp');
     card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
@@ -384,7 +384,7 @@ function add_section(id_element, panel_select) {
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
-    input.setAttribute("style", 'width: 30px;float: right;padding:5px');
+    input.setAttribute("style", 'width: 42px;float: right;padding:5px');
     input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 

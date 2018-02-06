@@ -686,9 +686,18 @@ function delete_filter(number) {
 }
 
 function delete_graph(number) {
-    document.getElementById('card' + number).remove();
-    delete_graph_js(number, panel_select);
-    document.getElementById(name).remove();
+
+    var txt;
+    var r = confirm("Do you really want to delete this element ?");
+    if (r == true) {
+
+        document.getElementById('card' + number).remove();
+        delete_graph_js(number, panel_select);
+        document.getElementById(name).remove();
+    }
+
+
+
 }
 
 /*******************************************************************************

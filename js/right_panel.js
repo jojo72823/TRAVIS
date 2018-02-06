@@ -14,7 +14,7 @@ function pre_add_panel() {
 
         nb_panel = nb_panel + 1;
         panel_select = id_panel;
-        id_panel = add_panel_in_database();
+        id_panel = save_panel(name_panel);
         var new_id = new Array();
         new_id.push(id_panel);
 
@@ -24,13 +24,13 @@ function pre_add_panel() {
 
 
         data_panel.push(new_panel);
-        add_panel(id_panel);
+        add_panel(id_panel, "1", name_panel, name_panel.charAt(0), color_select);
         add_button_right_panel(id_panel);
 
         view_panel_add_element_add(id_panel);
-        
-        if(nb_panel ==10){
-             jQuery("#demo-menu-lower-right").remove();
+
+        if (nb_panel == 10) {
+            jQuery("#demo-menu-lower-right").remove();
         }
 
 
@@ -41,73 +41,70 @@ function pre_add_panel() {
 }
 
 //TODO LIMITE DE PANEL (10 max)
-function add_panel_saved(id_panel, id_user, name, letter, color) {
+function add_panel(id_panel, id_user, name, letter, color) {
 
-
-//    < button id = "demo-menu-lower-right"
-//            class = "mdl-button mdl-js-button mdl-button--icon" >
-//            < i class = "material-icons" > more_vert < /i>
-//            < /button>
-
-//    var page_content = document.getElementById('page_content');
-//
-//
-//    var header = document.createElement("div");
-//    header.setAttribute("id", 'header' + id_panel);
-//    header.setAttribute("style", 'background-color : #123456; height : 100px; width : 100%;text-align : left');
-//
-////    var name = document.createElement("div");
-////    name.textContent = name;
-//
-//    var ul = document.createElement("ul");
-//    ul.setAttribute("class", 'mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect');
-//    ul.setAttribute("for", 'button_delete_panel');
-//    var li = document.createElement("li");
-//    li.setAttribute("class", 'mdl-menu__item');
-//    li.textContent = 'Delete this panel';
-//
-//    ul.appendChild(li);
-//    header.appendChild(ul);
-//
-//
-//    var button = document.createElement("button");
-//    button.setAttribute("id", 'button_delete_panel');
-//    button.setAttribute("style", 'position:absolute; float:left;');
-//    button.setAttribute("class", 'mdc-button mdc-button--raised demo-button demo-button--normal');
-//
-//    var i = document.createElement("i");
-//    i.setAttribute("class", 'material-icons');
-//    i.textContent = 'more_vert';
-//
-//
-//    button.appendChild(i);
-////    header.appendChild(name);
-//    header.appendChild(button);
-
-
-    var div = document.createElement("div");
-    div.setAttribute("id", 'panel' + id_panel);
-    div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'width:100%');
-
-
-//    div.appendChild(header);
-    page_content.appendChild(div);
-
-
-
-}
-function add_panel(id_panel) {
     var page_content = document.getElementById('page_content');
-    var div = document.createElement("div");
-    div.setAttribute("id", 'panel' + id_panel);
-    div.setAttribute("class", 'mdl-grid background_content ');
-    div.setAttribute("style", 'background-color: ' + color_select);
-    page_content.appendChild(div);
+
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'panel' + id_panel);
+    card.setAttribute("class", 'mdl-grid background_content animated zoomIn');
+    card.setAttribute("style", 'height: auto;width:98%');
+
+
+
+    var in_content_card = document.createElement("div");
+    in_content_card.setAttribute("style", 'background-color :' + color + ';height: auto;');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+
+    var text_header_panel = document.createElement("div");
+    text_header_panel.setAttribute("class", 'text_header_panel');
+    text_header_panel.textContent = "Panel : " +name;
+
+    in_content_card.appendChild(text_header_panel);
+
+    var close = document.createElement("div");
+    close.setAttribute("id", 'close' + id_panel);
+    close.setAttribute("style", 'height: 50px;margin-left:15px;margin-right:15px;margin-bottom:15px;');
+
+
+    var input = document.createElement("input");
+    input.setAttribute("id", 'delete_button');
+    input.setAttribute("type", 'image');
+    input.setAttribute("src", 'images/icon_close.png');
+    input.setAttribute("style", 'width: 50px;float: right;padding:5px;z_index:999');
+    input.setAttribute("onclick", 'delete_panel(\'' + id_panel + '\')');
+
+
+    close.appendChild(input);
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_panel);
+    container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
+    in_content_card.appendChild(close);
+    in_content_card.appendChild(container);
+
+    card.appendChild(in_content_card);
+
+    page_content.appendChild(card);
+
+}
+
+function delete_panel(id_panel) {
+
+    var txt;
+    var r = confirm("Do you really want to delete this panel ?");
+    if (r == true) {
+       
+        delete_panel_js(id_panel);
+        location.reload();
+    }
+
 }
 
 
-function add_panel_in_database() {
+
+function save_panel(name_panel) {
 
     var var_tmp;
 

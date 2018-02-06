@@ -399,4 +399,6 @@ function get_nb_display_forum($args) {
     $requete->closeCursor();
 }
 
+
+
 ?>

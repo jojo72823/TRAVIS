@@ -259,6 +259,17 @@ function delete_graph_js(number, panel_select) {
         },
     });
 }
+function delete_panel_js(id_panel) {
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'delete_panel_php', id_panel: id_panel},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+        },
+    });
+}
 /*******************************************************************************
  * GET ALL TYPE ELEMENTS
  ******************************************************************************/

@@ -212,3 +212,56 @@ function get_id_element_php() {
     echo $ID_ELEMENT;
 }
 
+function delete_panel_php($args) {
+    $id_panel = $args['id_panel'];
+
+    //connect to database
+    $bdd = connexionBdTravis();
+
+    //GET ID
+    //select ID type graph et type graph
+    //prepare request
+    $requete = $bdd->prepare("SELECT * FROM `tab_element` WHERE `ID_PANEL`= :id_panel");
+    $requete->bindParam(":id_panel", $id_panel);
+    //execute request
+    $requete->execute() or die("erreur requete load_element");
+
+    //delete details for each element
+    while ($data = $requete->fetch()) {//GET each element
+        switch ($data['TYPE_ELEMENT']) {
+            case "TAB_POLAR":
+
+                $requete_delete_1 = $bdd->prepare("DELETE FROM `TAB_POLAR` WHERE `ID_TAB_POLAR` = :id_tab_polar");
+                $requete_delete_1->bindParam(":id_tab_polar", $data['ID_TYPE_GRAPH']);
+                $requete_delete_1->execute() or die("ERROR DELETE FROM `TAB_POLAR` (delete_panel_php)");
+
+                break;
+            case "TAB_SPIDER":
+                $requete_delete_1 = $bdd->prepare("DELETE FROM `TAB_SPIDER` WHERE `ID_TAB_SPIDER` = :id_tab_spider");
+                $requete_delete_1->bindParam(":id_tab_spider", $data['ID_TYPE_GRAPH']);
+                $requete_delete_1->execute() or die("ERROR DELETE FROM `TAB_SPIDER` (delete_panel_php)");
+
+                break;
+            case "TAB_BIG_NUMBER":
+
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //delete elements
+    $requete_delete_2 = $bdd->prepare("DELETE FROM `tab_element` WHERE `ID_PANEL` = :id_panel");
+    $requete_delete_2->bindParam(":id_panel", $id_panel);
+    $requete_delete_2->execute() or die("ERROR DELETE FROM `tab_element` (delete_panel_php)");
+    
+    //delete panel
+    $requete_delete_3 = $bdd->prepare("DELETE FROM `tab_panel` WHERE `ID_PANEL` = :id_panel");
+    $requete_delete_3->bindParam(":id_panel", $id_panel);
+    $requete_delete_3->execute() or die("ERROR DELETE FROM `tab_panel` (delete_panel_php)");
+
+    $requete->closeCursor();
+  
+}

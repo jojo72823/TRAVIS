@@ -165,7 +165,7 @@
                 </div>
                 <input id="color_panel" type="color" value="#ff0000">
 
-                <button class="mdl-button mdl-js-button mdl-button--raised" data-dismiss="modal" onclick="pre_add_panel();" style="margin: 10px;" id="MyButton">
+                <button class="mdl-button mdl-js-button mdl-button--raised " data-dismiss="modal" onclick="pre_add_panel();" style="margin: 10px;" id="MyButton">
                     Add panel
                 </button>
             </div>
@@ -175,6 +175,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="js/right_panel.js"></script>
 <script type="text/javascript" src="js/main.js"></script> 
