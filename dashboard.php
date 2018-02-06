@@ -37,12 +37,13 @@
 
         <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
-        
+
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="js/generate_graph.js"></script>
         <script src="js/load_interface.js"></script>
         <script src="js/save_interface.js"></script>
         <script src="js/data_bridge.js"></script>
+        <script src="js/highchart_themes.js"></script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -86,7 +87,7 @@
             <main class="mdl-layout__content background_content" >
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
-                 
+
                 </div>
                 <!RIGHT MENU--------------------------------------------------->
                 <div id="right_panel" class="rightSide">
@@ -116,9 +117,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Chart generator</h5>
-                <!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>-->
             </div>
             <div class="modal-body">
                 <table>

@@ -67,24 +67,73 @@ function load_panels_saved() {
                 for (cpt_name = 0; cpt_name < tmp_array_id_indicators.length; cpt_name++) {
 
                     //Simple indicator
-                    if (tmp_array_id_indicators[cpt_name].length == 1) {
-                        var name = get_name_of_id_indicator(tmp_array_id_indicators[cpt_name]);
-                        name_indicators.push(name);
-                        users_selected.push("null");
+                    if (tmp_array_id_indicators[cpt_name].length > 1) {
+
+                        var forum_selected_tmp = new Array();
+                        var users_selected_tmp = new Array();
+
+                        switch (tmp_array_id_indicators[cpt_name][1]) {
+                            case "8"://users
+                                users_selected_tmp.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
+                                forum_selected_tmp.push('null');
+                                break;
+                            case "13": //forums
+                                forum_selected_tmp.push(tmp_array_id_indicators[cpt_name][2]);
+                                users_selected_tmp.push('null');
+                                break;
+                            default:
+                                break;
+                        }
+
+
+
+
+
                     } else {//MULTI INDICATORS
-                        var name = get_name_of_id_indicator(tmp_array_id_indicators[cpt_name][0]);
-                        name_indicators.push(name);
-                        //tmp_array_id_indicators[cpt_name][1] == type of second indicator
-                        //switch case
-                        users_selected.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
+
+                        var forum_selected_tmp = new Array();
+                        var users_selected_tmp = new Array();
+
+                        forum_selected_tmp.push('null');
+                        users_selected_tmp.push('null');
+
+
+
+                    }
+
+                    forum_selected.push(forum_selected_tmp);
+                    users_selected.push(users_selected_tmp);
+                    var already_present = false;
+                    for (cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
+                        if (name_indicators[cpt_name_indicators] == get_name_of_id_indicator(tmp_array_id_indicators[cpt_name][0])) {
+                            already_present = true;
+                        }
+                    }
+
+                    if (already_present == false || (name_indicators.length == 0)) {
+
+                        if (tmp_array_id_indicators[cpt_name].length > 1) {
+                            name_indicators.push(get_name_of_id_indicator(tmp_array_id_indicators[cpt_name][0]));
+                        } else {
+                            name_indicators.push(get_name_of_id_indicator(tmp_array_id_indicators[cpt_name]));
+                        }
+
                     }
                 }
+
+
+
+
+
+
+
+
                 get_results_indicators_selected();
 
             }
         }
         add_section_add_button(id_panel);
-        
+
 
     }
     if (nb_panel != 0) {
@@ -115,9 +164,9 @@ function load_type_element() {
         input.setAttribute("class", 'mdl-checkbox__input');
         var span = document.createElement("span");
         span.setAttribute("class", 'mdl-checkbox__label');
-        span.textContent = tab_type_element[cpt_tab_type_element][1];
-        label.appendChild(span);
+        span.textContent = " " + tab_type_element[cpt_tab_type_element][1];
         label.appendChild(input);
+        label.appendChild(span);
         td.appendChild(label);
         tr.appendChild(td);
         element.appendChild(tr);
@@ -130,60 +179,67 @@ function load_indicators_multiple_choice() {
 
     for (cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
 
-        var tr = document.createElement("tr");
-        var td = document.createElement("td");
-        var td2 = document.createElement("td2");
-        var label = document.createElement("label");
-        label.setAttribute("class", 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
-        label.setAttribute("for", indicators[cpt_indicators][1]);
-        var input = document.createElement("input");
-        input.setAttribute("id", indicators[cpt_indicators][1]);
-        input.setAttribute("type", 'checkbox');
-        input.setAttribute("class", 'mdl-checkbox__input');
-        var span = document.createElement("span");
-        span.setAttribute("class", 'mdl-checkbox__label');
-        span.textContent = indicators[cpt_indicators][2];
-        label.appendChild(input);
-        label.appendChild(span);
-        td.appendChild(label);
-        
-        //TODO CHANGE ID IN FUNCTION's PARAMETER
-        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
+        if (indicators[cpt_indicators][2] != "") {
 
-            var select = document.createElement("select");
-            select.setAttribute("name", indicators[cpt_indicators][1]);
-            select.setAttribute("id", 8);
-            select.setAttribute("style", 'width:100px');
-            for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
-                var option = document.createElement("option");
-                option.setAttribute("id", users[cpt_users][0]);
-                option.setAttribute("selected", 'selected');
-                option.textContent = users[cpt_users][1];
-                select.appendChild(option);
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var td2 = document.createElement("td2");
+            var label = document.createElement("label");
+            label.setAttribute("class", 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
+            label.setAttribute("for", indicators[cpt_indicators][1]);
+            var input = document.createElement("input");
+            input.setAttribute("id", indicators[cpt_indicators][1]);
+            input.setAttribute("type", 'checkbox');
+            input.setAttribute("class", 'mdl-checkbox__input');
+            var span = document.createElement("span");
+            span.setAttribute("class", 'mdl-checkbox__label');
+            span.textContent = " " + indicators[cpt_indicators][2];
+            label.appendChild(input);
+            label.appendChild(span);
+            td.appendChild(label);
+
+            //TODO CHANGE ID IN FUNCTION's PARAMETER
+            if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
+
+                var select = document.createElement("select");
+                select.setAttribute("name", indicators[cpt_indicators][1]);
+                select.setAttribute("id", 8);
+                select.setAttribute("style", 'width:100px');
+                for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("id", users[cpt_users][0]);
+                    if (cpt_users == 0) {
+                        option.setAttribute("selected", 'selected');
+                    }
+                    option.textContent = users[cpt_users][1];
+                    select.appendChild(option);
+                }
+                td2.appendChild(select);
             }
-            td2.appendChild(select);
-        }
-        
-        //TODO CHANGE ID IN FUNCTION's PARAMETER
-        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
 
-            var select = document.createElement("select");
-            select.setAttribute("name", indicators[cpt_indicators][1]);
-            select.setAttribute("id", 13);
-            select.setAttribute("style", 'width:100px');
-            for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
-                var option = document.createElement("option");
-                option.setAttribute("id", forums[cpt_forums][0]);
-                option.setAttribute("selected", 'selected');
-                option.textContent = forums[cpt_forums][0];
-                select.appendChild(option);
+            //TODO CHANGE ID IN FUNCTION's PARAMETER
+            if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
+
+                var select = document.createElement("select");
+                select.setAttribute("name", indicators[cpt_indicators][1]);
+                select.setAttribute("id", 13);
+                select.setAttribute("style", 'width:100px');
+                for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("id", forums[cpt_forums][0]);
+                    if (cpt_forums == 0) {
+                        option.setAttribute("selected", 'selected');
+                    }
+                    option.textContent = forums[cpt_forums][0];
+                    select.appendChild(option);
+                }
+                td2.appendChild(select);
             }
-            td2.appendChild(select);
-        }
 
-        tr.appendChild(td);
-        tr.appendChild(td2);
-        element.appendChild(tr);
+            tr.appendChild(td);
+            tr.appendChild(td2);
+            element.appendChild(tr);
+        }
     }
 }
 
@@ -192,59 +248,65 @@ function load_indicators_single_choice() {
     var element = document.getElementById('tab_indicators');
 
     for (cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
+        if (indicators[cpt_indicators][2] != "") {
 
 
-        var tr = document.createElement("tr");
-        var td = document.createElement("td");
-        var td2 = document.createElement("td2");
-        var label = document.createElement("label");
-        label.setAttribute("class", 'mdl-radio mdl-js-radio mdl-js-ripple-effect');
-        label.setAttribute("for", indicators[cpt_indicators][1]);
-        var input = document.createElement("input");
-        input.setAttribute("id", indicators[cpt_indicators][1]);
-        input.setAttribute("type", 'radio');
-        input.setAttribute("class", 'mdl-radio__input');
-        input.setAttribute("name", 'indicator');
-        var span = document.createElement("span");
-        span.setAttribute("class", 'mdl-radio__label');
-        span.textContent = indicators[cpt_indicators][2];
-        label.appendChild(input);
-        label.appendChild(span);
-        td.appendChild(label);
-        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var td2 = document.createElement("td2");
+            var label = document.createElement("label");
+            label.setAttribute("class", 'mdl-radio mdl-js-radio mdl-js-ripple-effect');
+            label.setAttribute("for", indicators[cpt_indicators][1]);
+            var input = document.createElement("input");
+            input.setAttribute("id", indicators[cpt_indicators][1]);
+            input.setAttribute("type", 'radio');
+            input.setAttribute("class", 'mdl-radio__input');
+            input.setAttribute("name", 'indicator');
+            var span = document.createElement("span");
+            span.setAttribute("class", 'mdl-radio__label');
+            span.textContent = " " + indicators[cpt_indicators][2];
+            label.appendChild(input);
+            label.appendChild(span);
+            td.appendChild(label);
+            if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 8)) {
 
-            var select = document.createElement("select");
-            select.setAttribute("name", indicators[cpt_indicators][1]);
-            select.setAttribute("style", 'width:100px');
-            for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
-                var option = document.createElement("option");
-                option.setAttribute("id", users[cpt_users][0]);
-                option.setAttribute("selected", 'selected');
-                option.textContent = users[cpt_users][0];
-                select.appendChild(option);
+                var select = document.createElement("select");
+                select.setAttribute("name", indicators[cpt_indicators][1]);
+                select.setAttribute("id", 8);
+                select.setAttribute("style", 'width:100px');
+                for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("id", users[cpt_users][0]);
+                    if (cpt_users == 0) {
+                        option.setAttribute("selected", 'selected');
+                    }
+                    option.textContent = users[cpt_users][1];
+                    select.appendChild(option);
+                }
+                td2.appendChild(select);
             }
-            td2.appendChild(select);
-        }
-        if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
+            if (bool_compatible_indicators_js(indicators[cpt_indicators][0], 13)) {
 
-            var select = document.createElement("select");
-            select.setAttribute("name", indicators[cpt_indicators][1]);
-            select.setAttribute("style", 'width:100px');
-            for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
-                var option = document.createElement("option");
-                option.setAttribute("id", forums[cpt_forums][0]);
-                option.setAttribute("selected", 'selected');
-                option.textContent = forums[cpt_forums][0];
-                select.appendChild(option);
+                var select = document.createElement("select");
+                select.setAttribute("name", indicators[cpt_indicators][1]);
+                select.setAttribute("style", 'width:100px');
+                for (cpt_forums = 0; cpt_forums < forums.length; cpt_forums++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("id", forums[cpt_forums][0]);
+                    if (cpt_forums == 0) {
+                        option.setAttribute("selected", 'selected');
+                    }
+                    option.textContent = forums[cpt_forums][0];
+                    select.appendChild(option);
+                }
+                td2.appendChild(select);
             }
-            td2.appendChild(select);
+
+            tr.appendChild(td);
+            tr.appendChild(td2);
+            element.appendChild(tr);
+
         }
-
-        tr.appendChild(td);
-        tr.appendChild(td2);
-        element.appendChild(tr);
-
-
 
     }
 }
@@ -384,7 +446,7 @@ function add_section_add_button(panel_select) {
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card_add' + panel_select);
-    card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
+    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated zoomIn');
     card.setAttribute("style", 'background-color : #d7d7d7;');
 
     element.appendChild(card);
@@ -392,21 +454,27 @@ function add_section_add_button(panel_select) {
     var content_card = document.getElementById('card_add' + panel_select);
 
     var in_content_card = document.createElement("div");
-    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;width:auto');
-    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+    in_content_card.setAttribute("style", 'height: 445px;width:auto');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp img_btn_add_in_card');
+    in_content_card.setAttribute("id", 'show-dialog');
+    in_content_card.setAttribute("data-toggle", 'modal');
+    in_content_card.setAttribute("data-target", '#modal_add_element');
+    
 
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + id_element);
     var img = document.createElement("img");
-    img.setAttribute("id", 'show-dialog');
-    img.setAttribute("data-toggle", 'modal');
+    
 
-    img.setAttribute("style", "width:100%;height:auto");
-    img.setAttribute("data-target", '#modal_add_element');
-    img.setAttribute("src", 'images/icon_add.png');
-    img.setAttribute("class", 'img_btn_add_in_card');
+    img.setAttribute("style", "width:auto;height:445px");
+    
+    img.setAttribute("src", 'images/icon_circle_add.png');
+
+  
+
 
     container.appendChild(img);
+   
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
 }

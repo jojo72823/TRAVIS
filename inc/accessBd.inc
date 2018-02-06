@@ -326,11 +326,19 @@ function get_indicators_php() {
 }
 
 function list_user() {
+    
+    $count = 0;
 
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT * FROM user');
     while ($donnees = $requete->fetch()) {
-        echo ' <option id=' . $donnees['idUser'] . ' selected=\'selected\'>' . $donnees['name'] . '</option>';
+        if($count == 0){
+            echo ' <option  id=' . $donnees['idUser'] . ' selected=\'selected\'>' . $donnees['name'] . '</option>';
+            $count = 1;
+        }else{
+            echo ' <option id=' . $donnees['idUser'] . '>' . $donnees['name'] . '</option>';
+        }
+        
     }
 }
 

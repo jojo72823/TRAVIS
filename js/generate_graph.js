@@ -23,75 +23,66 @@ function get_indicators_selected() {
     switch (type_element) {
         case "TAB_POLAR":
             add_section(id_element, panel_select);
-
             state_save = true;
-
-
-
-
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (document.getElementById(indicators[cpt][1]).checked) {
 
-                    var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
-
-                    if (array_compatible_indicators.length != 0) {
-                        var forum_selected_tmp = new Array();
-                        var users_selected_tmp = new Array();
-
-                        for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
-                            switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
-                                case "8"://users
-                                   
-
-                                    var array_many_indicators = new Array();
-                                    array_many_indicators.push(indicators[cpt][0]);
-                                    array_many_indicators.push(8);
+                if (indicators[cpt][2] != "") {
 
 
-                                    array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
-                                    array_id_indicators_element.push(array_many_indicators);
-                                    name_indicators.push(indicators[cpt][1]);//get name of indicator
+                    if (document.getElementById(indicators[cpt][1]).checked) {
 
-                                    users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                    forum_selected_tmp.push('null');
+                        var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
 
-                                    break;
-                                case "13"://forums
-                                    
-                                    var array_many_indicators = new Array();
-                                    array_many_indicators.push(indicators[cpt][0]);
-                                    array_many_indicators.push(13);
-                                    array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                    array_id_indicators_element.push(array_many_indicators);
+                        if (array_compatible_indicators.length != 0) {
+                            var forum_selected_tmp = new Array();
+                            var users_selected_tmp = new Array();
 
+                            for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
+                                switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
+                                    case "8"://users
+                                        var array_many_indicators = new Array();
+                                        array_many_indicators.push(indicators[cpt][0]);
+                                        array_many_indicators.push(8);
+                                        array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
+                                        array_id_indicators_element.push(array_many_indicators);
+                                        users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        forum_selected_tmp.push('null');
 
-                                    forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                    users_selected_tmp.push('null');
-
-                                    break;
-
-
-                                default:
-
-                                    break;
+                                        break;
+                                    case "13"://forums
+                                        var array_many_indicators = new Array();
+                                        array_many_indicators.push(indicators[cpt][0]);
+                                        array_many_indicators.push(13);
+                                        array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        array_id_indicators_element.push(array_many_indicators);
+                                        forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        users_selected_tmp.push('null');
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
+
+                            name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+                            forum_selected.push(forum_selected_tmp);
+                            users_selected.push(users_selected_tmp);
+
+                        } else {
+                            var forum_selected_tmp = new Array();
+                            var users_selected_tmp = new Array();
+
+                            forum_selected_tmp.push('null');
+                            users_selected_tmp.push('null');
+
+                            array_id_indicators_element.push(indicators[cpt][0]);
+                            name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+
+                            forum_selected.push(forum_selected_tmp);
+                            users_selected.push(users_selected_tmp);
                         }
-                        forum_selected.push(forum_selected_tmp);
-                        users_selected.push(users_selected_tmp);
-
-                    } else {
-                        var forum_selected_tmp = new Array();
-                        var users_selected_tmp = new Array();
-
-                        forum_selected_tmp.push('null');
-                        users_selected_tmp.push('null');
-
-                        array_id_indicators_element.push(indicators[cpt][0]);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-
-                        forum_selected.push(forum_selected_tmp);
-                        users_selected.push(users_selected_tmp);
                     }
                 }
             }
@@ -102,19 +93,60 @@ function get_indicators_selected() {
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (document.getElementById(indicators[cpt][1]).checked) {
-                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                        var array_many_indicators = new Array();
-                        array_many_indicators.push(indicators[cpt][0]);
-                        array_many_indicators.push(8);
-                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
-                        array_id_indicators_element.push(array_many_indicators);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-                    } else {
-                        users_selected.push('null');
-                        array_id_indicators_element.push(indicators[cpt][0]);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
+                if (indicators[cpt][2] != "") {
+                    if (document.getElementById(indicators[cpt][1]).checked) {
+
+                        var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
+
+                        if (array_compatible_indicators.length != 0) {
+                            var forum_selected_tmp = new Array();
+                            var users_selected_tmp = new Array();
+
+                            for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
+                                switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
+                                    case "8"://users
+                                        var array_many_indicators = new Array();
+                                        array_many_indicators.push(indicators[cpt][0]);
+                                        array_many_indicators.push(8);
+                                        array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
+                                        array_id_indicators_element.push(array_many_indicators);
+                                        users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        forum_selected_tmp.push('null');
+
+                                        break;
+                                    case "13"://forums
+                                        var array_many_indicators = new Array();
+                                        array_many_indicators.push(indicators[cpt][0]);
+                                        array_many_indicators.push(13);
+                                        array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        array_id_indicators_element.push(array_many_indicators);
+                                        forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
+                                        users_selected_tmp.push('null');
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+
+                            name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+                            forum_selected.push(forum_selected_tmp);
+                            users_selected.push(users_selected_tmp);
+
+                        } else {
+                            var forum_selected_tmp = new Array();
+                            var users_selected_tmp = new Array();
+
+                            forum_selected_tmp.push('null');
+                            users_selected_tmp.push('null');
+
+                            array_id_indicators_element.push(indicators[cpt][0]);
+                            name_indicators.push(indicators[cpt][1]);//get name of indicator
+
+
+                            forum_selected.push(forum_selected_tmp);
+                            users_selected.push(users_selected_tmp);
+                        }
                     }
                 }
             }
@@ -175,64 +207,75 @@ function get_results_indicators_selected() {
     for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
         //call function of this indicator
         for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
+
             //call function of this indicator
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
                 legende_print.push(indicators[cpt_indicators][2]);
 
 
-                add_indicator(indicators[cpt_name_indicators][2]);
+
 
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
                         data_print.push(get_nb_messages_read());
-
+                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_messages_sent':
                         data_print.push(get_nb_messages_sent());
+                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_upload':
                         data_print.push(get_nb_files_upload());
+                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_download':
                         data_print.push(get_nb_files_download());
+                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_connection_user':
 
                         data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
                         break;
                     case 'nb_messages_sent_user':
 
                         data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
                         break;
                     case 'nb_messages_read_user':
 
                         data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
                         break;
                     case 'nb_files_download_users':
 
                         data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
                         break;
                     case 'nb_files_upload_users':
 
                         data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
                         break;
                     case 'nb_display_forum':
 
                         data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators][0]));
+                        add_indicator(indicators[cpt_indicators][2]);
 
 
                         break;
                     case 'nb_display_forum_users':
+                        add_indicator(indicators[cpt_name_indicators][2]);
 
-                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
-                            data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
-                        }
+//                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
+                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
+//                        }
 
                         break;
                     default:
@@ -244,22 +287,7 @@ function get_results_indicators_selected() {
     }
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
-        //TODO SAVE ARRAY IN DATABASE
         save_element(panel_select, type_element, array_id_indicators_element);
-//        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
-////            if (users_selected[cpt_users_selected] != 'null') {
-////                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
-////            }
-//
-//            //TODO save forum
-//
-//
-//        }
-
-
-
-
-
     }
 
     switch (type_element) {
@@ -269,7 +297,6 @@ function get_results_indicators_selected() {
         case "TAB_SPIDER":
             print_spider();
             break;
-
         case "TAB_BIG_NUMBER":
             break;
         case 3:
@@ -288,6 +315,7 @@ function get_results_indicators_selected() {
  * PRINT CHART FUNCTIONS
  ******************************************************************************/
 function print_polar() {
+    Highcharts.setOptions(Highcharts.theme);
 
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
@@ -355,6 +383,7 @@ function print_polar() {
 }
 
 function print_spider() {
+    Highcharts.setOptions(Highcharts.theme);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             polar: true,
@@ -502,6 +531,7 @@ function loadTimeMachine() {
                     [180.3, 83.2], [180.3, 83.2]]
             }]
     });
+
 }
 /*******************************************************************************
  * EXAMPLE CHART
@@ -510,6 +540,7 @@ function graphique_comparaison_note() {
     id_element = id_element_exemple;
     id_element_exemple = id_element_exemple + 1;
     add_section(id_element, panel_select);
+    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
     var myChart = Highcharts.chart('container' + id_element, {
         title: {
             text: 'Comparaison des notes'
@@ -568,6 +599,7 @@ function graphique_comparaison_note() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
+
 }
 
 var options = {
@@ -585,6 +617,7 @@ function graphique_comparaison_nb_co() {
     id_element_exemple = id_element_exemple + 1;
 
     add_section(id_element, panel_select);
+    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'column'
@@ -641,6 +674,7 @@ function graphique_comparaison_nb_co() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
+
 }
 
 
