@@ -96,7 +96,7 @@
                 <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
                     Generate TimeMachine
                 </button>
-                <!--<input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
+                <input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
 
                 <script type="text/javascript">
                     $(function() {
@@ -121,7 +121,7 @@
                         get_timeMachine_data(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'));
                         });*/
                     });
-                </script>-->
+                </script>
                 <!--<button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="genTimeMachine" onclick="get_timeMachine_indicators();">
                     Generate clever TimeMachine
                 </button>-->
