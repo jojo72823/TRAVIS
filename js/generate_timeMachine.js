@@ -155,13 +155,13 @@ function add_panel_timeMachine() {
 
     var in_content_card = document.createElement("div");
     //TODO change width to auto
-    in_content_card.setAttribute("style", 'background-color : lightblue;height: auto;width: 750px');
+    in_content_card.setAttribute("style", 'background-color : lightblue;height: auto;width: 1000px');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
 
     var text_header_panel = document.createElement("div");
     text_header_panel.setAttribute("class", 'text_header_panel');
-    text_header_panel.textContent = "Panel : timeMachine" ;
+    //text_header_panel.textContent = "Panel : timeMachine" ;
 
     in_content_card.appendChild(text_header_panel);
 
@@ -188,7 +188,7 @@ function add_panel_timeMachine() {
     card.appendChild(in_content_card);
 
     page_content.appendChild(card);
-    alert("OK : add_panel");
+    //alert("OK : add_panel");
     add_section_timeMachine(0, id_panel);
 }
 
@@ -522,7 +522,10 @@ function loadTimeMachine() {
             [2009-02-01, 2],[2009-02-15, 1],[2009-02-16, 6],[2009-02-17, 7],[2009-02-18, 3],[2009-02-19, 4],[2009-02-20, 7],[2009-02-21, 6],
             [2009-02-22, 8],[2009-02-23, 1],[2009-02-24, 0],[2009-02-25, 8],[2009-02-26, 4],[2009-02-27, 10],[2009-02-28, 7]]
 */
-            data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
+            //data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
+            data: [2,5,1,8,2,0,5,9],
+            pointStart: Date.UTC(2009, 1, 1),
+            pointInterval: 24 * 3600 * 1000
         }, {
             name: 'USER2',
             color: 'rgba(119, 152, 191, .5)',
@@ -530,10 +533,11 @@ function loadTimeMachine() {
             [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
             [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
             [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
-            data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
-        }],
-        pointStart: Date.UTC(2009, 0, 1),
-        pointInterval: 24 * 3600 * 1000
+            //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
+            data: [1,6,4,7,3,2,0],
+            pointStart: Date.UTC(2009, 1, 1),
+            pointInterval: 24 * 3600 * 1000
+        }]
     });
 }
 /*******************************************************************************
