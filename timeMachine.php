@@ -40,6 +40,7 @@
         
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="js/generate_graph.js"></script>
+        <script src="js/generate_timeMachine.js"></script>
         <script src="js/load_interface.js"></script>
         <script src="js/save_interface.js"></script>
         <script src="js/data_bridge.js"></script>
@@ -51,6 +52,14 @@
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+        <!-- Include Required Prerequisites for DatePicker-->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+        
+        <!-- Include Date Range Picker -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
     </head>
     <body style="background-color: #d7d7d7">
@@ -73,7 +82,7 @@
                         </span>
                     </div>
                     <nav class="mdl-navigation" >
-                        <a class="mdl-navigation__link" href="" style="color: white">Dashboard</a>
+                        <a class="mdl-navigation__link" href="dashboard.php" style="color: white">Dashboard</a>
                         <a class="mdl-navigation__link" href="" style="color: white">Time Machine</a>
                         <a class="mdl-navigation__link" href="" style="color: white">Settings</a>
                         <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="index.php" style="color: white">Sign out</a>
@@ -84,11 +93,41 @@
 
             <!MAIN PART-------------------------------------------------------->
             <main class="mdl-layout__content background_content" >
-                <!CONTENT PANEL------------------------------------------------>
-                <div id="page_content" class="page-content" >
                 <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
                     Generate TimeMachine
                 </button>
+                <!--<input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
+
+                <script type="text/javascript">
+                    $(function() {
+                        $('input[name="daterange"]').daterangepicker(
+                            {
+                                locale: {
+                                format: 'YYYY-MM-DD'
+                                },
+                                minDate: '2009-02-12',
+                                maxDate: '2009-05-11'
+                            }, 
+                        function(start, end, label) {
+                            //alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                            $.getScript('js/generate_timeMachine.js', function () {          
+                                get_timeMachine_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                            });
+                        });
+                        /*$('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                        console.log(picker.startDate.format('YYYY-MM-DD'));
+                        console.log(picker.endDate.format('YYYY-MM-DD'));
+                        alert("start : " + picker.startDate.format('YYYY-MM-DD') + " end : " + picker.endDate.format('YYYY-MM-DD'));
+                        get_timeMachine_data(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'));
+                        });*/
+                    });
+                </script>-->
+                <!--<button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="genTimeMachine" onclick="get_timeMachine_indicators();">
+                    Generate clever TimeMachine
+                </button>-->
+                <!CONTENT PANEL------------------------------------------------>
+                <div id="page_content" class="page-content" >
+                
                 </div>
                 <!RIGHT MENU--------------------------------------------------->
                 <div id="right_panel" class="rightSide">

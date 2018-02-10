@@ -207,6 +207,29 @@ function nb_display_forum_date_users($args) {
     $requete->closeCursor();
 }
 
+function get_nb_connection_date_users_php($args) {
+    if (isset($args['p_name_user']) && isset($args['p_date'])) {
+        
+        $date = $args['p_date'];
+        $name_user = $args['p_name_user'];
+    }
+    $bdd = connexionBd();
+
+    $requete = $bdd->query("SELECT idUser FROM `user` WHERE name = '" . $name_user . "'");
+    $count = $requete->fetch();
+    $count['idUser'];
+    $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` 
+                            NATURAL JOIN `action` 
+                            NATURAL JOIN `message`
+                            NATURAL JOIN `attributes`
+                            WHERE action.type='Connexion' 
+                                AND idUser = '" . $count['idUser'] . "'
+                                AND message.Date LIKE '" . $date . "%'");
+    $count = $requete->fetch();
+    echo $count['count'];
+    $requete->closeCursor();
+}
+
 /* * ***************************************************************************
  * TRANSLATER
  */

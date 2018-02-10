@@ -7,82 +7,50 @@ var myPointFormat;
 var array_id_indicators_element = new Array();
 var id_element_exemple = -500;
 
-
+var array_data = new Array();
 
 /*******************************************************************************
  * GET ELEMENT SELECTED IN DIALOG
  ******************************************************************************/
-function get_indicators_selected() {
-    id_element = get_id_element_js();
+function get_timeMachine_indicators() {
+    id_element = 0; //E. so it'll be placed at first place
     name_indicators.length = 0;
     forum_indicators.length = 0;
     array_id_indicators_element.length = 0;
     users_selected.length = 0;
     forum_selected.length = 0;
 
+    
+    //********************************SIMPLE COPYPASTE TO BE DELETED********************************************* */
     switch (type_element) {
         case "TAB_POLAR":
-            add_section(id_element, panel_select);
+            add_section(id_element, 0);
+
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
-
-                if (indicators[cpt][2] != "") {
-
-
-                    if (document.getElementById(indicators[cpt][1]).checked) {
-
-                        var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
-
-                        if (array_compatible_indicators.length != 0) {
-                            var forum_selected_tmp = new Array();
-                            var users_selected_tmp = new Array();
-
-                            for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
-                                switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
-                                    case "8"://users
-                                        var array_many_indicators = new Array();
-                                        array_many_indicators.push(indicators[cpt][0]);
-                                        array_many_indicators.push(8);
-                                        array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
-                                        array_id_indicators_element.push(array_many_indicators);
-                                        users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        forum_selected_tmp.push('null');
-
-                                        break;
-                                    case "13"://forums
-                                        var array_many_indicators = new Array();
-                                        array_many_indicators.push(indicators[cpt][0]);
-                                        array_many_indicators.push(13);
-                                        array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        array_id_indicators_element.push(array_many_indicators);
-                                        forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        users_selected_tmp.push('null');
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-
-                            name_indicators.push(indicators[cpt][1]);//get name of indicator
-
-                            forum_selected.push(forum_selected_tmp);
-                            users_selected.push(users_selected_tmp);
-
-                        } else {
-                            var forum_selected_tmp = new Array();
-                            var users_selected_tmp = new Array();
-
-                            forum_selected_tmp.push('null');
-                            users_selected_tmp.push('null');
-
-                            array_id_indicators_element.push(indicators[cpt][0]);
-                            name_indicators.push(indicators[cpt][1]);//get name of indicator
-
-
-                            forum_selected.push(forum_selected_tmp);
-                            users_selected.push(users_selected_tmp);
+                if (document.getElementById(indicators[cpt][1]).checked) {
+                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+                        var array_many_indicators = new Array();
+                        array_many_indicators.push(indicators[cpt][0]);
+                        array_many_indicators.push(8);
+                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
+                        array_id_indicators_element.push(array_many_indicators);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
+                    } else {
+                        if (bool_compatible_indicators_js(indicators[cpt][0], 13)) {
+                            forum_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+                            var array_many_indicators = new Array();
+                            array_many_indicators.push(indicators[cpt][0]);
+                            array_many_indicators.push(13);
+                            array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][0] + ']').val()));
+                            array_id_indicators_element.push(array_many_indicators);
+                            forum_indicators.push(indicators[cpt][0]);
                         }
+                        users_selected.push('null');
+                        array_id_indicators_element.push(indicators[cpt][0]);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     }
                 }
             }
@@ -93,60 +61,19 @@ function get_indicators_selected() {
             state_save = true;
             //GET SELECT_INDICATORS
             for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (indicators[cpt][2] != "") {
-                    if (document.getElementById(indicators[cpt][1]).checked) {
-
-                        var array_compatible_indicators = document.getElementsByName(indicators[cpt][1]);
-
-                        if (array_compatible_indicators.length != 0) {
-                            var forum_selected_tmp = new Array();
-                            var users_selected_tmp = new Array();
-
-                            for (var cpt_array_compatible_indicators = 0; cpt_array_compatible_indicators < array_compatible_indicators.length; cpt_array_compatible_indicators++) {
-                                switch (array_compatible_indicators[cpt_array_compatible_indicators].id) {
-                                    case "8"://users
-                                        var array_many_indicators = new Array();
-                                        array_many_indicators.push(indicators[cpt][0]);
-                                        array_many_indicators.push(8);
-                                        array_many_indicators.push(get_id_user(array_compatible_indicators[cpt_array_compatible_indicators].value));
-                                        array_id_indicators_element.push(array_many_indicators);
-                                        users_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        forum_selected_tmp.push('null');
-
-                                        break;
-                                    case "13"://forums
-                                        var array_many_indicators = new Array();
-                                        array_many_indicators.push(indicators[cpt][0]);
-                                        array_many_indicators.push(13);
-                                        array_many_indicators.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        array_id_indicators_element.push(array_many_indicators);
-                                        forum_selected_tmp.push(array_compatible_indicators[cpt_array_compatible_indicators].value);
-                                        users_selected_tmp.push('null');
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-
-                            name_indicators.push(indicators[cpt][1]);//get name of indicator
-
-                            forum_selected.push(forum_selected_tmp);
-                            users_selected.push(users_selected_tmp);
-
-                        } else {
-                            var forum_selected_tmp = new Array();
-                            var users_selected_tmp = new Array();
-
-                            forum_selected_tmp.push('null');
-                            users_selected_tmp.push('null');
-
-                            array_id_indicators_element.push(indicators[cpt][0]);
-                            name_indicators.push(indicators[cpt][1]);//get name of indicator
-
-
-                            forum_selected.push(forum_selected_tmp);
-                            users_selected.push(users_selected_tmp);
-                        }
+                if (document.getElementById(indicators[cpt][1]).checked) {
+                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
+                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
+                        var array_many_indicators = new Array();
+                        array_many_indicators.push(indicators[cpt][0]);
+                        array_many_indicators.push(8);
+                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
+                        array_id_indicators_element.push(array_many_indicators);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
+                    } else {
+                        users_selected.push('null');
+                        array_id_indicators_element.push(indicators[cpt][0]);
+                        name_indicators.push(indicators[cpt][1]);//get name of indicator
                     }
                 }
             }
@@ -190,8 +117,120 @@ function get_indicators_selected() {
     }
 }
 
+function get_timeMachine_data(begin, end){
+    //var start = $('.daterange').data('daterangepicker').getStartDate();
+    //var end = document.getElementById("daterange").data('daterangepicker').getEndDate();
+    alert("start : " + begin + " end : " + end);
+    var begin_split = begin.split('-');
+    var end_split = end.split('-');
+    if(begin_split[0] == end_split[0]){
+        alert("==, parse 1 : " + parseInt(begin_split[1]));
+        for(var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month ++){
+            alert("for 1");
+            for(var cpt_day = parseInt(begin_split[2]); cpt_day <= parseInt(end_split[2]); cpt_day ++){
+                alert("for 2");
+                //array_data.push("[" + get_nb_connection_date_users_js($("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+","+cpt_day+"/"+cpt_month));
+                array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+","+cpt_day+"/"+cpt_month);
+                alert("pushed : " + "["+get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+","+cpt_day+"/"+cpt_month);
+            }
+        }
+    }
+    //alert("year : " + begin_split[0] + " month : " + begin_split[1] + " day : " + begin_split[2]);
+}
+
+/*******************************************************************************
+ * E. PRELOAD INTERFACE OF TIMEMACHINE PAGE
+ ********************************************************************************/
+function add_panel_timeMachine() {
+//Adds a panel to hold the section, which will hold the timeAMchine element
+    var page_content = document.getElementById('page_content');
+    var id_panel = 0;
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'panel' + id_panel);
+    card.setAttribute("class", 'mdl-grid background_content animated zoomIn');
+    card.setAttribute("style", 'height: auto;width:98%');
 
 
+
+    var in_content_card = document.createElement("div");
+    //TODO change width to auto
+    in_content_card.setAttribute("style", 'background-color : lightblue;height: auto;width: 750px');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+
+    var text_header_panel = document.createElement("div");
+    text_header_panel.setAttribute("class", 'text_header_panel');
+    text_header_panel.textContent = "Panel : timeMachine" ;
+
+    in_content_card.appendChild(text_header_panel);
+
+    var close = document.createElement("div");
+    close.setAttribute("id", 'close' + id_panel);
+    close.setAttribute("style", 'height: 50px;margin-left:15px;margin-right:15px;margin-bottom:15px;');
+
+
+    var input = document.createElement("input");
+    input.setAttribute("id", 'delete_button');
+    input.setAttribute("type", 'image');
+    input.setAttribute("src", 'images/icon_close.png');
+    input.setAttribute("style", 'width: 50px;float: right;padding:5px;z_index:999');
+    input.setAttribute("onclick", 'delete_panel(\'' + id_panel + '\')');
+
+
+    close.appendChild(input);
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_panel);
+    container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
+    in_content_card.appendChild(close);
+    in_content_card.appendChild(container);
+
+    card.appendChild(in_content_card);
+
+    page_content.appendChild(card);
+    alert("OK : add_panel");
+    add_section_timeMachine(0, id_panel);
+}
+
+function add_section_timeMachine(id_element, panel_select) {
+    //adds the section which will hold the timeMachine element
+    var element = document.getElementById('container' + panel_select);
+
+    var card = document.createElement("div");
+    card.setAttribute("id", 'card' + id_element);
+    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated fadeInUp');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
+
+    element.appendChild(card);
+
+    var content_card = document.getElementById('card' + id_element);
+
+    var in_content_card = document.createElement("div");
+    in_content_card.setAttribute("style", 'background-color : #404041; height: auto;');
+    in_content_card.setAttribute("class", 'mdl-shadow--4dp');
+
+    var close = document.createElement("div");
+    close.setAttribute("id", 'close' + id_element);
+    var input = document.createElement("input");
+    input.setAttribute("id", 'delete_button');
+    input.setAttribute("type", 'image');
+    input.setAttribute("src", 'images/icon_close.png');
+    input.setAttribute("style", 'width: 42px;float: right;padding:5px');
+    input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
+
+
+    close.appendChild(input);
+    var container = document.createElement("div");
+    container.setAttribute("id", 'container' + id_element);
+    container.setAttribute("style", 'height=500px;width=100%');
+    in_content_card.appendChild(close);
+    in_content_card.appendChild(container);
+    content_card.appendChild(in_content_card);
+
+//    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
+
+
+}
 
 
 /*******************************************************************************
@@ -207,76 +246,48 @@ function get_results_indicators_selected() {
     for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
         //call function of this indicator
         for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
-
             //call function of this indicator
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
                 legende_print.push(indicators[cpt_indicators][2]);
 
 
-
+                add_indicator(indicators[cpt_name_indicators][2]);
 
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
                         data_print.push(get_nb_messages_read());
-                        add_indicator(indicators[cpt_indicators][2]);
+
                         break;
                     case 'nb_messages_sent':
                         data_print.push(get_nb_messages_sent());
-                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_upload':
                         data_print.push(get_nb_files_upload());
-                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_download':
                         data_print.push(get_nb_files_download());
-                        add_indicator(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_connection_user':
-
-                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
+                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators]));
                         break;
                     case 'nb_messages_sent_user':
-
-                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
+                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators]));
                         break;
                     case 'nb_messages_read_user':
-
-                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
+                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators]));
                         break;
                     case 'nb_files_download_users':
-
-                        data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
+                        data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators]));
                         break;
                     case 'nb_files_upload_users':
-
-                        data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
+                        data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators]));
                         break;
                     case 'nb_display_forum':
-
-                        data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
-
-
+                        data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators]));
                         break;
                     case 'nb_display_forum_users':
-                        add_indicator(indicators[cpt_name_indicators][2]);
-
-//                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
-                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
-//                        }
-
+                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators], users_selected[cpt_name_indicators]));
                         break;
                     default:
 
@@ -287,7 +298,18 @@ function get_results_indicators_selected() {
     }
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
+        //TODO SAVE ARRAY IN DATABASE
         save_element(panel_select, type_element, array_id_indicators_element);
+        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
+            if (users_selected[cpt_users_selected] != 'null') {
+                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
+            }
+        }
+
+
+
+
+
     }
 
     switch (type_element) {
@@ -297,6 +319,7 @@ function get_results_indicators_selected() {
         case "TAB_SPIDER":
             print_spider();
             break;
+
         case "TAB_BIG_NUMBER":
             break;
         case 3:
@@ -304,8 +327,8 @@ function get_results_indicators_selected() {
 
             break;
     }
-
-    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
+    
+    jQuery("#card_add"+panel_select).detach().appendTo('#panel'+panel_select);
 
 
 
@@ -315,7 +338,7 @@ function get_results_indicators_selected() {
  * PRINT CHART FUNCTIONS
  ******************************************************************************/
 function print_polar() {
-    Highcharts.setOptions(Highcharts.theme);
+
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             polar: true
@@ -382,7 +405,6 @@ function print_polar() {
 }
 
 function print_spider() {
-    Highcharts.setOptions(Highcharts.theme);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             polar: true,
@@ -427,9 +449,8 @@ function print_spider() {
 /*******************************************************************************
  * TIMEMACHINE
  ******************************************************************************/
-/*function loadTimeMachine() {
-
-    add_section(id_element, 0);
+function loadTimeMachine() {
+    add_panel_timeMachine();
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'scatter',
@@ -439,20 +460,24 @@ function print_spider() {
             text: 'TimeMachine'
         },
         subtitle: {
-            text: 'Source: Heinz  2003'
+            text: ''
         },
         xAxis: {
             title: {
                 enabled: true,
-                text: 'Height (cm)'
+                text: 'Date'
             },
             startOnTick: true,
             endOnTick: true,
-            showLastLabel: true
+            showLastLabel: true,
+            type: 'datetime',
+            dateTimeLabelFormats: {
+                day: '%Y-%m-%e'
+            }
         },
         yAxis: {
             title: {
-                text: 'Weight (kg)'
+                text: 'Number of connections'
             }
         },
         legend: {
@@ -485,53 +510,32 @@ function print_spider() {
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} cm, {point.y} kg'
+                    pointFormat: 'on {point.x}, {point.y} connections'
                 }
             }
         },
         series: [{
-                name: 'USER1',
-                color: 'rgba(223, 83, 83, .5)',
-                data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
-                    [170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
-                    [172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
-                    [147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
-                    [159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
-                    [174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
-                    [154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
-                    [162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
-                    [168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
-                    [167.6, 64.5], [167.6, 72.3], [167.6, 61.4], [154.9, 58.2], [162.6, 81.8],
-                    [175.3, 63.6], [171.4, 53.4], [157.5, 54.5], [165.1, 53.6], [160.0, 60.0],
-                    [174.0, 73.6], [162.6, 61.4], [174.0, 55.5], [162.6, 63.6], [161.3, 60.9],
-                    [156.2, 60.0], [149.9, 46.8], [169.5, 57.3], [160.0, 64.1], [175.3, 63.6],
-                    [169.5, 67.3], [160.0, 75.5], [172.7, 68.2], [162.6, 61.4], [157.5, 76.8],
-                    [176.5, 71.8], [164.4, 55.5], [160.7, 48.6], [174.0, 66.4], [163.8, 67.3]]
-
-            }, {
-                name: 'USER2',
-                color: 'rgba(119, 152, 191, .5)',
-                data: [[174.0, 65.6], [175.3, 71.8], [193.5, 80.7], [186.5, 72.6], [187.2, 78.8],
-                    [181.5, 74.8], [184.0, 86.4], [184.5, 78.4], [175.0, 62.0], [184.0, 81.6],
-                    [180.0, 76.6], [177.8, 83.6], [192.0, 90.0], [176.0, 74.6], [174.0, 71.0],
-                    [184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
-                    [176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
-                    [178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
-                    [183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
-                    [170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
-                    [186.7, 87.8], [171.4, 84.7], [172.7, 73.4], [175.3, 72.1], [180.3, 82.6],
-                    [182.9, 88.7], [188.0, 84.1], [177.2, 94.1], [172.1, 74.9], [167.0, 59.1],
-                    [169.5, 75.6], [174.0, 86.2], [172.7, 75.3], [182.2, 87.1], [164.1, 55.2],
-                    [163.0, 57.0], [171.5, 61.4], [184.2, 76.8], [174.0, 86.8], [174.0, 72.2],
-                    [177.0, 71.6], [186.0, 84.8], [167.0, 68.2], [171.8, 66.1], [182.0, 72.0],
-                    [167.0, 64.6], [177.8, 74.8], [164.5, 70.0], [192.0, 101.6], [175.5, 63.2],
-                    [171.2, 79.1], [181.6, 78.9], [167.4, 67.7], [181.1, 66.0], [177.0, 68.2],
-                    [170.2, 62.3], [177.8, 82.7], [179.1, 79.1], [190.5, 98.2], [177.8, 84.1],
-                    [180.3, 83.2], [180.3, 83.2]]
-            }]
+            name: 'USER1',
+            color: 'rgba(223, 83, 83, .5)',
+            /*data: [[2009-02-01, 2],[2009-02-02, 5],[2009-02-03, 1],[2009-02-04, 8],[2009-02-05, 2],[2009-02-06, 0],
+            [2009-02-07, 5],[2009-02-08, 9],[2009-02-09, 4],[2009-02-10, 6],[2009-02-11, 1],[2009-02-12, 3],[2009-02-13, 9],[2009-02-14, 4],
+            [2009-02-01, 2],[2009-02-15, 1],[2009-02-16, 6],[2009-02-17, 7],[2009-02-18, 3],[2009-02-19, 4],[2009-02-20, 7],[2009-02-21, 6],
+            [2009-02-22, 8],[2009-02-23, 1],[2009-02-24, 0],[2009-02-25, 8],[2009-02-26, 4],[2009-02-27, 10],[2009-02-28, 7]]
+*/
+            data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
+        }, {
+            name: 'USER2',
+            color: 'rgba(119, 152, 191, .5)',
+            /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
+            [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
+            [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
+            [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
+            data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
+        }],
+        pointStart: Date.UTC(2009, 0, 1),
+        pointInterval: 24 * 3600 * 1000
     });
-
-}*/
+}
 /*******************************************************************************
  * EXAMPLE CHART
  ******************************************************************************/
@@ -539,7 +543,6 @@ function graphique_comparaison_note() {
     id_element = id_element_exemple;
     id_element_exemple = id_element_exemple + 1;
     add_section(id_element, panel_select);
-    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
     var myChart = Highcharts.chart('container' + id_element, {
         title: {
             text: 'Comparaison des notes'
@@ -598,7 +601,6 @@ function graphique_comparaison_note() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
-
 }
 
 var options = {
@@ -616,7 +618,6 @@ function graphique_comparaison_nb_co() {
     id_element_exemple = id_element_exemple + 1;
 
     add_section(id_element, panel_select);
-    jQuery("#card_add" + panel_select).detach().appendTo('#panel' + panel_select);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'column'
@@ -673,7 +674,6 @@ function graphique_comparaison_nb_co() {
             }]
     });
     myChart.setSize(null, 400, doAnimation = true);
-
 }
 
 
@@ -685,18 +685,9 @@ function delete_filter(number) {
 }
 
 function delete_graph(number) {
-
-    var txt;
-    var r = confirm("Do you really want to delete this element ?");
-    if (r == true) {
-
-        document.getElementById('card' + number).remove();
-        delete_graph_js(number, panel_select);
-        document.getElementById(name).remove();
-    }
-
-
-
+    document.getElementById('card' + number).remove();
+    delete_graph_js(number, panel_select);
+    document.getElementById(name).remove();
 }
 
 /*******************************************************************************

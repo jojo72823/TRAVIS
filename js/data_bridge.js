@@ -245,6 +245,26 @@ function get_nb_display_forum_users_js(forum_number, name_user) {
     return var_tmp;
 }
 
+function get_nb_connection_date_users_js(name_user, date) {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_nb_connection_date_users_php', p_name_user: name_user, p_date: date},
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_nb_connection_date_users_js! ");
+            }
+        },
+        cache: false
+    });
+    return var_tmp;
+}
+
 /*******************************************************************************
  * INTERFACE DAO
  ******************************************************************************/
