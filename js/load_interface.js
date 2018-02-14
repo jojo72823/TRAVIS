@@ -72,18 +72,46 @@ function load_panels_saved() {
                         var forum_selected_tmp = new Array();
                         var users_selected_tmp = new Array();
 
-                        switch (tmp_array_id_indicators[cpt_name][1]) {
-                            case "8"://users
+                        if (cpt_name+1 < tmp_array_id_indicators.length) {
+                            
+                            
+                            if (tmp_array_id_indicators[cpt_name][0] == tmp_array_id_indicators[cpt_name+1][0]) {
                                 users_selected_tmp.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
-                                forum_selected_tmp.push('null');
-                                break;
-                            case "13": //forums
-                                forum_selected_tmp.push(tmp_array_id_indicators[cpt_name][2]);
-                                users_selected_tmp.push('null');
-                                break;
-                            default:
-                                break;
+                                forum_selected_tmp.push(tmp_array_id_indicators[cpt_name + 1][2]);
+
+                                cpt_name++;
+
+                            } else {
+                                switch (tmp_array_id_indicators[cpt_name][1]) {
+                                    case "8"://users
+                                        users_selected_tmp.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
+                                        forum_selected_tmp.push('null');
+                                        break;
+                                    case "13": //forums
+                                        forum_selected_tmp.push(tmp_array_id_indicators[cpt_name][2]);
+                                        users_selected_tmp.push('null');
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        } else {
+                            switch (tmp_array_id_indicators[cpt_name][1]) {
+                                case "8"://users
+                                    users_selected_tmp.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
+                                    forum_selected_tmp.push('null');
+                                    break;
+                                case "13": //forums
+                                    forum_selected_tmp.push(tmp_array_id_indicators[cpt_name][2]);
+                                    users_selected_tmp.push('null');
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
+
+
+
 
 
 
@@ -459,22 +487,22 @@ function add_section_add_button(panel_select) {
     in_content_card.setAttribute("id", 'show-dialog');
     in_content_card.setAttribute("data-toggle", 'modal');
     in_content_card.setAttribute("data-target", '#modal_add_element');
-    
+
 
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + id_element);
     var img = document.createElement("img");
-    
+
 
     img.setAttribute("style", "width:auto;height:445px");
-    
+
     img.setAttribute("src", 'images/icon_circle_add.png');
 
-  
+
 
 
     container.appendChild(img);
-   
+
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
 }

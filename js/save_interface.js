@@ -33,11 +33,7 @@ function save_element(panel_select, type_element,array_id_indicators_element) {
                 async: false,
                 dataType: 'json',
                 success: function (objetJson) {
-                    if (objetJson != null) {
-                                
-                    } else {
-                        alert("erreur save_element! ");
-                    }
+                    
                 },
                 cache: false
             });
@@ -51,11 +47,7 @@ function save_element(panel_select, type_element,array_id_indicators_element) {
                 async: false,
                 dataType: 'json',
                 success: function (objetJson) {
-                    if (objetJson != null) {
-
-                    } else {
-                        alert("erreur save_element! ");
-                    }
+                   
                 },
                 cache: false
             });

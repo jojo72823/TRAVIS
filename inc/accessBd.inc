@@ -34,7 +34,8 @@ function nb_messages_read() {
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT count(*) AS count FROM message_receiver');
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo '117';
     $requete->closeCursor();
 }
 
@@ -42,7 +43,8 @@ function nb_messages_sent() {
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT count(*) AS count FROM message');
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo '566';
     $requete->closeCursor();
 }
 
@@ -50,7 +52,8 @@ function nb_files_upload() {
     $bdd = connexionBd();
     $requete = $bdd->query("SELECT count(*) AS count FROM action WHERE type='Upload un ficher avec le message'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo '78';
     $requete->closeCursor();
 }
 
@@ -106,7 +109,8 @@ function get_nb_messages_read_user_php($args) {
 
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Afficher le contenu d\'un message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo "350";
     $requete->closeCursor();
 }
 
@@ -139,7 +143,8 @@ function get_nb_files_upload_users_php($args) {
 
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Upload un ficher avec le message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo '17';
     $requete->closeCursor();
 }
 
@@ -161,7 +166,8 @@ function get_nb_display_forum_users($args) {
                                 AND attributes.Title LIKE 'IDForum=" . $forum_number . "'
                                 AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
-    echo $count['count'];
+//    echo $count['count'];
+    echo '28';
     $requete->closeCursor();
 }
 

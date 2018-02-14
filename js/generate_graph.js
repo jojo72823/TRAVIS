@@ -274,7 +274,7 @@ function get_results_indicators_selected() {
                         add_indicator(indicators[cpt_name_indicators][2]);
 
 //                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
-                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
+                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][0], users_selected[cpt_name_indicators][0]));
 //                        }
 
                         break;
