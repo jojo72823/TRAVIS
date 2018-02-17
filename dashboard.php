@@ -1,4 +1,13 @@
 <!doctype html>
+<?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    echo "<script>location.href=\"index.php\";</script>";
+    echo "<script>alert('You're don't connected !');</script>";
+} else {
+    echo "<script>alert('coucou'"+$_SESSION['login']+");</script>";
+}
+?>
 <!--
   PROJET DAUMONT JONATHAN & SALIOU ELISABETH
   Material Design Lite
@@ -77,7 +86,7 @@
                         <a class="mdl-navigation__link" href="" style="color: white">Dashboard</a>
                         <a class="mdl-navigation__link" href="timeMachine.php" style="color: white">Time Machine</a>
                         <a class="mdl-navigation__link" href="" style="color: white">Settings</a>
-                        <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="index.php" style="color: white">Sign out</a>
+                        <a style="bottom: 0;color: white; " class="mdl-navigation__link" href="php/deconnexion.php" style="color: white">Sign out</a>
                     </nav>
                 </div>
             </div>

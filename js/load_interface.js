@@ -72,10 +72,10 @@ function load_panels_saved() {
                         var forum_selected_tmp = new Array();
                         var users_selected_tmp = new Array();
 
-                        if (cpt_name+1 < tmp_array_id_indicators.length) {
-                            
-                            
-                            if (tmp_array_id_indicators[cpt_name][0] == tmp_array_id_indicators[cpt_name+1][0]) {
+                        if (cpt_name + 1 < tmp_array_id_indicators.length) {
+
+
+                            if (tmp_array_id_indicators[cpt_name][0] == tmp_array_id_indicators[cpt_name + 1][0]) {
                                 users_selected_tmp.push(get_name_of_id_user(tmp_array_id_indicators[cpt_name][2]));
                                 forum_selected_tmp.push(tmp_array_id_indicators[cpt_name + 1][2]);
 
@@ -413,8 +413,8 @@ function add_section(id_element, panel_select) {
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 42px;float: right;padding:5px');
-    
-    alert('add_section' +id_element);
+
+//    alert('add_section' +id_element);
     input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 
@@ -426,7 +426,7 @@ function add_section(id_element, panel_select) {
     in_content_card.appendChild(container);
     content_card.appendChild(in_content_card);
 
-//    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
+
 
 
 }
@@ -438,7 +438,7 @@ function add_section_big_number(id_element) {
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_element);
     card.setAttribute("class", 'col-lg-3  col-md-3 col-sm-6  col-xs-12 animated zoomIn');
-    card.setAttribute("style", 'background-color : #123456; height: 400px;margin-bottom :10px');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: 445px;margin-bottom :10px;');
 
     element.appendChild(card);
 
@@ -454,14 +454,14 @@ function add_section_big_number(id_element) {
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
-    input.setAttribute("style", 'width: 30px;float: right;padding:5px');
+    input.setAttribute("style", 'width: 42px;float: right;padding:5px');
     input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 
     close.appendChild(input);
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + id_element);
-    container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
+    container.setAttribute("style", 'height=100%;width=100%;background-color : white');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
 
@@ -496,8 +496,8 @@ function add_section_add_button(panel_select) {
     var img = document.createElement("img");
 
 
-    img.setAttribute("style", "width:auto;height:445px");
-     img.setAttribute("class", "img-responsive center-block");
+    img.setAttribute("style", "width:auto;height:auto;max-height: 445px");
+    img.setAttribute("class", "img-responsive center-block");
 
 
     img.setAttribute("src", 'images/icon_circle_add.png');
