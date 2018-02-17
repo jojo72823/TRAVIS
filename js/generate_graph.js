@@ -685,9 +685,11 @@ function delete_filter(number) {
 }
 
 function delete_graph(number) {
+    
+    
 
     var txt;
-    var r = confirm("Do you really want to delete this element ?");
+    var r = confirm("Do you really want to delete this element ?"+number);
     if (r == true) {
 
         document.getElementById('card' + number).remove();

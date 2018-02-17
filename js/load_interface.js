@@ -413,6 +413,8 @@ function add_section(id_element, panel_select) {
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 42px;float: right;padding:5px');
+    
+    alert('add_section' +id_element);
     input.setAttribute("onclick", 'delete_graph(\'' + id_element + '\')');
 
 
@@ -495,6 +497,8 @@ function add_section_add_button(panel_select) {
 
 
     img.setAttribute("style", "width:auto;height:445px");
+     img.setAttribute("class", "img-responsive center-block");
+
 
     img.setAttribute("src", 'images/icon_circle_add.png');
 

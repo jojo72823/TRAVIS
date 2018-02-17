@@ -65,7 +65,7 @@ function add_panel(id_panel, id_user, name, letter, color) {
     in_content_card.appendChild(text_header_panel);
 
     var close = document.createElement("div");
-    close.setAttribute("id", 'close' + id_panel);
+    close.setAttribute("id", 'close_panel' + id_panel);
     close.setAttribute("style", 'height: 50px;margin-left:15px;margin-right:15px;margin-bottom:15px;');
 
 
@@ -79,7 +79,7 @@ function add_panel(id_panel, id_user, name, letter, color) {
 
     close.appendChild(input);
     var container = document.createElement("div");
-    container.setAttribute("id", 'container' + id_panel);
+    container.setAttribute("id", 'container_panel' + id_panel);
     container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);

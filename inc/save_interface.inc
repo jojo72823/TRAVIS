@@ -180,24 +180,48 @@ function delete_graph_php($args) {
     $bdd = connexionBdTravis();
 
     //GET ID
-    $requete_id = $bdd->prepare("SELECT `ID_TYPE_GRAPH` FROM `tab_element` WHERE `ID_PANEL` = :panel_select AND `ID_ELEMENT` = :id_element");
+    $requete_id = $bdd->prepare("SELECT * FROM `tab_element` WHERE `ID_PANEL` = :panel_select AND `ID_ELEMENT` = :id_element");
     $requete_id->bindParam(":panel_select", $panel_select);
     $requete_id->bindParam(":id_element", $id_element);
     $requete_id->execute() or die("ERROR SELECT `ID_TYPE_GRAPH (delete_graph_php)");
     $data_id = $requete_id->fetch();
-    $ID_TYPE_GRAPH = $data_id['ID_TYPE_GRAPH'];
 
+    $ID_TYPE_GRAPH = $data_id['ID_TYPE_GRAPH'];
+    $TYPE_ELEMENT = $data_id['TYPE_ELEMENT'];
+
+    echo json_encode($TYPE_ELEMENT);
+    echo json_encode($ID_TYPE_GRAPH);
+
+
+    $ID_TYPE_GRAPH = $data_id['ID_TYPE_GRAPH'];
+    $TYPE_ELEMENT = $data_id['TYPE_ELEMENT'];
 
     $requete_delete_1 = $bdd->prepare("DELETE FROM `tab_element` WHERE `ID_PANEL` = :panel_select AND `ID_ELEMENT` = :id_element");
     $requete_delete_1->bindParam(":panel_select", $panel_select);
     $requete_delete_1->bindParam(":id_element", $id_element);
     $requete_delete_1->execute() or die("ERROR DELETE FROM `tab_element` (delete_graph_php)");
+    echo '--';
 
-    //TODO for different chart
+    switch ($TYPE_ELEMENT) {
+        case "TAB_POLAR":
+            echo 'tab_polar';
 
-    $requete_delete_2 = $bdd->prepare("DELETE FROM `tab_polar` WHERE `ID_POLAR` = :id_type_graph");
-    $requete_delete_2->bindParam(":id_type_graph", $ID_TYPE_GRAPH);
-    $requete_delete_2->execute() or die("ERROR REQUEST delete_graph tab_polar");
+            $requete_delete_2 = $bdd->prepare("DELETE FROM `tab_polar` WHERE `ID_POLAR` = :id_type_graph");
+            $requete_delete_2->bindParam(":id_type_graph", $ID_TYPE_GRAPH);
+            $requete_delete_2->execute() or die("ERROR REQUEST delete_graph tab_polar");
+            break;
+
+        case "TAB_SPIDER":
+            echo 'tab_spider';
+            $requete_delete_2 = $bdd->prepare("DELETE FROM `tab_spider` WHERE `ID_SPIDER` = :id_type_graph");
+            $requete_delete_2->bindParam(":id_type_graph", $ID_TYPE_GRAPH);
+            $requete_delete_2->execute() or die("ERROR REQUEST delete_graph tab_spider");
+
+            break;
+
+        default:
+            break;
+    }
 }
 
 function get_id_element_php() {
@@ -256,12 +280,11 @@ function delete_panel_php($args) {
     $requete_delete_2 = $bdd->prepare("DELETE FROM `tab_element` WHERE `ID_PANEL` = :id_panel");
     $requete_delete_2->bindParam(":id_panel", $id_panel);
     $requete_delete_2->execute() or die("ERROR DELETE FROM `tab_element` (delete_panel_php)");
-    
+
     //delete panel
     $requete_delete_3 = $bdd->prepare("DELETE FROM `tab_panel` WHERE `ID_PANEL` = :id_panel");
     $requete_delete_3->bindParam(":id_panel", $id_panel);
     $requete_delete_3->execute() or die("ERROR DELETE FROM `tab_panel` (delete_panel_php)");
 
     $requete->closeCursor();
-  
 }
