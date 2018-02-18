@@ -10,120 +10,37 @@ var year_begin;
 var month_begin;
 var day_begin;
 
+var strUser; //selected user name
 var array_data = new Array();
+var array_data2 = new Array();
+
 
 /*******************************************************************************
- * GET ELEMENT SELECTED IN DIALOG
- ******************************************************************************/
-function get_timeMachine_indicators() {
-    id_element = 0; //E. so it'll be placed at first place
-    name_indicators.length = 0;
-    forum_indicators.length = 0;
-    array_id_indicators_element.length = 0;
-    users_selected.length = 0;
-    forum_selected.length = 0;
-
-    
-    //********************************SIMPLE COPYPASTE TO BE DELETED********************************************* */
-    switch (type_element) {
-        case "TAB_POLAR":
-            add_section(id_element, 0);
-
-            state_save = true;
-            //GET SELECT_INDICATORS
-            for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (document.getElementById(indicators[cpt][1]).checked) {
-                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                        var array_many_indicators = new Array();
-                        array_many_indicators.push(indicators[cpt][0]);
-                        array_many_indicators.push(8);
-                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
-                        array_id_indicators_element.push(array_many_indicators);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-                    } else {
-                        if (bool_compatible_indicators_js(indicators[cpt][0], 13)) {
-                            forum_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                            var array_many_indicators = new Array();
-                            array_many_indicators.push(indicators[cpt][0]);
-                            array_many_indicators.push(13);
-                            array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][0] + ']').val()));
-                            array_id_indicators_element.push(array_many_indicators);
-                            forum_indicators.push(indicators[cpt][0]);
-                        }
-                        users_selected.push('null');
-                        array_id_indicators_element.push(indicators[cpt][0]);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
+ * E. Init timeMachine : add select of compared user
+ ******************************************************************************* */
+function init_timeMachine(){
+    users = get_list_users_js();
+    var holder = document.getElementById("timeMachine_selectCompareUser");
+    var select = document.createElement("select");
+                select.setAttribute("name", "Select user2");
+                select.setAttribute("id", "selectComparedUser");
+                select.setAttribute("style", 'width:100px');
+                for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("id", users[cpt_users][0]);
+                    if (cpt_users == 0) {
+                        option.setAttribute("selected", 'selected');
                     }
+                    option.textContent = users[cpt_users][1];
+                    select.appendChild(option);
                 }
-            }
-            get_results_indicators_selected();
-            break;
-        case "TAB_SPIDER":
-            add_section(id_element, panel_select);
-            state_save = true;
-            //GET SELECT_INDICATORS
-            for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (document.getElementById(indicators[cpt][1]).checked) {
-                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-                        var array_many_indicators = new Array();
-                        array_many_indicators.push(indicators[cpt][0]);
-                        array_many_indicators.push(8);
-                        array_many_indicators.push(get_id_user($('select[name=' + indicators[cpt][1] + ']').val()));
-                        array_id_indicators_element.push(array_many_indicators);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-                    } else {
-                        users_selected.push('null');
-                        array_id_indicators_element.push(indicators[cpt][0]);
-                        name_indicators.push(indicators[cpt][1]);//get name of indicator
-                    }
-                }
-            }
-            get_results_indicators_selected();
-            break;
-
-        case "TAB_BIG_NUMBER":
-
-            add_section_big_number();
-
-            state_save = true;
-            //GET SELECT_INDICATORS
-            for (var cpt = 0; cpt < indicators.length; cpt++) {
-                if (document.getElementById(indicators[cpt][1]).checked) {
-//                    name_indicators.push(indicators[cpt][1]);//get name of indicator
-//                    if (bool_compatible_indicators_js(indicators[cpt][0], 8)) {
-//                        users_selected.push($('select[name=' + indicators[cpt][1] + ']').val());
-//                    } else {
-//                        users_selected.push('null');
-//                    }
-                    array_id_indicators_element.push(indicators[cpt][0]);
-                    name_indicators.push(indicators[cpt][1]);
-
-                }
-            }
-            var tmp_element = document.getElementById('container' + id_element);
-            var value = document.createElement("div");
-            value.setAttribute("id", "big_number" + id_element);
-            value.setAttribute("class", "text_big_number");
-            add_indicator("nb_messages_read");
-            value.textContent = get_nb_messages_read();
-
-            tmp_element.appendChild(value);
-
-
-            break;
-        case 3:
-        default:
-
-            break;
-    }
+    holder.appendChild(select);
 }
+
 
 /**********************************************************************
  * E. adds data to the TIMEMACHINE
  ***********************************************************************/
-
 function get_timeMachine_data(begin, end){
     //var start = $('.daterange').data('daterangepicker').getStartDate();
     //var end = document.getElementById("daterange").data('daterangepicker').getEndDate();
@@ -133,34 +50,41 @@ function get_timeMachine_data(begin, end){
     month_begin = begin_split[1];
     day_begin = begin_split[2];
     var end_split = end.split('-');
+    var e = document.getElementById("selectComparedUser");
+    strUser = e.options[e.selectedIndex].text;
+
     if(begin_split[0] == end_split[0]){
         //array_data.push("[");
-        alert("==, parse 1 : " + parseInt(begin_split[1]));
+        //alert("==, parse 1 : " + parseInt(begin_split[1]));
+        alert("select : " + strUser);
+        /***********USER 1 Auto selected (TODO via login) ***************/
+        //TODO : handle multiple users possibility here
         for(var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month ++){
             for(var cpt_day = parseInt(begin_split[2]); cpt_day <= parseInt(end_split[2]); cpt_day ++){
                 if(cpt_month<10){
                     if(cpt_day<10){
-                        //otherwise there are no "0" in the request, and no result is returned
-                        array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
-                        alert("searched : "+ begin_split[0]+"-0"+cpt_month+"-0"+cpt_day + " pushed/1/ : " +get_nb_connection_date_users_js("tdelille", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
+                        /****otherwise there are no "0" in the request, and no result is returned****/
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
+                        //alert("searched : "+ begin_split[0]+"-0"+cpt_month+"-0"+cpt_day + " pushed/1/ : " +get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
                     }else{
-                        array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
-                        alert("searched : " +  begin_split[0]+"-0"+cpt_month+"-"+cpt_day + " pushed/2/ : "+get_nb_connection_date_users_js("tdelille", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
+                        //alert("searched : " +  begin_split[0]+"-0"+cpt_month+"-"+cpt_day + " pushed/2/ : "+get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
                     }
                 }else{
                     if(cpt_day<10){
                         //otherwise there are no "0" in the request, and no result is returned
-                        array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
-                        alert("searched : " + begin_split[0]+"-"+cpt_month+"-0"+cpt_day + " pushed/3/ : " + get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
+                        //alert("searched : " + begin_split[0]+"-"+cpt_month+"-0"+cpt_day + " pushed/3/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
                     }else{
-                        array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
-                        alert("searched : " + begin_split[0]+"-"+cpt_month+"-"+cpt_day + " pushed/4/ : " + get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-"+cpt_month+"-"+cpt_day));
+                        //alert("searched : " + begin_split[0]+"-"+cpt_month+"-"+cpt_day + " pushed/4/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
                     }
                 }
-                //array_data.push("[" + get_nb_connection_date_users_js($("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+","+cpt_day+"/"+cpt_month));
-                //alert("date searched : " + begin_split[0]+"-"+cpt_month+"-"+cpt_day);
-                //array_data.push(get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+",");
-                //alert("pushed : " + "[" + get_nb_connection_date_users_js("tdelille", begin_split[0]+"-"+cpt_month+"-"+cpt_day)+"]");
+                
             }
         }
         //array_data.push("]");
@@ -186,7 +110,7 @@ function add_panel_timeMachine() {
 
     var in_content_card = document.createElement("div");
     //TODO change width to auto
-    in_content_card.setAttribute("style", 'background-color : lightblue;height: auto;width: 1000px');
+    in_content_card.setAttribute("style", 'background-color : rgb(205, 217, 254);height: auto;width: 1000px');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
 
@@ -223,8 +147,10 @@ function add_panel_timeMachine() {
     add_section_timeMachine(0, id_panel);
 }
 
+/**********************************************************
+ * E. Adds the section which will hold the timeMachine element
+ ********************************************************** */
 function add_section_timeMachine(id_element, panel_select) {
-    //adds the section which will hold the timeMachine element
     var element = document.getElementById('container' + panel_select);
 
     var card = document.createElement("div");
@@ -259,226 +185,14 @@ function add_section_timeMachine(id_element, panel_select) {
     content_card.appendChild(in_content_card);
 
 //    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
-
-
 }
 
-
-/*******************************************************************************
- * GET RESULT OF INDICATORS SELECTED
- ******************************************************************************/
-function get_results_indicators_selected() {
-
-
-    legende_print.length = [];
-    data_print.length = [];
-    count = 0;
-
-    for (var cpt_indicators = 0; cpt_indicators < indicators.length; cpt_indicators++) {
-        //call function of this indicator
-        for (var cpt_name_indicators = 0; cpt_name_indicators < name_indicators.length; cpt_name_indicators++) {
-            //call function of this indicator
-            if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
-
-                legende_print.push(indicators[cpt_indicators][2]);
-
-
-                add_indicator(indicators[cpt_name_indicators][2]);
-
-                switch (name_indicators[cpt_name_indicators]) {
-                    case 'nb_messages_read':
-                        data_print.push(get_nb_messages_read());
-
-                        break;
-                    case 'nb_messages_sent':
-                        data_print.push(get_nb_messages_sent());
-                        break;
-                    case 'nb_files_upload':
-                        data_print.push(get_nb_files_upload());
-                        break;
-                    case 'nb_files_download':
-                        data_print.push(get_nb_files_download());
-                        break;
-                    case 'nb_connection_user':
-                        data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_messages_sent_user':
-                        data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_messages_read_user':
-                        data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_files_download_users':
-                        data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_files_upload_users':
-                        data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_display_forum':
-                        data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators]));
-                        break;
-                    case 'nb_display_forum_users':
-                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators], users_selected[cpt_name_indicators]));
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-        }
-    }
-    if (state_save == true) {
-        id_indicators = get_id_indicators_js();
-        //TODO SAVE ARRAY IN DATABASE
-        save_element(panel_select, type_element, array_id_indicators_element);
-        for (var cpt_users_selected = 0; cpt_users_selected < users_selected.length; cpt_users_selected++) {
-            if (users_selected[cpt_users_selected] != 'null') {
-                save_users_selected_js(users_selected[cpt_users_selected], cpt_users_selected);
-            }
-        }
-
-
-
-
-
-    }
-
-    switch (type_element) {
-        case "TAB_POLAR":
-            print_polar();
-            break;
-        case "TAB_SPIDER":
-            print_spider();
-            break;
-
-        case "TAB_BIG_NUMBER":
-            break;
-        case 3:
-        default:
-
-            break;
-    }
-    
-    jQuery("#card_add"+panel_select).detach().appendTo('#panel'+panel_select);
-
-
-
-
-}
 /*******************************************************************************
  * PRINT CHART FUNCTIONS
  ******************************************************************************/
-function print_polar() {
-
-    var myChart = Highcharts.chart('container' + id_element, {
-        chart: {
-            polar: true
-        },
-        title: {
-            text: ''
-        },
-        pane: {
-            startAngle: 0,
-            endAngle: 360
-        },
-        xAxis: {
-            tickInterval: 360 / legende_print.length,
-            min: 0,
-            max: 360,
-            labels: {
-                formatter: function () {
-                    if (count == legende_print.length) {
-                        count = 0;
-                    }
-                    var value = legende_print[count];
-                    count++;
-                    return value;
-//                    count++;
-//                    return this.value+"|"+count;
-
-                }
-            }
-        },
-        yAxis: {
-            min: 0
-
-        },
-        tooltip: {
-            formatter: function () {
-                var tmp_interval = (360 / legende_print.length);
-                for (var cpt = 0; cpt < legende_print.length; cpt++) {
-                    if (this.x == cpt * tmp_interval) {
-                        return '' + legende_print[cpt] + '<br><div style="color:' + this.series.color + '">' + this.series.name + "</div>: <b>" + this.point.y;
-                        return '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
-                    }
-                }
-
-
-            }
-        },
-        plotOptions: {
-            series: {
-                pointStart: 0,
-                pointInterval: 360 / legende_print.length
-            },
-            column: {
-                pointPadding: 0,
-                groupPadding: 0
-            }
-        },
-        series: [{
-                type: 'area',
-                name: 'Results',
-                data: data_print
-            }]
-    });
-    myChart.setSize(null, 400, doAnimation = true);
-}
-
-function print_spider() {
-    var myChart = Highcharts.chart('container' + id_element, {
-        chart: {
-            polar: true,
-            type: 'line'
-        },
-        title: {
-            text: '',
-            x: -80
-        },
-        pane: {
-            size: '80%'
-        },
-        xAxis: {
-            categories: legende_print,
-            tickmarkPlacement: 'on',
-            lineWidth: 0
-        },
-        yAxis: {
-            gridLineInterpolation: 'polygon',
-            lineWidth: 0,
-            min: 0
-        },
-        tooltip: {
-            shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
-        },
-        legend: {
-            align: 'right',
-            verticalAlign: 'top',
-            y: 70,
-            layout: 'vertical'
-        },
-        series: [{
-                type: 'area',
-                name: 'Results',
-                data: data_print
-            }]
-
-    });
-}
 
 /*******************************************************************************
- * TIMEMACHINE
+ * E. TIMEMACHINE
  ******************************************************************************/
 function loadTimeMachine() {
     add_panel_timeMachine();
@@ -642,7 +356,7 @@ function print_timeMachine() {
             }
         },
         series: [{
-            name: 'USER1',
+            name: 'Madeth May',
             color: 'rgba(223, 83, 83, .5)',
             data: array_data,
             
@@ -650,161 +364,19 @@ function print_timeMachine() {
             pointInterval: 24 * 3600 * 1000
         }, {
             //TODO user2 dynamic
-            name: 'USER2',
+            name: strUser,
             color: 'rgba(119, 152, 191, .5)',
             /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
             [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
             [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
             [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
             //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
-            data: [1,6,4,7,3,2,0],
+            data: array_data2,
             pointStart: Date.UTC(year_begin, month_begin-1, day_begin),
             pointInterval: 24 * 3600 * 1000
         }]
     });
 }
-
-
-/*******************************************************************************
- * EXAMPLE CHART
- ******************************************************************************/
-function graphique_comparaison_note() {
-    id_element = id_element_exemple;
-    id_element_exemple = id_element_exemple + 1;
-    add_section(id_element, panel_select);
-    var myChart = Highcharts.chart('container' + id_element, {
-        title: {
-            text: 'Comparaison des notes'
-        },
-        xAxis: {
-            categories: ['élève 1', 'élève 2', 'élève 3', 'élève 4', 'élève 5'],
-        },
-        labels: {
-        },
-        yAxis: {
-            min: 0,
-            max: 20,
-            title: {
-                text: '/20'
-            }
-        },
-        series: [{
-                name: 'Classe L2',
-                type: 'column',
-                colorByPoint: true,
-                colors: [
-                    '#66ffcc',
-                    '#660033',
-                    '#66ffcc',
-                    '#66ffcc',
-                    '#66ffcc'
-                ],
-                data: [18, 12, 5, 20, 13]
-            }, {max: 20,
-                type: 'spline',
-                name: 'Min',
-                data: [5, 5, 5, 5, 5],
-                marker: {
-                    lineWidth: 2,
-                    lineColor: Highcharts.getOptions().colors[3],
-                    fillColor: 'white'
-                }
-            }, {max: 20,
-                type: 'spline',
-                name: 'Max',
-                data: [20, 20, 20, 20, 20],
-                marker: {
-                    lineWidth: 2,
-                    lineColor: Highcharts.getOptions().colors[3],
-                    fillColor: 'white'
-                }
-            }, {
-                type: 'spline',
-                name: 'Moyenne',
-                data: [12, 12, 12, 12, 12],
-                marker: {
-                    lineWidth: 2,
-                    lineColor: Highcharts.getOptions().colors[3],
-                    fillColor: 'white'
-                }
-            }]
-    });
-    myChart.setSize(null, 400, doAnimation = true);
-}
-
-var options = {
-    chart: {
-        renderTo: 'container',
-        type: 'bar'
-    },
-    series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }]
-};
-function graphique_comparaison_nb_co() {
-    id_element = id_element_exemple;
-    id_element_exemple = id_element_exemple + 1;
-
-    add_section(id_element, panel_select);
-    var myChart = Highcharts.chart('container' + id_element, {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Nombre de connexion aux différents modules'
-        },
-        subtitle: {
-            text: ''
-        },
-        xAxis: {
-            categories: [
-                'Module 1',
-                'Module 2',
-                'Module 3',
-                'Module 4',
-                'Module 5'
-            ],
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Nombre de connexion'
-            }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [{
-                name: 'Promo 2015',
-                data: [48.9, 38.8, 39.3, 41.4, 47.0]
-
-            }, {
-                name: 'Promo 2016',
-                data: [83.6, 78.8, 98.5, 93.4, 57.0]
-
-            }, {
-                name: 'Promo 2017',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0]
-
-
-            }]
-    });
-    myChart.setSize(null, 400, doAnimation = true);
-}
-
 
 /*******************************************************************************
  * DELETE FONCTIONS

@@ -92,45 +92,61 @@
 
 
             <!MAIN PART-------------------------------------------------------->
-            <main class="mdl-layout__content background_content" >
-                <button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
-                    Generate TimeMachine
-                </button>
-                <input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
-
-                <script type="text/javascript">
-                    $(function() {
-                        $('input[name="daterange"]').daterangepicker(
-                            {
-                                locale: {
-                                format: 'YYYY-MM-DD'
-                                },
-                                minDate: '2009-02-12',
-                                maxDate: '2009-05-11'
-                            }, 
-                        function(start, end, label) {
-                            //alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            <main id="main_content_timeMachine" class="mdl-layout__content background_content" >
+                <!-- TODO : table would go here so the things are aligned-->
+                <table class="timeMachine_parameters">
+                    <tr>
+                        <td id="timeMachine_selectCompareUser">
+                            User to be compared to
+                            <script>
                             $.getScript('js/generate_timeMachine.js', function () {          
-                                get_timeMachine_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
-                            });
-                        });
-                        /*$('#daterange').on('apply.daterangepicker', function(ev, picker) {
-                        console.log(picker.startDate.format('YYYY-MM-DD'));
-                        console.log(picker.endDate.format('YYYY-MM-DD'));
-                        alert("start : " + picker.startDate.format('YYYY-MM-DD') + " end : " + picker.endDate.format('YYYY-MM-DD'));
-                        get_timeMachine_data(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'));
-                        });*/
-                    });
-                </script>
-                <!--<button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="genTimeMachine" onclick="get_timeMachine_indicators();">
-                    Generate clever TimeMachine
-                </button>-->
+                                        init_timeMachine();
+                                        });
+                            </script>
+                        </td>
+                        <td>
+                             during 
+                            <input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
+                            <script type="text/javascript">
+                                $(function() {
+                                    $('input[name="daterange"]').daterangepicker(
+                                        {
+                                            locale: {
+                                            format: 'YYYY-MM-DD'
+                                            },
+                                            minDate: '2009-02-12',
+                                            maxDate: '2009-05-11'
+                                        }, 
+                                        //TODO : try to change passing of dates to generate_timeMachine.js, bc not handy here
+                                        // HINT : maybe send to another function to save data, then call get_timeMachine_data
+                                    function(start, end, label) {
+                                        //alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                        $.getScript('js/generate_timeMachine.js', function () {          
+                                            get_timeMachine_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                                        });
+                                    });
+                                    //MEMO : should activate when apply is pressed, but doesn't work
+                                    /*$('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                                    console.log(picker.startDate.format('YYYY-MM-DD'));
+                                    console.log(picker.endDate.format('YYYY-MM-DD'));
+                                    alert("start : " + picker.startDate.format('YYYY-MM-DD') + " end : " + picker.endDate.format('YYYY-MM-DD'));
+                                    get_timeMachine_data(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'));
+                                    });*/
+                                });
+                            </script>
+                        </td>
+                        <td><button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
+                                Generate TimeMachine
+                            </button>
+                        </td>
+                    </tr>
+                </table>
                 <!CONTENT PANEL------------------------------------------------>
                 <div id="page_content" class="page-content" >
                 
                 </div>
                 <!RIGHT MENU--------------------------------------------------->
-                <div id="right_panel" class="rightSide">
+                <!--<div id="right_panel" class="rightSide">
                     <div id="demo-menu-lower-right"
                          class="layout_btn_right_bar mdl-js-button" >
 
@@ -144,7 +160,7 @@
 
                     </ul>
 
-                </div>
+                </div>-->
             </main>
         </div>
     </body>
