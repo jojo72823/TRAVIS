@@ -43,6 +43,7 @@ function nb_messages_sent() {
     $requete = $bdd->query('SELECT count(*) AS count FROM message');
     $count = $requete->fetch();
     echo $count['count'];
+
     $requete->closeCursor();
 }
 
@@ -51,6 +52,7 @@ function nb_files_upload() {
     $requete = $bdd->query("SELECT count(*) AS count FROM action WHERE type='Upload un ficher avec le message'");
     $count = $requete->fetch();
     echo $count['count'];
+
     $requete->closeCursor();
 }
 
@@ -96,7 +98,7 @@ function get_nb_connection_user_php($args) {
 
 function get_nb_messages_read_user_php($args) {
     if (isset($args['p_name_user'])) {
-        $name_user = ""+$args['p_name_user'];
+        $name_user = "" + $args['p_name_user'];
     }
     $bdd = connexionBd();
 
@@ -107,9 +109,9 @@ function get_nb_messages_read_user_php($args) {
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Afficher le contenu d\'un message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
+
     $requete->closeCursor();
 }
-
 
 function get_nb_files_download_users_php($args) {
     if (isset($args['p_name_user'])) {
@@ -140,6 +142,7 @@ function get_nb_files_upload_users_php($args) {
     $requete = $bdd->query("SELECT count(*) AS count FROM `tracecmc` NATURAL JOIN `action` WHERE action.type='Upload un ficher avec le message' AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
+
     $requete->closeCursor();
 }
 
@@ -162,6 +165,7 @@ function get_nb_display_forum_users($args) {
                                 AND idUser = '" . $count['idUser'] . "'");
     $count = $requete->fetch();
     echo $count['count'];
+
     $requete->closeCursor();
 }
 
@@ -209,7 +213,7 @@ function nb_display_forum_date_users($args) {
 
 function get_nb_connection_date_users_php($args) {
     if (isset($args['p_name_user']) && isset($args['p_date'])) {
-        
+
         $date = $args['p_date'];
         $name_user = $args['p_name_user'];
     }
@@ -349,19 +353,18 @@ function get_indicators_php() {
 }
 
 function list_user() {
-    
+
     $count = 0;
 
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT * FROM user');
     while ($donnees = $requete->fetch()) {
-        if($count == 0){
+        if ($count == 0) {
             echo ' <option  id=' . $donnees['idUser'] . ' selected=\'selected\'>' . $donnees['name'] . '</option>';
             $count = 1;
-        }else{
+        } else {
             echo ' <option id=' . $donnees['idUser'] . '>' . $donnees['name'] . '</option>';
         }
-        
     }
 }
 
@@ -381,7 +384,7 @@ function get_list_users_php() {
     echo json_encode($retour);
 }
 
-function list_forum(){
+function list_forum() {
     $bdd = connexionBd();
     $requete = $bdd->query('SELECT DISTINCT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Title,",",1),"=",-1) AS Unsigned) AS idForum FROM `attributes` WHERE Title LIKE "IDForum%" ORDER BY idForum ASC');
     while ($donnees = $requete->fetch()) {
@@ -404,7 +407,6 @@ function get_list_forums_php() {
     echo json_encode($retour);
 }
 
-
 function get_nb_display_forum($args) {
     if (isset($args['p_forum_number'])) {
         $forum_number = $args['p_forum_number'];
@@ -421,7 +423,5 @@ function get_nb_display_forum($args) {
     echo $count['count'];
     $requete->closeCursor();
 }
-
-
 
 ?>

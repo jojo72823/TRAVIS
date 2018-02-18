@@ -163,6 +163,34 @@ and open the template in the editor.
     position:relative;
 }
 
+.layout_btn_panel_bar {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mdl-button--icon_perso {
+    border-radius: 50%;
+
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    overflow: hidden;
+    color: inherit;
+    line-height: normal
+}
+
+.img_btn_panel_bar {
+    width: 100%;
+    height: auto;
+    background-color: #3575bb;
+    margin-left: auto;
+    margin-right: auto;
+    /*text-align:center;*/
+    /*cursor: pointer;*/
+    /*position:relative;*/
+}
+
 .img_btn_add_in_card{
     display: block;
     width: auto;
@@ -187,6 +215,16 @@ and open the template in the editor.
     text-align: center;
 }
 
+.text_btn_panel_bar {
+    color: white;
+    z-index: 1;
+    position: absolute;
+    top: 35%;
+    font-size: 30px;
+    width: 100%;
+    cursor: pointer;
+}
+
 .text_header_panel{
     color: white;
     z-index: 1;
@@ -203,13 +241,12 @@ and open the template in the editor.
 
 
 .text_big_number {
-    color: white;
+    color: #3575bb;
     z-index: 1;
     position: absolute;
     top: 35%;
-    font-size: 30px;
+    font-size: 100px;
     width: 100%;
-    cursor: pointer;
     text-align: center;
 
 }
