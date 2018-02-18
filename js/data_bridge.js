@@ -18,7 +18,7 @@ var tab_type_element;
 var tab_indicators;
 
 /*******************************************************************************
- * GET RESULT OF INFICATORS
+ * GET RESULT OF INDICATORS
  ******************************************************************************/
 function get_nb_messages_read() {
     var var_tmp;

@@ -5,7 +5,7 @@ if (!isset($_SESSION['login'])) {
     echo "<script>location.href=\"index.php\";</script>";
     echo "<script>alert('You're don't connected !');</script>";
 } else {
-    echo "<script>alert('coucou'"+$_SESSION['login']+");</script>";
+//    echo "<script>alert('coucou'"+$_SESSION['login']+");</script>";
 }
 ?>
 <!--
@@ -14,7 +14,7 @@ if (!isset($_SESSION['login'])) {
   Copyright 2015 Google Inc. All rights reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
+  you may not use this file except in compliance with the License0.
   You may obtain a copy of the License at
 
       https://www.apache.org/licenses/LICENSE-2.0

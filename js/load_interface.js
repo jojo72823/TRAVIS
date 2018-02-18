@@ -381,6 +381,26 @@ function load_array_indicators_element(id_element, type_element) {
             });
             break;
 
+        case 'TAB_BIG_NUMBER':
+            $.ajax({
+                url: 'php/accessFonctions.php',
+                data: {fonction: 'load_array_indicators_big_number_php', id_element: id_element},
+                type: 'POST',
+                async: false,
+                dataType: 'json',
+                success: function (objetJson) {
+                    if (objetJson != null) {
+                        var_tmp = JSON.parse(objetJson);
+                    } else {
+                        alert("ERROR : load_array_indicators_big_number_php! ");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("load_array_indicators_element |load_array_indicators_big_number_php failed / " + errorThrown);
+                }
+            });
+            break;
+
         default:
             break;
     }

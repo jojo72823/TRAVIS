@@ -80,6 +80,24 @@ function load_type_polar($id_polar, $class_size_element) {
     $requete->closeCursor();
 }
 
+function load_array_indicators_big_number_php($args) {
+
+    $retour = array();
+
+    //connect to database
+    $bdd = connexionBdTravis();
+    $requete = $bdd->prepare("SELECT * FROM `tab_big_number` WHERE `ID_BIG_NUMBER` = :id_element");
+    $requete->bindParam(":id_element", $args['id_element']);
+    $requete->execute() or die("erreur requete load_array_indicators_big_number_php");
+
+    $data = $requete->fetch();
+    echo json_encode($data['ARRAY_INDICATORS']);
+
+    //close connection
+    $requete->closeCursor();
+}
+
+
 function load_array_indicators_polar_php($args) {
 
     $retour = array();
