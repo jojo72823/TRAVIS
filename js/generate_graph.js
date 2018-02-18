@@ -156,42 +156,42 @@ function get_results_indicators_selected() {
                     case 'nb_connection_user':
 
                         data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2] +" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_messages_sent_user':
 
                         data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_messages_read_user':
 
                         data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_files_download_users':
 
                         data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_files_upload_users':
 
                         data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_display_forum':
 
                         data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators][0]));
-                        add_indicator(indicators[cpt_indicators][2]);
+                        add_indicator(indicators[cpt_indicators][2]+" "+forum_selected[cpt_name_indicators][0]);
 
 
                         break;
                     case 'nb_display_forum_users':
-                        add_indicator(indicators[cpt_name_indicators][2]);
+                        add_indicator(indicators[cpt_name_indicators][2]+" "+forum_selected[cpt_name_indicators][0]+" "+users_selected[cpt_name_indicators][0]);
 
 //                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
                         data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][0], users_selected[cpt_name_indicators][0]));

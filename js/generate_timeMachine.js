@@ -18,22 +18,22 @@ var array_data2 = new Array();
 /*******************************************************************************
  * E. Init timeMachine : add select of compared user
  ******************************************************************************* */
-function init_timeMachine(){
+function init_timeMachine() {
     users = get_list_users_js();
     var holder = document.getElementById("timeMachine_selectCompareUser");
     var select = document.createElement("select");
-                select.setAttribute("name", "Select user2");
-                select.setAttribute("id", "selectComparedUser");
-                select.setAttribute("style", 'width:100px');
-                for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
-                    var option = document.createElement("option");
-                    option.setAttribute("id", users[cpt_users][0]);
-                    if (cpt_users == 0) {
-                        option.setAttribute("selected", 'selected');
-                    }
-                    option.textContent = users[cpt_users][1];
-                    select.appendChild(option);
-                }
+    select.setAttribute("name", "Select user2");
+    select.setAttribute("id", "selectComparedUser");
+    select.setAttribute("style", 'width:100px');
+    for (cpt_users = 0; cpt_users < users.length; cpt_users++) {
+        var option = document.createElement("option");
+        option.setAttribute("id", users[cpt_users][0]);
+        if (cpt_users == 0) {
+            option.setAttribute("selected", 'selected');
+        }
+        option.textContent = users[cpt_users][1];
+        select.appendChild(option);
+    }
     holder.appendChild(select);
 }
 
@@ -41,7 +41,7 @@ function init_timeMachine(){
 /**********************************************************************
  * E. adds data to the TIMEMACHINE
  ***********************************************************************/
-function get_timeMachine_data(begin, end){
+function get_timeMachine_data(begin, end) {
     //var start = $('.daterange').data('daterangepicker').getStartDate();
     //var end = document.getElementById("daterange").data('daterangepicker').getEndDate();
     //alert("start : " + begin + " end : " + end);
@@ -53,38 +53,38 @@ function get_timeMachine_data(begin, end){
     var e = document.getElementById("selectComparedUser");
     strUser = e.options[e.selectedIndex].text;
 
-    if(begin_split[0] == end_split[0]){
+    if (begin_split[0] == end_split[0]) {
         //array_data.push("[");
         //alert("==, parse 1 : " + parseInt(begin_split[1]));
         alert("select : " + strUser);
         /***********USER 1 Auto selected (TODO via login) ***************/
         //TODO : handle multiple users possibility here
-        for(var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month ++){
-            for(var cpt_day = parseInt(begin_split[2]); cpt_day <= parseInt(end_split[2]); cpt_day ++){
-                if(cpt_month<10){
-                    if(cpt_day<10){
+        for (var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month++) {
+            for (var cpt_day = parseInt(begin_split[2]); cpt_day <= parseInt(end_split[2]); cpt_day++) {
+                if (cpt_month < 10) {
+                    if (cpt_day < 10) {
                         /****otherwise there are no "0" in the request, and no result is returned****/
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-0" + cpt_month + "-0" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-0" + cpt_month + "-0" + cpt_day));
                         //alert("searched : "+ begin_split[0]+"-0"+cpt_month+"-0"+cpt_day + " pushed/1/ : " +get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
-                    }else{
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
+                    } else {
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-0" + cpt_month + "-" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-0" + cpt_month + "-" + cpt_day));
                         //alert("searched : " +  begin_split[0]+"-0"+cpt_month+"-"+cpt_day + " pushed/2/ : "+get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
                     }
-                }else{
-                    if(cpt_day<10){
+                } else {
+                    if (cpt_day < 10) {
                         //otherwise there are no "0" in the request, and no result is returned
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
-                        array_data.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-" + cpt_month + "-0" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-" + cpt_month + "-0" + cpt_day));
                         //alert("searched : " + begin_split[0]+"-"+cpt_month+"-0"+cpt_day + " pushed/3/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
-                    }else{
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0]+"-"+cpt_month+"-"+cpt_day));
+                    } else {
+                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-" + cpt_month + "-" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-" + cpt_month + "-" + cpt_day));
                         //alert("searched : " + begin_split[0]+"-"+cpt_month+"-"+cpt_day + " pushed/4/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
                     }
                 }
-                
+
             }
         }
         //array_data.push("]");
@@ -110,7 +110,7 @@ function add_panel_timeMachine() {
 
     var in_content_card = document.createElement("div");
     //TODO change width to auto
-    in_content_card.setAttribute("style", 'background-color : rgb(205, 217, 254);height: auto;width: 1000px');
+    in_content_card.setAttribute("style", 'background-color : #404041;height: auto;width: 1000px');
     in_content_card.setAttribute("class", 'mdl-shadow--4dp');
 
 
@@ -120,23 +120,25 @@ function add_panel_timeMachine() {
 
     in_content_card.appendChild(text_header_panel);
 
+
+
+
+
     var close = document.createElement("div");
     close.setAttribute("id", 'close' + id_panel);
-    close.setAttribute("style", 'height: 50px;margin-left:15px;margin-right:15px;margin-bottom:15px;');
-
 
     var input = document.createElement("input");
     input.setAttribute("id", 'delete_button');
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
-    input.setAttribute("style", 'width: 50px;float: right;padding:5px;z_index:999');
+    input.setAttribute("style", 'width: 42px;float: right;padding:5px');
     input.setAttribute("onclick", 'delete_panel(\'' + id_panel + '\')');
 
 
     close.appendChild(input);
     var container = document.createElement("div");
     container.setAttribute("id", 'container' + id_panel);
-    container.setAttribute("style", 'height=100%;width=100%;background-color : #3575bb');
+    container.setAttribute("style", 'height=100%;width=100%;background-color : #404041');
     in_content_card.appendChild(close);
     in_content_card.appendChild(container);
 
@@ -260,29 +262,29 @@ function loadTimeMachine() {
             }
         },
         series: [{
-            name: 'USER1',
-            color: 'rgba(223, 83, 83, .5)',
-            /*data: [[2009-02-01, 2],[2009-02-02, 5],[2009-02-03, 1],[2009-02-04, 8],[2009-02-05, 2],[2009-02-06, 0],
-            [2009-02-07, 5],[2009-02-08, 9],[2009-02-09, 4],[2009-02-10, 6],[2009-02-11, 1],[2009-02-12, 3],[2009-02-13, 9],[2009-02-14, 4],
-            [2009-02-01, 2],[2009-02-15, 1],[2009-02-16, 6],[2009-02-17, 7],[2009-02-18, 3],[2009-02-19, 4],[2009-02-20, 7],[2009-02-21, 6],
-            [2009-02-22, 8],[2009-02-23, 1],[2009-02-24, 0],[2009-02-25, 8],[2009-02-26, 4],[2009-02-27, 10],[2009-02-28, 7]]
-*/
-            //data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
-            data: [2,5,1,8,2,0,5,9],
-            pointStart: Date.UTC(2009, 1, 1),
-            pointInterval: 24 * 3600 * 1000
-        }, {
-            name: 'USER2',
-            color: 'rgba(119, 152, 191, .5)',
-            /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
-            [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
-            [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
-            [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
-            //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
-            data: [1,6,4,7,3,2,0],
-            pointStart: Date.UTC(2009, 1, 1),
-            pointInterval: 24 * 3600 * 1000
-        }]
+                name: 'USER1',
+                color: 'rgba(223, 83, 83, .5)',
+                /*data: [[2009-02-01, 2],[2009-02-02, 5],[2009-02-03, 1],[2009-02-04, 8],[2009-02-05, 2],[2009-02-06, 0],
+                 [2009-02-07, 5],[2009-02-08, 9],[2009-02-09, 4],[2009-02-10, 6],[2009-02-11, 1],[2009-02-12, 3],[2009-02-13, 9],[2009-02-14, 4],
+                 [2009-02-01, 2],[2009-02-15, 1],[2009-02-16, 6],[2009-02-17, 7],[2009-02-18, 3],[2009-02-19, 4],[2009-02-20, 7],[2009-02-21, 6],
+                 [2009-02-22, 8],[2009-02-23, 1],[2009-02-24, 0],[2009-02-25, 8],[2009-02-26, 4],[2009-02-27, 10],[2009-02-28, 7]]
+                 */
+                //data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
+                data: [2, 5, 1, 8, 2, 0, 5, 9],
+                pointStart: Date.UTC(2009, 1, 1),
+                pointInterval: 24 * 3600 * 1000
+            }, {
+                name: 'USER2',
+                color: 'rgba(119, 152, 191, .5)',
+                /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
+                 [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
+                 [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
+                 [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
+                //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
+                data: [1, 6, 4, 7, 3, 2, 0],
+                pointStart: Date.UTC(2009, 1, 1),
+                pointInterval: 24 * 3600 * 1000
+            }]
     });
 }
 
@@ -356,25 +358,24 @@ function print_timeMachine() {
             }
         },
         series: [{
-            name: 'Madeth May',
-            color: 'rgba(223, 83, 83, .5)',
-            data: array_data,
-            
-            pointStart: Date.UTC(year_begin, month_begin-1, day_begin),
-            pointInterval: 24 * 3600 * 1000
-        }, {
-            //TODO user2 dynamic
-            name: strUser,
-            color: 'rgba(119, 152, 191, .5)',
-            /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
-            [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
-            [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
-            [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
-            //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
-            data: array_data2,
-            pointStart: Date.UTC(year_begin, month_begin-1, day_begin),
-            pointInterval: 24 * 3600 * 1000
-        }]
+                name: 'Madeth May',
+                color: 'rgba(223, 83, 83, .5)',
+                data: array_data,
+                pointStart: Date.UTC(year_begin, month_begin - 1, day_begin),
+                pointInterval: 24 * 3600 * 1000
+            }, {
+                //TODO user2 dynamic
+                name: strUser,
+                color: 'rgba(119, 152, 191, .5)',
+                /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
+                 [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
+                 [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
+                 [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
+                //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
+                data: array_data2,
+                pointStart: Date.UTC(year_begin, month_begin - 1, day_begin),
+                pointInterval: 24 * 3600 * 1000
+            }]
     });
 }
 

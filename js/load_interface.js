@@ -416,7 +416,7 @@ function add_section(id_element, panel_select) {
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_element);
     card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated fadeInUp');
-    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
+    card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px;z-index : 9999');
 
     element.appendChild(card);
 
@@ -577,17 +577,28 @@ function add_indicator(name_indicator) {
     var indicator_in_span = document.createElement("span");
     indicator_in_span.setAttribute("class", 'mdl-chip__text');
     indicator_in_span.textContent = name_indicator;
-//    var indicator_in_span_button = document.createElement("button");
-//    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
-//    indicator_in_span_button.setAttribute("type", 'button');
-//    var indicator_in_span_button_i = document.createElement("i");
-//    indicator_in_span_button_i.textContent = "cancel";
-//    indicator_in_span_button_i.setAttribute("class", 'material-icons');
-//
-//    indicator_in_span_button.appendChild(indicator_in_span_button_i);
+
+
+    var indicator_in_span_button = document.createElement("button");
+    indicator_in_span_button.setAttribute("class", 'mdl-chip__action');
+    indicator_in_span_button.setAttribute("type", 'button');
+//    indicator_in_span_button.setAttribute("onclick", "delete_indicator("+id_element+","+name_indicator+")");
+    indicator_in_span_button.setAttribute("onclick", "delete_indicator("+id_element+")");
+    var indicator_in_span_button_i = document.createElement("i");
+    indicator_in_span_button_i.textContent = "cancel";
+    indicator_in_span_button_i.setAttribute("class", 'material-icons');
+
+
+    indicator_in_span_button.appendChild(indicator_in_span_button_i);
     indicator_span.appendChild(indicator_in_span);
-//    indicator_span.appendChild(indicator_in_span_button);
+    indicator_span.appendChild(indicator_in_span_button);
 
     close.appendChild(indicator_span);
 }
+
+function delete_indicator(id_element,tes) {
+
+    alert("Not available");
+}
+
 
