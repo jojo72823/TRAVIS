@@ -6,9 +6,13 @@ var count = 0;
 var myPointFormat;
 var array_id_indicators_element = new Array();
 var id_element_exemple = -500;
+
 var year_begin;
 var month_begin;
 var day_begin;
+
+var dateSelected_begin;
+var dateSelected_end;
 
 var strUser; //selected user name
 var array_data = new Array();
@@ -37,50 +41,102 @@ function init_timeMachine() {
     holder.appendChild(select);
 }
 
+function init_daterange(){
+    window.onload() = function(){
+        var inputer = document.getElementById("daterange");
+        inputer.value = ""+get_begin_date()+" - "+get_begin_date();
+    };
+    
+}
+
+/**********************************************************************
+ * sets the dates varaibles according to the selected dates in datePicker
+ */
+function set_dates(begin, end){
+    dateSelected_begin = begin;
+    dateSelected_end = end;
+    //alert("set Dates " + dateSelected_begin + " -> " + dateSelected_end);
+}
+
+function get_begin_date(){
+    var first = get_first_date_js();
+    return first;
+}
+
+function get_end_date(){
+    var last = get_last_date_js();
+    return last;
+}
 
 /**********************************************************************
  * E. adds data to the TIMEMACHINE
  ***********************************************************************/
-function get_timeMachine_data(begin, end) {
+function get_timeMachine_data() {
     //var start = $('.daterange').data('daterangepicker').getStartDate();
     //var end = document.getElementById("daterange").data('daterangepicker').getEndDate();
     //alert("start : " + begin + " end : " + end);
-    var begin_split = begin.split('-');
+    var begin_split = dateSelected_begin.split('-');
     year_begin = begin_split[0];
     month_begin = begin_split[1];
     day_begin = begin_split[2];
-    var end_split = end.split('-');
+    var end_split = dateSelected_end.split('-');
     var e = document.getElementById("selectComparedUser");
     strUser = e.options[e.selectedIndex].text;
+    var last_day;
+    var first_day;
 
-    if (begin_split[0] == end_split[0]) {
+    for(var cpt_year = parseInt(begin_split[0]); cpt_year <= parseInt(end_split[0]); cpt_year++){
+    //if (begin_split[0] == end_split[0]) {
+        //cpt_year = parseInt(begin_split[0]);
         //array_data.push("[");
         //alert("==, parse 1 : " + parseInt(begin_split[1]));
-        alert("select : " + strUser);
+        //alert("select : " + strUser);
         /***********USER 1 Auto selected (TODO via login) ***************/
         //TODO : handle multiple users possibility here
         for (var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month++) {
-            for (var cpt_day = parseInt(begin_split[2]); cpt_day <= parseInt(end_split[2]); cpt_day++) {
+            alert("cpt_month : " + cpt_month);
+            /** end of month handling **/
+            if(cpt_month == parseInt(end_split[1])){
+                //if the count is at the last month, the days go until the last selected days
+                last_day = parseInt(end_split[2]);
+            }else{
+                //the count is not at the last month, so we go until the end of the current month
+                if(cpt_month == 1 || cpt_month == 3 || cpt_month == 5 || cpt_month == 7 || cpt_month == 8 || cpt_month == 10 || cpt_month == 12){
+                    last_day = 31;
+                }else if(cpt_month == 2){
+                    last_day = 28;
+                }else{
+                    last_day = 30;
+                }
+            }
+            /** start of month handling **/
+            if(cpt_month == parseInt(begin_split[1])){
+                first_day = parseInt(begin_split[2]);
+            }else{
+                first_day = 1;
+            }
+            alert("last_day : " + last_day);
+            for (var cpt_day = first_day; cpt_day <= last_day; cpt_day++) {
                 if (cpt_month < 10) {
                     if (cpt_day < 10) {
                         /****otherwise there are no "0" in the request, and no result is returned****/
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-0" + cpt_month + "-0" + cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-0" + cpt_month + "-0" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", cpt_year + "-0" + cpt_month + "-0" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, cpt_year + "-0" + cpt_month + "-0" + cpt_day));
                         //alert("searched : "+ begin_split[0]+"-0"+cpt_month+"-0"+cpt_day + " pushed/1/ : " +get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-0"+cpt_day));
                     } else {
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-0" + cpt_month + "-" + cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-0" + cpt_month + "-" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", cpt_year + "-0" + cpt_month + "-" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, cpt_year + "-0" + cpt_month + "-" + cpt_day));
                         //alert("searched : " +  begin_split[0]+"-0"+cpt_month+"-"+cpt_day + " pushed/2/ : "+get_nb_connection_date_users_js("gachort", begin_split[0]+"-0"+cpt_month+"-"+cpt_day));
                     }
                 } else {
                     if (cpt_day < 10) {
                         //otherwise there are no "0" in the request, and no result is returned
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-" + cpt_month + "-0" + cpt_day));
-                        array_data.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-" + cpt_month + "-0" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", cpt_year + "-" + cpt_month + "-0" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js(strUser, cpt_year + "-" + cpt_month + "-0" + cpt_day));
                         //alert("searched : " + begin_split[0]+"-"+cpt_month+"-0"+cpt_day + " pushed/3/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-0"+cpt_day));
                     } else {
-                        array_data.push(get_nb_connection_date_users_js("gachort", begin_split[0] + "-" + cpt_month + "-" + cpt_day));
-                        array_data2.push(get_nb_connection_date_users_js(strUser, begin_split[0] + "-" + cpt_month + "-" + cpt_day));
+                        array_data.push(get_nb_connection_date_users_js("gachort", cpt_year + "-" + cpt_month + "-" + cpt_day));
+                        array_data2.push(get_nb_connection_date_users_js(strUser, cpt_year + "-" + cpt_month + "-" + cpt_day));
                         //alert("searched : " + begin_split[0]+"-"+cpt_month+"-"+cpt_day + " pushed/4/ : " + get_nb_connection_date_users_js("gachort", begin_split[0]+"-"+cpt_month+"-"+cpt_day));
                     }
                 }
@@ -120,10 +176,6 @@ function add_panel_timeMachine() {
 
     in_content_card.appendChild(text_header_panel);
 
-
-
-
-
     var close = document.createElement("div");
     close.setAttribute("id", 'close' + id_panel);
 
@@ -132,7 +184,7 @@ function add_panel_timeMachine() {
     input.setAttribute("type", 'image');
     input.setAttribute("src", 'images/icon_close.png');
     input.setAttribute("style", 'width: 42px;float: right;padding:5px');
-    input.setAttribute("onclick", 'delete_panel(\'' + id_panel + '\')');
+    input.setAttribute("onclick", 'deleteReset_timeMachine()');
 
 
     close.appendChild(input);
@@ -189,111 +241,40 @@ function add_section_timeMachine(id_element, panel_select) {
 //    jQuery("#car_add" + panel_select).detach().appendTo('#panel' + panel_select);
 }
 
+/******************************************************************************
+ * Deletes the existing timeMachine so that another one can be loaded
+ * **called in print_timeMachine()
+ */
+function delete_timeMachine(){
+    var parentNode = document.getElementById("page_content");
+    while(parentNode.firstChild){
+        parentNode.removeChild(parentNode.firstChild);
+    }
+}
+
+function deleteReset_timeMachine(){
+    var parentNode = document.getElementById("page_content");
+    while(parentNode.firstChild){
+        parentNode.removeChild(parentNode.firstChild);
+    }
+    array_data = new Array();
+    array_data2 = new Array();
+}
+
 /*******************************************************************************
  * PRINT CHART FUNCTIONS
  ******************************************************************************/
 
 /*******************************************************************************
- * E. TIMEMACHINE
- ******************************************************************************/
-function loadTimeMachine() {
-    add_panel_timeMachine();
-    var myChart = Highcharts.chart('container' + id_element, {
-        chart: {
-            type: 'scatter',
-            zoomType: 'xy'
-        },
-        title: {
-            text: 'TimeMachine'
-        },
-        subtitle: {
-            text: ''
-        },
-        xAxis: {
-            title: {
-                enabled: true,
-                text: 'Date'
-            },
-            startOnTick: true,
-            endOnTick: true,
-            showLastLabel: true,
-            type: 'datetime',
-            dateTimeLabelFormats: {
-                day: '%Y-%m-%e'
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Number of connections'
-            }
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 100,
-            y: 70,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-            borderWidth: 1
-        },
-        plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: 'on {point.x}, {point.y} connections'
-                }
-            }
-        },
-        series: [{
-                name: 'USER1',
-                color: 'rgba(223, 83, 83, .5)',
-                /*data: [[2009-02-01, 2],[2009-02-02, 5],[2009-02-03, 1],[2009-02-04, 8],[2009-02-05, 2],[2009-02-06, 0],
-                 [2009-02-07, 5],[2009-02-08, 9],[2009-02-09, 4],[2009-02-10, 6],[2009-02-11, 1],[2009-02-12, 3],[2009-02-13, 9],[2009-02-14, 4],
-                 [2009-02-01, 2],[2009-02-15, 1],[2009-02-16, 6],[2009-02-17, 7],[2009-02-18, 3],[2009-02-19, 4],[2009-02-20, 7],[2009-02-21, 6],
-                 [2009-02-22, 8],[2009-02-23, 1],[2009-02-24, 0],[2009-02-25, 8],[2009-02-26, 4],[2009-02-27, 10],[2009-02-28, 7]]
-                 */
-                //data: [2,5,1,8,2,0,5,9,4,6,1,3,9,4,2,1,6,7,3,4,7,6,8,1,0,8,4,10,7]
-                data: [2, 5, 1, 8, 2, 0, 5, 9],
-                pointStart: Date.UTC(2009, 1, 1),
-                pointInterval: 24 * 3600 * 1000
-            }, {
-                name: 'USER2',
-                color: 'rgba(119, 152, 191, .5)',
-                /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
-                 [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
-                 [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
-                 [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
-                //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
-                data: [1, 6, 4, 7, 3, 2, 0],
-                pointStart: Date.UTC(2009, 1, 1),
-                pointInterval: 24 * 3600 * 1000
-            }]
-    });
-}
-
-/*******************************************************************************
  * E. Dynamic generation of timeMachine
  ********************************************************************************/
 function print_timeMachine() {
+    if(document.getElementById("panel0")!=null){
+        delete_timeMachine();
+    }
     add_panel_timeMachine();
     alert("array_data : " + array_data);
+    alert("array_data2 : " + array_data2);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'scatter',
@@ -364,14 +345,8 @@ function print_timeMachine() {
                 pointStart: Date.UTC(year_begin, month_begin - 1, day_begin),
                 pointInterval: 24 * 3600 * 1000
             }, {
-                //TODO user2 dynamic
                 name: strUser,
                 color: 'rgba(119, 152, 191, .5)',
-                /*data: [[2009-02-01, 1],[2009-02-02, 6],[2009-02-03, 4],[2009-02-04, 7],[2009-02-05, 3],[2009-02-06, 2],
-                 [2009-02-07, 0],[2009-02-08, 6],[2009-02-09, 2],[2009-02-10, 0],[2009-02-11, 5],[2009-02-12, 4],[2009-02-13, 6],[2009-02-14, 1],
-                 [2009-02-01, 4],[2009-02-15, 2],[2009-02-16, 6],[2009-02-17, 4],[2009-02-18, 1],[2009-02-19, 2],[2009-02-20, 5],[2009-02-21, 8],
-                 [2009-02-22, 5],[2009-02-23, 3],[2009-02-24, 4],[2009-02-25, 3],[2009-02-26, 0],[2009-02-27, 12],[2009-02-28, 5]]*/
-                //data: [1,6,4,7,3,2,0,6,2,0,5,4,6,1,4,2,6,4,1,2,5,8,5,3,4,3,0,12,5]
                 data: array_data2,
                 pointStart: Date.UTC(year_begin, month_begin - 1, day_begin),
                 pointInterval: 24 * 3600 * 1000

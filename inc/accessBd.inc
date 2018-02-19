@@ -424,4 +424,24 @@ function get_nb_display_forum($args) {
     $requete->closeCursor();
 }
 
+function get_first_date_php(){
+    $bdd = connexionBd();
+
+    $requete = $bdd->query("SELECT LEFT(Date, 10) AS Date FROM `action` 
+                            WHERE LEFT(Date, 10) ORDER BY Date ASC LIMIT 1");
+    $date = $requete->fetch();
+    echo json_encode($date['Date']);
+    $requete->closeCursor();
+}
+
+function get_last_date_php(){
+    $bdd = connexionBd();
+
+    $requete = $bdd->query("SELECT LEFT(Date, 10) AS Date FROM `action` 
+                            WHERE LEFT(Date, 10) ORDER BY Date DESC LIMIT 1");
+    $date = $requete->fetch();
+    echo json_encode($date['Date']);
+    $requete->closeCursor();
+}
+
 ?>

@@ -627,3 +627,47 @@ function bool_compatible_indicators_js(id_indicator_1, id_indicator_2) {
     });
     return var_tmp;
 }
+
+function get_first_date_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_first_date_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_first_date_js ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_first_date_js failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}
+
+function get_last_date_js() {
+    var var_tmp;
+    $.ajax({
+        url: 'php/accessFonctions.php',
+        data: {fonction: 'get_last_date_php'},
+        type: 'POST',
+        async: false,
+        dataType: 'json',
+        success: function (objetJson) {
+            if (objetJson != null) {
+                var_tmp = objetJson;
+            } else {
+                alert("erreur get_last_date_js ");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("get_last_date_js failed " + errorThrown);
+        }
+    });
+    return var_tmp;
+}

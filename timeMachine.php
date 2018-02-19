@@ -106,36 +106,38 @@
                         </td>
                         <td>
                              during 
-                            <input id "daterange" type="text" name="daterange" value="12/02/2009 - 28/02/2009" />
+                            <input id "daterange" type="text" name="daterange" value="2009-02-12 - 2009-02-13">
+                            
                             <script type="text/javascript">
+                                var dateSetBegin = get_begin_date();
+                                //document.getElementById("daterange").value = ""+dateSetBegin+" - "+dateSetBegin;
+                                var dateSetEnd = get_end_date();
+                                set_dates(dateSetBegin, dateSetBegin);
+                                //alert("dateSetBegin : " + dateSetBegin + " end : " + dateSetEnd);
                                 $(function() {
                                     $('input[name="daterange"]').daterangepicker(
                                         {
                                             locale: {
                                             format: 'YYYY-MM-DD'
                                             },
-                                            minDate: '2009-02-12',
-                                            maxDate: '2009-05-11'
+                                            minDate: dateSetBegin,
+                                            maxDate: dateSetEnd
                                         }, 
-                                        //TODO : try to change passing of dates to generate_timeMachine.js, bc not handy here
-                                        // HINT : maybe send to another function to save data, then call get_timeMachine_data
+                                        
                                     function(start, end, label) {
-                                        //alert("A new date range was chosen: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                        
                                         $.getScript('js/generate_timeMachine.js', function () {          
-                                            get_timeMachine_data(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                                            set_dates(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
                                         });
                                     });
-                                    //MEMO : should activate when apply is pressed, but doesn't work
-                                    /*$('#daterange').on('apply.daterangepicker', function(ev, picker) {
-                                    console.log(picker.startDate.format('YYYY-MM-DD'));
-                                    console.log(picker.endDate.format('YYYY-MM-DD'));
-                                    alert("start : " + picker.startDate.format('YYYY-MM-DD') + " end : " + picker.endDate.format('YYYY-MM-DD'));
-                                    get_timeMachine_data(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'));
-                                    });*/
+                                    
                                 });
+                                /*$.getScript('js/generate_timeMachine.js', function () {          
+                                        init_daterange();
+                                        });*/
                             </script>
                         </td>
-                        <td><button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="loadTimeMachine();">
+                        <td><button class="mdl-button mdl-js-button mdl-button--raised" style="margin: 10px;" id="plopButton" onclick="get_timeMachine_data();">
                                 Generate TimeMachine
                             </button>
                         </td>
@@ -236,4 +238,5 @@
 </div>
 
 <script src="js/right_panel.js"></script>
+
 <!--<script type="text/javascript" src="js/main.js"></script> -->
