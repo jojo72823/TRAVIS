@@ -34,11 +34,9 @@ function get_indicators_selected() {
             break;
 
         case "TAB_BIG_NUMBER":
-            id_element = id_element_exemple;
-            id_element_exemple = id_element_exemple + 1;
 
 
-            add_section_big_number(id_element);
+            add_section_big_number(id_element,panel_select);
 
             break;
         default:
@@ -131,7 +129,7 @@ function get_results_indicators_selected() {
             //call function of this indicator
             if (name_indicators[cpt_name_indicators] == indicators[cpt_indicators][1]) {
 
-                legende_print.push(indicators[cpt_indicators][2]);
+                
 
 
 
@@ -139,62 +137,81 @@ function get_results_indicators_selected() {
                 switch (name_indicators[cpt_name_indicators]) {
                     case 'nb_messages_read':
                         data_print.push(get_nb_messages_read());
+                        
                         add_indicator(indicators[cpt_indicators][2]);
+                        legende_print.push(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_messages_sent':
                         data_print.push(get_nb_messages_sent());
                         add_indicator(indicators[cpt_indicators][2]);
+                         legende_print.push(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_upload':
                         data_print.push(get_nb_files_upload());
                         add_indicator(indicators[cpt_indicators][2]);
+                         legende_print.push(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_files_download':
                         data_print.push(get_nb_files_download());
                         add_indicator(indicators[cpt_indicators][2]);
+                         legende_print.push(indicators[cpt_indicators][2]);
                         break;
                     case 'nb_connection_user':
 
                         data_print.push(get_nb_connection_user_js(users_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2] +" "+users_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2] +" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_messages_sent_user':
 
                         data_print.push(get_nb_messages_sent_user_js(users_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_messages_read_user':
 
                         data_print.push(get_nb_messages_read_user_js(users_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_files_download_users':
 
                         data_print.push(get_nb_files_download_users_js(users_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_files_upload_users':
 
                         data_print.push(get_nb_files_upload_users_js(users_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]);
 
                         break;
                     case 'nb_display_forum':
 
                         data_print.push(get_nb_display_forum_js(forum_selected[cpt_name_indicators][0]));
                         add_indicator(indicators[cpt_indicators][2]+" "+forum_selected[cpt_name_indicators][0]);
+                         legende_print.push(indicators[cpt_indicators][2]+" "+forum_selected[cpt_name_indicators][0]);
 
 
                         break;
                     case 'nb_display_forum_users':
-                        add_indicator(indicators[cpt_name_indicators][2]+" "+forum_selected[cpt_name_indicators][0]+" "+users_selected[cpt_name_indicators][0]);
-
+                        if(forum_selected[cpt_name_indicators][1] == null){
+                            add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]+" for forum "+forum_selected[cpt_name_indicators][0]);
+                             data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][0], users_selected[cpt_name_indicators][0]));
+                              legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]+" for forum "+forum_selected[cpt_name_indicators][0]);
+                        }else{
+                            add_indicator(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]+" for forum "+forum_selected[cpt_name_indicators][1]);
+                             data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][1], users_selected[cpt_name_indicators][0]));
+                              legende_print.push(indicators[cpt_indicators][2]+" "+users_selected[cpt_name_indicators][0]+" for forum "+forum_selected[cpt_name_indicators][1]);
+                        }
+                        
 //                        for (cpt_forum_selected = 0; cpt_forum_selected < forum_selected.length; cpt_forum_selected++) {
-                        data_print.push(get_nb_display_forum_users_js(forum_selected[cpt_name_indicators][0], users_selected[cpt_name_indicators][0]));
+                       
 //                        }
 
                         break;
@@ -207,7 +224,7 @@ function get_results_indicators_selected() {
     }
     if (state_save == true) {
         id_indicators = get_id_indicators_js();
-        save_element(panel_select, type_element, array_id_indicators_element);
+        save_element(id_element,panel_select, type_element, array_id_indicators_element);
     }
 
     switch (type_element) {
@@ -236,7 +253,7 @@ function get_results_indicators_selected() {
 function print_big_number() {
 
     var div = document.createElement("div");
-    div.setAttribute("style", "background : white;height : 403px;width : 100%");
+    div.setAttribute("style", "background : white;height : 401px;width : 100%");
 
     var tmp_element = document.getElementById('container' + id_element);
     var value = document.createElement("div");

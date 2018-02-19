@@ -61,7 +61,13 @@ function load_panels_saved() {
                 tmp_array_id_indicators = load_array_indicators_element(panel_elements[cpt_panel_elements][4], panel_elements[cpt_panel_elements][3]);
 
                 //Create new section of this element
-                add_section(panel_elements[cpt_panel_elements][0], panel_select);
+                if(type_element=="TAB_BIG_NUMBER"){
+                    add_section_big_number(id_element, panel_select);
+                }else{
+                     add_section(id_element, panel_select); 
+                }
+                
+              
 
                 //Prepare each indicator
                 for (cpt_name = 0; cpt_name < tmp_array_id_indicators.length; cpt_name++) {
@@ -451,7 +457,7 @@ function add_section(id_element, panel_select) {
 
 }
 
-function add_section_big_number(id_element) {
+function add_section_big_number(id_element, panel_select) {
 
     var element = document.getElementById('panel' + panel_select);
 

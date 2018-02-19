@@ -30,14 +30,12 @@ function save_element($args) {
     $class_size_element = $args['class_size_element'];
     $type_element = $args['type_element'];
     $array_id_indicators_element = $args['array_id_indicators_element'];
+    $id_type_graph = $args['id_element'];
     //connect to database
     $bdd = connexionBdTravis();
 
     //get $id_type_graph
-    $requete_id = $bdd->query("SELECT `ID_BIG_NUMBER` FROM `tab_big_number` ORDER BY `ID_BIG_NUMBER` DESC");
-    $count = $requete_id->fetch();
-    $id_type_graph = $count['ID_BIG_NUMBER'];
-    $id_type_graph = $id_type_graph + 1;
+
     //prepare request
     $requete = $bdd->prepare("INSERT INTO `tab_element`(`ID_PANEL`, `CLASS_SIZE_ELEMENT`, `TYPE_ELEMENT`, `ID_TYPE_GRAPH`) VALUES (:id_panel,:class_size_element,:type_element,:id_type_graph)");
     $requete->bindParam(":id_panel", $id_panel);

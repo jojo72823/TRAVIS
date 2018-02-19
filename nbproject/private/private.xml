@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< Updated upstream
             <file>file:/C:/wamp/www/TRAVIS/css/main.css</file>
             <file>file:/C:/wamp/www/TRAVIS/css/dashboard.css</file>
             <file>file:/C:/wamp/www/TRAVIS/js/main.js</file>
@@ -10,6 +11,13 @@
             <file>file:/C:/wamp/www/TRAVIS/css/custom_material.min.css</file>
             <file>file:/C:/wamp/www/TRAVIS/js/generate_graph.js</file>
             <file>file:/C:/wamp/www/TRAVIS/dashboard.php</file>
+=======
+            <file>file:/C:/xampp/htdocs/TRAVIS/js/load_interface.js</file>
+            <file>file:/C:/xampp/htdocs/TRAVIS/blur.html</file>
+            <file>file:/C:/xampp/htdocs/TRAVIS/dashboard.php</file>
+            <file>file:/C:/xampp/htdocs/TRAVIS/js/save_interface.js</file>
+            <file>file:/C:/xampp/htdocs/TRAVIS/inc/load_interface.inc</file>
+>>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>

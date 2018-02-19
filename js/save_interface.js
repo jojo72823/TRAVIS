@@ -21,10 +21,10 @@ function get_id_indicators_js() {
     return var_tmp;
 }
 
-function save_element(panel_select, type_element, array_id_indicators_element) {
+function save_element(id_element,panel_select, type_element, array_id_indicators_element) {
     $.ajax({
         url: 'php/accessFonctions.php',
-        data: {fonction: 'save_element', id_panel: panel_select, class_size_element: "null", type_element: type_element, array_id_indicators_element: array_id_indicators_element},
+        data: {fonction: 'save_element', id_element : id_element,id_panel: panel_select, class_size_element: "null", type_element: type_element, array_id_indicators_element: array_id_indicators_element},
         type: 'POST',
         async: false,
         dataType: 'json',
