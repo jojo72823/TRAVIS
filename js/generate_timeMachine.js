@@ -94,7 +94,7 @@ function get_timeMachine_data() {
         /***********USER 1 Auto selected (TODO via login) ***************/
         //TODO : handle multiple users possibility here
         for (var cpt_month = parseInt(begin_split[1]); cpt_month <= parseInt(end_split[1]); cpt_month++) {
-            alert("cpt_month : " + cpt_month);
+            //alert("cpt_month : " + cpt_month);
             /** end of month handling **/
             if(cpt_month == parseInt(end_split[1])){
                 //if the count is at the last month, the days go until the last selected days
@@ -115,7 +115,7 @@ function get_timeMachine_data() {
             }else{
                 first_day = 1;
             }
-            alert("last_day : " + last_day);
+            //alert("last_day : " + last_day);
             for (var cpt_day = first_day; cpt_day <= last_day; cpt_day++) {
                 if (cpt_month < 10) {
                     if (cpt_day < 10) {
@@ -209,7 +209,7 @@ function add_section_timeMachine(id_element, panel_select) {
 
     var card = document.createElement("div");
     card.setAttribute("id", 'card' + id_element);
-    card.setAttribute("class", 'col-lg-6  col-md-6 col-sm-12  col-xs-12 animated fadeInUp');
+    card.setAttribute("class", 'col-lg-12  col-md-12 col-sm-12  col-xs-12 animated fadeInUp');
     card.setAttribute("style", 'background-color : #d7d7d7; height: auto;margin-bottom :10px');
 
     element.appendChild(card);
@@ -273,8 +273,8 @@ function print_timeMachine() {
         delete_timeMachine();
     }
     add_panel_timeMachine();
-    alert("array_data : " + array_data);
-    alert("array_data2 : " + array_data2);
+    //alert("array_data : " + array_data);
+    //alert("array_data2 : " + array_data2);
     var myChart = Highcharts.chart('container' + id_element, {
         chart: {
             type: 'scatter',
